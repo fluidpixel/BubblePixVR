@@ -12,6 +12,12 @@ public class ThumbBrowser : MonoBehaviour {
 	};
 
 	[SerializeField]
+	private float yGreater = 0.0f;
+
+	[SerializeField]
+	private float yLess = 0.0f;
+
+	[SerializeField]
 	private AppController m_AppController;
 
 	[SerializeField]
@@ -383,7 +389,7 @@ public class ThumbBrowser : MonoBehaviour {
 
 		foreach ( string str in m_Countries ) {
 			TextPanel tempTx = Instantiate( m_TextPanelPrefab ) as TextPanel; //First a title panel is made to denote the country
-			Vector3 pos = new Vector3( x * column, y, 0.0f );
+			Vector3 pos = new Vector3( x * column, y, -0.1f );
 
 			tempTx.transform.parent = m_ThumbAnchor.transform;
 			tempTx.SetPos( pos );
@@ -408,6 +414,7 @@ public class ThumbBrowser : MonoBehaviour {
 					row++;
 				}
 			}
+			anchor.Tiles = row;
 			anchor.BottomPoint = -( row * ySpacing ) + ySpacing;
 			tempAnchs.Add( anchor );
 			column++;
@@ -691,10 +698,7 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 
 		//Inverts the velocity (with damping) if it has scrolled to the top or bottom.
-		//if ( (m_ColumnAnchors[m_ActiveColumn].LocalPos.y + m_ColumnAnchors[m_ActiveColumn].BottomPoint > 0.0f && yVelocity > 0.0f ) ||
-		//( m_ColumnAnchors[m_ActiveColumn].LocalPos.y > ySpacing * 2.0f && yVelocity < 0.0f ) ) { //Has it traveled as high or as low as it can, and is it still trying to go further?
-		//	yVelocity = -yVelocity * 0.5f; //if so, bounce
-		//}
+		//Need to do this.
 
 		//If its really slow, stop it.
 		if ( Mathf.Abs( yVelocity ) <= m_MinVelocity && !_moving ) {

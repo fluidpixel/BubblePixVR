@@ -6,11 +6,17 @@ public class ColumnAnchor : MonoBehaviour {
 	private float m_Velocity = 0.0f;
 	private float m_Aceleration = 0.0f;
 	private float m_BottomPoint;
+	private int m_Tiles = 0;
 
 	void Update() {
 		if ( Pos.x < -2.0f || Pos.x > 2.0f ) {
 			m_Velocity = m_Aceleration = 0.0f;
 		}
+	}
+
+	public int Tiles {
+		get { return m_Tiles; }
+		set { m_Tiles = value; }
 	}
 
 	public float Velocity {

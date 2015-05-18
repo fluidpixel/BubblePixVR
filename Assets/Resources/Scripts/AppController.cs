@@ -61,14 +61,14 @@ public class AppController : MonoBehaviour {
 		if ( _focus ) {
 			if ( focusLost ) {
 				if ( m_State != AppState.Browser ) {
-					PanoToBrowser();
+					//PanoToBrowser();
 				}
 				else {
-					m_ThumbBrowser.RefreshBrowser();
+					//m_ThumbBrowser.RefreshBrowser();
 				}
 			}
 			else {
-				focusLost = true;
+				//focusLost = true;
 			}
 		}
 	}

@@ -161,7 +161,7 @@ public class FileHandler : MonoBehaviour {
 	private string Country() {
 		string[] nations = { "United Kingdom", "Australia", "United States of America", "Japan", "" };
 
-		return nations[UnityEngine.Random.Range( 0, nations.Length - 1 )];
+		return nations[0];//UnityEngine.Random.Range( 0, nations.Length - 1 )];
 	}
 
 	private string Date() {

@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class TextPanel : MonoBehaviour {
 
 	[SerializeField]
-	private TextMesh m_TextMesh;
+	private Text m_TextMesh;
 
 	[SerializeField]
 	private MeshRenderer m_Panel;
 
-	public TextMesh Text {
+	public Text Text {
 		get { return m_TextMesh; }
 	}
 
@@ -22,13 +23,13 @@ public class TextPanel : MonoBehaviour {
 
 		float dist = Mathf.Clamp( Mathf.Abs( pos.x ) * 0.3f, 0.0f, 1.0f );
 
-		Vector4 color = m_TextMesh.renderer.material.color;
+		Vector4 color = m_TextMesh.color;
 		Vector4 panelColor = m_Panel.renderer.material.color;
 
 		color.w = 1.0f - dist;
 		panelColor.w = 1.0f - dist;
 
-		m_TextMesh.renderer.material.color = color;
+		m_TextMesh.color = color;
 		m_Panel.renderer.material.color = panelColor;
 	}
 
