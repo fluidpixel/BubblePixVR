@@ -12,12 +12,6 @@ public class ThumbBrowser : MonoBehaviour {
 	};
 
 	[SerializeField]
-	private float yGreater = 0.0f;
-
-	[SerializeField]
-	private float yLess = 0.0f;
-
-	[SerializeField]
 	private AppController m_AppController;
 
 	[SerializeField]
@@ -86,14 +80,6 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 
 	void Update() {
-		//Broken swipe input.
-		if ( m_AppController.TC.SwipeDirection == TouchController.SwipeTypes.Right ) {
-			m_xVelocity += m_AppController.TC.SwipeSpeed / 300.0f;
-		}
-		else if ( m_AppController.TC.SwipeDirection == TouchController.SwipeTypes.Left ) {
-			m_xVelocity -= m_AppController.TC.SwipeSpeed / 300.0f;
-		}
-
 		#if UNITY_EDITOR
 
 		moveLeft	= Input.GetKey( KeyCode.LeftArrow );
@@ -107,7 +93,7 @@ public class ThumbBrowser : MonoBehaviour {
 
 			ApplyAcceleration();
 
-			IntegrateXVelocity( ShouldMove() );
+			IntegrateXVelocity( ShouldMoveX() );
 
 			if ( m_Sorting != SortingType.None ) { 
 				GetActiveColumn();
@@ -118,7 +104,7 @@ public class ThumbBrowser : MonoBehaviour {
 					}
 
 					ApplyColumnAcceleration();
-					IntegrateColumnVelocity( ShouldMove() );
+					IntegrateColumnVelocity( ShouldMoveY() );
 				}
 			}
 		}
@@ -606,8 +592,17 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 	}
 
-	private bool ShouldMove() { //Does the user want the carousel to move?
-		if ( moveLeft || moveRight || m_AppController.TC.SwipeDirection != TouchController.SwipeTypes.None || ( m_Sorting != SortingType.None && ( moveDown || moveUp ) ) ) {
+	private bool ShouldMoveY() { //Does the user want the carousel to move?
+		if ( m_AppController.TC.SwipeDirection[1] != TouchController.Swipe.None || ( m_Sorting != SortingType.None && ( moveDown || moveUp ) ) ) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	private bool ShouldMoveX() {
+		if ( m_AppController.TC.SwipeDirection[0] != TouchController.Swipe.None || ( m_Sorting != SortingType.None && ( moveLeft || moveRight ) ) ) {
 			return true;
 		}
 		else {
@@ -617,13 +612,13 @@ public class ThumbBrowser : MonoBehaviour {
 
 	private void ApplyAcceleration() { //Will apply an acceleration to the carousel/active column in the desired direction.
 		//Forces the carousel to immediately change direction when it's asked to move in the opposite direciton to it's current.
-		if ( ( moveLeft || m_AppController.TC.SwipeDirection == TouchController.SwipeTypes.Right ) && m_xAcceleration < m_MaxAcceleration ) {
+		if ( ( moveLeft || m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) && m_xAcceleration < m_MaxAcceleration ) {
 			m_xAcceleration += m_AccInc;
 			if ( m_xVelocity < 0.0f ) {
 				m_xVelocity = 0.5f;
 			}
 		}
-		else if ( ( moveRight || m_AppController.TC.SwipeDirection == TouchController.SwipeTypes.Left ) && m_xAcceleration > -m_MaxAcceleration ) {
+		else if ( ( moveRight || m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) && m_xAcceleration > -m_MaxAcceleration ) {
 			m_xAcceleration -= m_AccInc;
 			if ( m_xVelocity > 0.0f ) {
 				m_xVelocity = -0.5f;
@@ -635,13 +630,13 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 
 	private void ApplyColumnAcceleration() {
-		if ( moveUp && m_ColumnAnchors[m_ActiveColumn].Acceleration < m_MaxAcceleration ) {
+		if ( ( moveUp || m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Positive ) && m_ColumnAnchors[m_ActiveColumn].Acceleration < m_MaxAcceleration ) {
 			m_ColumnAnchors[m_ActiveColumn].Acceleration += m_AccInc;
 			if ( m_ColumnAnchors[m_ActiveColumn].Velocity < 0.0f ) {
 				m_ColumnAnchors[m_ActiveColumn].Velocity = 0.5f;
 			}
 		}
-		else if ( moveDown && m_ColumnAnchors[m_ActiveColumn].Acceleration > -m_MaxAcceleration ) {
+		else if ( ( moveDown || m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Negative ) && m_ColumnAnchors[m_ActiveColumn].Acceleration > -m_MaxAcceleration ) {
 			m_ColumnAnchors[m_ActiveColumn].Acceleration -= m_AccInc;
 			if ( m_ColumnAnchors[m_ActiveColumn].Velocity > 0.0f ) {
 				m_ColumnAnchors[m_ActiveColumn].Velocity = -0.5f;
@@ -673,6 +668,14 @@ public class ThumbBrowser : MonoBehaviour {
 			( m_Thumbs[m_Thumbs.Count - 1].transform.position.x < 0.0f && m_xVelocity < 0.0f ) ) {//Has it scrolled to the leftmost/rightmost thumb, and is it still trying to go further?
 				m_xVelocity = -m_xVelocity * 0.5f; //if so, bounce.
 			}
+			else {
+				if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
+					m_xVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.x / 300.0f, m_MaxVelocity );
+				}
+				else if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
+					m_xVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.x / 300.0f, -m_MaxVelocity );
+				}
+			}
 		}
 
 		//If it's really slow, just stop.
@@ -687,7 +690,7 @@ public class ThumbBrowser : MonoBehaviour {
 	private void IntegrateColumnVelocity( bool _moving ) { //Same as IntegrateXVelocity, just for the active column's vertical motion.
 		float yVelocity;
 		//Calculate the velocity of the column and apply damping if the user isn't trying to move it.
-		yVelocity = ( m_ColumnAnchors[m_ActiveColumn].Velocity + m_ColumnAnchors[m_ActiveColumn].Acceleration * Time.deltaTime ) * ( _moving ? 1.0f : 0.97f );
+		yVelocity = ( m_ColumnAnchors[m_ActiveColumn].Velocity + m_ColumnAnchors[m_ActiveColumn].Acceleration * Time.deltaTime ) * ( _moving ? 1.0f : 0.96f );
 
 		//Keep it from scrolling faster than a certain rate.
 		if ( yVelocity > m_MaxVelocity ) {
@@ -698,7 +701,18 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 
 		//Inverts the velocity (with damping) if it has scrolled to the top or bottom.
-		//Need to do this.
+		if ( ( m_ColumnAnchors[m_ActiveColumn].LocalPos.y < -1.0f && yVelocity < 0.0f ) ||
+		( m_ColumnAnchors[m_ActiveColumn].LocalPos.y > ( ySpacing * m_ColumnAnchors[m_ActiveColumn].Tiles ) && yVelocity > 0.0f ) ) {
+			yVelocity = -yVelocity;
+		}
+		else {
+			if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Positive ) {
+				yVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.y / 300.0f, m_MaxVelocity );
+			}
+			else if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Negative ) {
+				yVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.y / 300.0f, -m_MaxVelocity );
+			}
+		}
 
 		//If its really slow, stop it.
 		if ( Mathf.Abs( yVelocity ) <= m_MinVelocity && !_moving ) {

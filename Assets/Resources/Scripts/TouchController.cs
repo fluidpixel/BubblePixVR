@@ -4,86 +4,109 @@ using System.Collections;
 
 public class TouchController : MonoBehaviour {
 
-	private bool couldBeSwipe = false;
-	private Vector2 startPos = Vector2.zero;
-	private float swipeStartTime = 0;
-
-	private float comfortZone = 100.0f;
-	private float minSwipeDist = 40.0f;
-	private float maxSwipeTime = 1.0f;
-	//private float lastSwipeTime = 0.0f;
-	private float swipeSpeed = 0.0f;
-
-	public float SwipeSpeed {
-		get { return swipeSpeed; }
+	public enum Swipe {
+		None = 0,
+		Positive = 1,
+		Negative = 2
 	}
 
 	[SerializeField]
 	private Text m_Text;
 
-	public enum SwipeTypes {
-		None = 0,
-		Left = 1,
-		Right = 2
-	};
+	private Vector2 startPos = Vector2.zero;
+	private float swipeStartTime = 0;
+	private float minSwipeDist = 100.0f;
+	private float maxSwipeTime = 1.0f;
+	private float xSwipeSpeed = 0.0f;
+	private float ySwipeSpeed = 0.0f;
+	private Vector2 prevFramePos = new Vector2( -1.0f, -1.0f );
 
-	private SwipeTypes m_SwipeDirection = SwipeTypes.None;
+	private Swipe m_xSwipe = Swipe.None;
+	private Swipe m_ySwipe = Swipe.None;
 
-	public SwipeTypes SwipeDirection {
-		get { return m_SwipeDirection; }
+	public Vector2 SwipeSpeed {
+		get { return new Vector2( xSwipeSpeed, ySwipeSpeed ); }
 	}
-
-	void Start () {
-		//StartCoroutine(CheckHorizontalSwipes());
+	
+	public Swipe[] SwipeDirection {
+		get { return new Swipe[] { m_xSwipe, m_ySwipe }; }
 	}
 
 	void Update() {
-		m_SwipeDirection = SwipeTypes.None;
+		m_xSwipe = m_ySwipe = Swipe.None;
+				
+		CheckSwipes();
+	}
+
+	private void CheckSwipes() {
 		if ( Input.touchCount > 0 ) {
 			Touch touch = Input.touches[0];
 			switch ( touch.phase ) { //Screen has been touched, this could be a swipe.
 				case TouchPhase.Began:
-					m_SwipeDirection = SwipeTypes.None;
-					//lastSwipeTime = 0.0f;
-					couldBeSwipe = true;
+					m_xSwipe = m_ySwipe = Swipe.None;
 					startPos = touch.position;
 					swipeStartTime = Time.time;
+					prevFramePos = new Vector2( -1.0f, -1.0f );
 					break;
 
 				case TouchPhase.Moved:
-					if ( Mathf.Abs( touch.position.y - startPos.y ) > comfortZone ) { //Input is all over the place, probably not a swipe...
-						couldBeSwipe = false;
+
+					if ( prevFramePos != new Vector2( -1.0f, -1.0f ) ) {
+						float xSwipeValue = Mathf.Sign( touch.position.x - startPos.x );
+						float xPrevSwipeValue = Mathf.Sign( touch.position.x - prevFramePos.x );
+
+						float ySwipeValue = Mathf.Sign( touch.position.y - startPos.y );
+						float yprevSwipeValue = Mathf.Sign( touch.position.y - prevFramePos.y );
+
+						if ( xSwipeValue != xPrevSwipeValue || ySwipeValue != yprevSwipeValue ) {
+							startPos = prevFramePos;
+							swipeStartTime = Time.time;
+							m_xSwipe = m_ySwipe = Swipe.None;
+						}
 					}
-					break;
 
-				case TouchPhase.Ended:
-					if ( couldBeSwipe ) {
-						float swipeTime = Time.time - swipeStartTime;
-						float swipeDist = (new Vector3(0, touch.position.x, 0) - new Vector3(0, startPos.x, 0)).magnitude;
-
-						if ( ( swipeTime < maxSwipeTime ) && ( swipeDist > minSwipeDist ) ) { //If this is true, its a swipe.
-							float swipeValue = Mathf.Sign(touch.position.x - startPos.x);
-
-							//If the value is positive, it was a swipe right, otherwise its going left.
-							if ( swipeValue > 0 ) {
-								m_SwipeDirection = SwipeTypes.Right;
-							}
-							else if ( swipeValue < 0 ) {
-								m_SwipeDirection = SwipeTypes.Left;
-							}
-							
-							swipeSpeed = swipeDist / swipeTime;
-
-							//lastSwipeTime = Time.time;
+					float swipeTime = Time.time - swipeStartTime;
+					float xSwipeDist = ( new Vector3( touch.position.x, 0, 0 ) - new Vector3( startPos.x, 0, 0 ) ).magnitude;
+					float ySwipeDist = ( new Vector3( 0, touch.position.y, 0 ) - new Vector3( 0, startPos.y, 0 ) ).magnitude;
+					 
+					if ( ( swipeTime < maxSwipeTime ) && ( xSwipeDist > minSwipeDist ) ) {
+						float swipeValue = Mathf.Sign( touch.position.x - startPos.x );
+						xSwipeSpeed = xSwipeDist / swipeTime;
+						
+						if ( swipeValue > 0 ) {
+							m_xSwipe = Swipe.Positive;
+						}
+						else if ( swipeValue < 0 ) {
+							m_xSwipe = Swipe.Negative;
 						}
 					}
 					else {
-						m_SwipeDirection = SwipeTypes.None;
-						swipeSpeed = 0.0f;
+						xSwipeSpeed = 0.0f;
 					}
+
+					if ( ( swipeTime < maxSwipeTime ) && ( ySwipeDist > minSwipeDist ) ) {
+						float swipeValue = Mathf.Sign( touch.position.y - startPos.y );
+						ySwipeSpeed = ySwipeDist / swipeTime;
+
+						if ( swipeValue > 0 ) {
+							m_ySwipe = Swipe.Positive;
+						}
+						else {
+							m_ySwipe = Swipe.Negative;
+						}
+					}
+					else {
+						ySwipeSpeed = 0.0f;
+					}
+					prevFramePos = touch.position;
+					break;
+
+				case TouchPhase.Ended:
+					prevFramePos = new Vector2( -1.0f, -1.0f );
+					m_xSwipe = m_ySwipe = Swipe.None;
+					ySwipeSpeed = xSwipeSpeed = 0.0f;
 					break;
 			}
 		}
-		m_Text.text = swipeSpeed.ToString();
 	}
 }
