@@ -13,6 +13,9 @@ public class CameraController : MonoBehaviour
 	[SerializeField]
 	private Camera m_MainCamera;
 
+	[SerializeField]
+	private CardboardHead m_Head;
+
 	private bool m_Moving = false;
 	private Vector3 m_Target = new Vector3( 0.0f, 0.1f, 0.0f );
 
@@ -44,6 +47,10 @@ public class CameraController : MonoBehaviour
 		set { this.transform.position = value; }
 	}
 
+	public void CameraReset() {
+		StartCoroutine(RotateHead());
+	}
+
 	public void Return()
 	{
 		if ( m_Moving )
@@ -69,8 +76,7 @@ public class CameraController : MonoBehaviour
 		m_Target = _EndPos;
 		m_Moving = true;
 		float diff = Vector3.Distance( _EndPos, GetPosition ) * 0.01f;
-		while ( GetPosition != _EndPos )
-		{
+		while ( GetPosition != _EndPos ) {
 			Position = Vector3.Slerp( GetPosition, _EndPos, _t * Time.deltaTime );
 			if ( Vector3.Distance( _EndPos, GetPosition ) < diff )
 			{
@@ -79,6 +85,15 @@ public class CameraController : MonoBehaviour
 			yield return null;
 		}
 		m_Moving = false;
+		yield return null;
+	}
+
+	private IEnumerator RotateHead() {
+
+		while ( m_Head.transform.rotation.eulerAngles != Vector3.zero ) {
+			m_Head.transform.rotation = Quaternion.Euler(Vector3.Lerp(m_Head.transform.rotation.eulerAngles, Vector3.zero, Time.deltaTime));
+			yield return null;
+		}
 		yield return null;
 	}
 }

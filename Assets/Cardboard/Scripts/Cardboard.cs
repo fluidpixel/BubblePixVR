@@ -76,6 +76,7 @@ public class Cardboard : MonoBehaviour {
   // A target function for Canvas UI buttons.
   public void ToggleVRMode() {
     vrModeEnabled = !vrModeEnabled;
+	TapIsTrigger = !tapIsTrigger;
   }
 
   [SerializeField]

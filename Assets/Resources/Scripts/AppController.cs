@@ -24,6 +24,12 @@ public class AppController : MonoBehaviour {
 	[SerializeField]
 	private TouchController m_TouchController;
 
+	[SerializeField]
+	private Cardboard m_Cardboard;
+
+	[SerializeField]
+	private CardboardHead m_Head;
+
 	public FileHandler FH {
 		get { return m_FileHandler; }
 	}
@@ -55,20 +61,26 @@ public class AppController : MonoBehaviour {
 			}
 		}
 #endif
+		if ( !m_Cardboard.VRModeEnabled ) {
+			m_Head.trackPosition = false;
+			m_Head.trackRotation = false;
+			m_Head.transform.rotation = new Quaternion();
+			m_CameraController.CameraReset();
+		}
 	}
 
 	void OnApplicationFocus( bool _focus ) {
 		if ( _focus ) {
 			if ( focusLost ) {
 				if ( m_State != AppState.Browser ) {
-					//PanoToBrowser();
+					PanoToBrowser();
 				}
 				else {
-					//m_ThumbBrowser.RefreshBrowser();
+					m_ThumbBrowser.RefreshBrowser();
 				}
 			}
 			else {
-				//focusLost = true;
+				focusLost = true;
 			}
 		}
 	}

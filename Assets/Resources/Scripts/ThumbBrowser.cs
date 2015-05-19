@@ -3,6 +3,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+///		<author>
+///			Sherif Salem
+///		</author>
+///		<date>
+///			22/4/2015
+///		</date>
+///		<purpose>
+///			Controls the browser component of the application.
+///			Specifically, handles:
+///			- Sorting of thumbnails.
+///			- Button-based methods (clicked/selected/deselected)
+///			- Transition between '2D' mode and VR or '3D' mode. 
+///		</purpose>
+/// </summary>
+
 public class ThumbBrowser : MonoBehaviour {
 
 	private enum SortingType {
@@ -139,6 +155,8 @@ public class ThumbBrowser : MonoBehaviour {
 				DestroyObject( tp.gameObject );
 			}
 		}
+
+		ChangeSorting( SortingType.None );
 		m_Countries.Clear();
 		m_Dates.Clear();
 		m_TextPanels.Clear();
@@ -148,6 +166,12 @@ public class ThumbBrowser : MonoBehaviour {
 
 	public void ViewImage() {
 		this.gameObject.SetActive( false );
+	}
+
+	public void To2DView() {
+		//Move the panels out
+		//move sorting buttons up/move thumb browser back
+		//Hide scrolling buttons
 	}
 
 	//Many hover/nohover/clicked methods for buttons.
@@ -602,7 +626,7 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 
 	private bool ShouldMoveX() {
-		if ( m_AppController.TC.SwipeDirection[0] != TouchController.Swipe.None || ( m_Sorting != SortingType.None && ( moveLeft || moveRight ) ) ) {
+		if ( m_AppController.TC.SwipeDirection[0] != TouchController.Swipe.None || (  moveLeft || moveRight ) ) {
 			return true;
 		}
 		else {
@@ -612,13 +636,13 @@ public class ThumbBrowser : MonoBehaviour {
 
 	private void ApplyAcceleration() { //Will apply an acceleration to the carousel/active column in the desired direction.
 		//Forces the carousel to immediately change direction when it's asked to move in the opposite direciton to it's current.
-		if ( ( moveLeft || m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) && m_xAcceleration < m_MaxAcceleration ) {
+		if ( ( moveRight || m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) && m_xAcceleration < m_MaxAcceleration ) {
 			m_xAcceleration += m_AccInc;
 			if ( m_xVelocity < 0.0f ) {
 				m_xVelocity = 0.5f;
 			}
 		}
-		else if ( ( moveRight || m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) && m_xAcceleration > -m_MaxAcceleration ) {
+		else if ( ( moveLeft || m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) && m_xAcceleration > -m_MaxAcceleration ) {
 			m_xAcceleration -= m_AccInc;
 			if ( m_xVelocity > 0.0f ) {
 				m_xVelocity = -0.5f;

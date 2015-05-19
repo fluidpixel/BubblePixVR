@@ -311,8 +311,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 471042}
   - {fileID: 22471048}
+  - {fileID: 471042}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &471042
@@ -328,7 +328,7 @@ Transform:
   - {fileID: 471032}
   - {fileID: 471034}
   m_Father: {fileID: 471040}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!20 &2071030
 Camera:
   m_ObjectHideFlags: 1
@@ -782,10 +782,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nativeDistortionCorrection: 1
-  vrModeEnabled: 0
+  vrModeEnabled: 1
   enableAlignmentMarker: 1
   enableSettingsButton: 1
-  tapIsTrigger: 0
+  tapIsTrigger: 1
   neckModelScale: 1
   backButtonExitsApp: 1
   autoDriftCorrection: 1
@@ -807,6 +807,7 @@ MonoBehaviour:
   m_BrowserButton: {fileID: 144392}
   m_MenuPanel: {fileID: 171062}
   m_MainCamera: {fileID: 2071032}
+  m_Head: {fileID: 11471064}
 --- !u!114 &11471064
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1150,7 +1151,7 @@ RectTransform:
   m_Children:
   - {fileID: 22471040}
   m_Father: {fileID: 471040}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: -.99000001}
