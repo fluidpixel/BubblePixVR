@@ -135,17 +135,11 @@ public class ThumbBrowser : MonoBehaviour {
 		if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
 			CalendarButtonClicked();
 		}
-		if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
-			To2DView();
-		}
-		if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
-			To3DView();
-		}
 	}
 
 	public void ViewBrowser() {
 		this.gameObject.SetActive( true );
-		StartCoroutine( MoveBrowser( false ) );
+		//StartCoroutine( MoveBrowser( false ) );
 		PopThumbs();
 	}
 
@@ -300,20 +294,20 @@ public class ThumbBrowser : MonoBehaviour {
 	private IEnumerator MoveBrowser( bool _away ) {
 		Vector3 target;
 		if ( _away ) {
-			target = new Vector3( 0.0f, 2.03f, -7.7f );
+			target = new Vector3( 0.0f, 7.25f, 7.0f );
 		}
 		else {
-			target = new Vector3( 0.0f, 1.78f, -8.2f );
+			target = new Vector3( 0.0f, 7.35f, 6.78f );
 		}
 
-		float diff = Vector3.Distance( target, this.gameObject.transform.position ) * 0.01f;
+		float diff = Vector3.Distance( target, this.gameObject.transform.localPosition ) * 0.5f;
 
 		while ( Vector3.Distance( target, this.gameObject.transform.position ) > diff ) {
 
-			this.gameObject.transform.position = Vector3.Slerp( this.gameObject.transform.position, target, 2.0f * Time.deltaTime );
+			this.gameObject.transform.localPosition = Vector3.Slerp( this.gameObject.transform.localPosition, target, 2.0f * Time.deltaTime );
 			yield return null;
 		}
-		this.gameObject.transform.position = target;
+		this.gameObject.transform.localPosition = target;
 
 		yield return null;
 	}
@@ -775,10 +769,10 @@ public class ThumbBrowser : MonoBehaviour {
 			}
 			else {
 				if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
-					m_xVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.x / 300.0f, m_MaxVelocity );
+					m_xVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.x * 0.6f, m_MaxVelocity );
 				}
 				else if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
-					m_xVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.x / 300.0f, -m_MaxVelocity );
+					m_xVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.x * 0.6f, -m_MaxVelocity );
 				}
 			}
 		}
@@ -812,10 +806,10 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 		else {
 			if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Positive ) {
-				yVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.y / 300.0f, m_MaxVelocity );
+				yVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.y * 0.6f, m_MaxVelocity );
 			}
 			else if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Negative ) {
-				yVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.y / 300.0f, -m_MaxVelocity );
+				yVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.y * 0.6f, -m_MaxVelocity );
 			}
 		}
 

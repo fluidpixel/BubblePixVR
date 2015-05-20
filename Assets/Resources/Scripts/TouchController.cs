@@ -15,7 +15,7 @@ public class TouchController : MonoBehaviour {
 
 	private Vector2 startPos = Vector2.zero;
 	private float swipeStartTime = 0;
-	private float minSwipeDist = 100.0f;
+	private float minSwipeDist = 40.0f;
 	private float maxSwipeTime = 1.0f;
 	private float xSwipeSpeed = 0.0f;
 	private float ySwipeSpeed = 0.0f;
@@ -27,14 +27,13 @@ public class TouchController : MonoBehaviour {
 	public Vector2 SwipeSpeed {
 		get { return new Vector2( xSwipeSpeed, ySwipeSpeed ); }
 	}
-	
+
 	public Swipe[] SwipeDirection {
 		get { return new Swipe[] { m_xSwipe, m_ySwipe }; }
 	}
 
 	void Update() {
 		m_xSwipe = m_ySwipe = Swipe.None;
-				
 		CheckSwipes();
 	}
 
@@ -50,7 +49,6 @@ public class TouchController : MonoBehaviour {
 					break;
 
 				case TouchPhase.Moved:
-
 					if ( prevFramePos != new Vector2( -1.0f, -1.0f ) ) {
 						float xSwipeValue = Mathf.Sign( touch.position.x - startPos.x );
 						float xPrevSwipeValue = Mathf.Sign( touch.position.x - prevFramePos.x );
@@ -71,7 +69,7 @@ public class TouchController : MonoBehaviour {
 					 
 					if ( ( swipeTime < maxSwipeTime ) && ( xSwipeDist > minSwipeDist ) ) {
 						float swipeValue = Mathf.Sign( touch.position.x - startPos.x );
-						xSwipeSpeed = xSwipeDist / swipeTime;
+						xSwipeSpeed = PixelsToPercentage( xSwipeDist, true ) / swipeTime;
 						
 						if ( swipeValue > 0 ) {
 							m_xSwipe = Swipe.Positive;
@@ -86,7 +84,7 @@ public class TouchController : MonoBehaviour {
 
 					if ( ( swipeTime < maxSwipeTime ) && ( ySwipeDist > minSwipeDist ) ) {
 						float swipeValue = Mathf.Sign( touch.position.y - startPos.y );
-						ySwipeSpeed = ySwipeDist / swipeTime;
+						ySwipeSpeed = PixelsToPercentage( ySwipeDist, false ) / swipeTime;
 
 						if ( swipeValue > 0 ) {
 							m_ySwipe = Swipe.Positive;
@@ -108,5 +106,17 @@ public class TouchController : MonoBehaviour {
 					break;
 			}
 		}
+	}
+
+	private float PixelsToPercentage( float _pix, bool _xAxis ) {
+		float pixels;
+		if ( _xAxis ) {
+			pixels = Screen.width;
+		}
+		else {
+			pixels = Screen.height;
+		}
+
+		return (_pix / pixels) * 100.0f;
 	}
 }

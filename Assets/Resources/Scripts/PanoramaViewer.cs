@@ -25,6 +25,12 @@ public class PanoramaViewer : MonoBehaviour
 	[SerializeField]
 	private GameObject m_Capsule;
 
+	[SerializeField]
+	private MeshRenderer m_BackButton;
+
+	[SerializeField]
+	private TextMesh m_Text;
+
 	private bool m_IsCylinder = true;
 	private bool isMoving = false;
 	private MeshRenderer m_ActiveMesh;
@@ -39,6 +45,29 @@ public class PanoramaViewer : MonoBehaviour
 	void Start()
 	{
 		m_ActiveMesh = m_Cylinder.GetComponent( "MeshRenderer" ) as MeshRenderer;
+	}
+
+	void Update() {
+		float speed = 0.0f;
+		if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
+			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, m_Controller.TC.SwipeSpeed.x * 0.03f, 0.0f ) );
+		}
+		else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
+			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, -( m_Controller.TC.SwipeSpeed.x * 0.03f ), 0.0f ) );
+		}
+
+		if ( Input.GetKey( KeyCode.RightArrow ) ) {
+			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, 2.0f, 0.0f ) );
+		}
+		if ( Input.GetKey( KeyCode.LeftArrow ) ) {
+			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, -2.0f, 0.0f ) );
+		}
+
+
+		if ( speed != 0.0f ) { 
+			m_Text.text = ( ( speed + m_Controller.TC.SwipeSpeed.x ) * 0.5f ).ToString();
+		}
+		speed = m_Controller.TC.SwipeSpeed.x;
 	}
 
 	public void SwapMesh()
@@ -79,10 +108,6 @@ public class PanoramaViewer : MonoBehaviour
 		StartCoroutine( MoveMesh( true ) );
 	}
 
-	public void HideViewer() {
-
-	}
-
 	public void ExitPanorama()
 	{
 		if ( isMoving ) { 
@@ -93,18 +118,24 @@ public class PanoramaViewer : MonoBehaviour
 		StartCoroutine( MoveMesh( false ) );
 	}
 
-	private IEnumerator MoveMesh( bool _up ) {
-		
-		isMoving = true;
-		if ( _up )
-			m_Target = new Vector3( 0.0f, 0.0f, 0.0f );
-		else
-			m_Target = new Vector3( 0.0f, -10.0f, 0.0f );
+	public void ButtonClicked() {
+		m_Controller.PanoToBrowser();
+	}
 
-		float diff = Vector3.Distance( m_Target, m_MeshAnchor.localPosition ) * 0.01f;
+	private IEnumerator MoveMesh( bool _up ) {
+		isMoving = true;
+		if ( _up ) {
+			m_Target = new Vector3( 0.0f, 0.0f, 0.0f );
+		}
+		else {
+			m_Target = new Vector3( 0.0f, -10.0f, 0.0f );
+			m_BackButton.gameObject.SetActive( false );
+		}
+
+		float diff = Vector3.Distance( m_Target, m_MeshAnchor.localPosition ) * 0.1f;
 		
 		while ( m_MeshAnchor.localPosition != m_Target ) {
-			m_MeshAnchor.localPosition = Vector3.Slerp( m_MeshAnchor.localPosition, m_Target, 2.0f * Time.deltaTime );
+			m_MeshAnchor.localPosition = Vector3.Slerp( m_MeshAnchor.localPosition, m_Target, 3.0f * Time.deltaTime );
 			if ( Vector3.Distance( m_Target, m_MeshAnchor.localPosition ) < diff ) {
 				m_MeshAnchor.localPosition = m_Target;
 			}
@@ -119,6 +150,10 @@ public class PanoramaViewer : MonoBehaviour
 				m_Sphere.SetActive( false );
 			}
 		}
+		else {
+			m_BackButton.gameObject.SetActive( true );
+		}
+		
 		isMoving = false;
 		yield return null;
 	}

@@ -64,6 +64,9 @@ public class AppController : MonoBehaviour {
 				#endif
 			}
 		}
+		if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
+			VrMode();
+		}
 	}
 
 	void OnApplicationFocus( bool _focus ) {
@@ -89,7 +92,7 @@ public class AppController : MonoBehaviour {
 		m_PanoViewer.gameObject.SetActive( true );
 		m_ThumbBrowser.ViewBrowser();
 		m_PanoViewer.SetCapActive( true );
-		m_CameraController.MoveCamera( new Vector3( 0.0f, 1.0f, -15.0f ), 2.0f );
+		//m_CameraController.MoveCamera( new Vector3( 0.0f, 1.0f, -15.0f ), 2.0f );
 	}
 
 	public void BrowserToPano( ThumbTile _tile ) {
@@ -112,7 +115,7 @@ public class AppController : MonoBehaviour {
 		if ( m_Cardboard.VRModeEnabled ) {
 			m_Head.trackPosition = m_Head.trackRotation = false;
 			m_Head.transform.rotation = new Quaternion();
-			m_CameraController.CameraReset();
+			//m_CameraController.CameraReset();
 			m_ThumbBrowser.To2DView();
 		}
 		else {
