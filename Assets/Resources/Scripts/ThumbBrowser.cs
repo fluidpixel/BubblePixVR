@@ -121,6 +121,7 @@ public class ThumbBrowser : MonoBehaviour {
 
 					ApplyColumnAcceleration();
 					IntegrateColumnVelocity( ShouldMoveY() );
+					ColumnToRest( ShouldMoveY() );
 				}
 			}
 		}
@@ -133,6 +134,12 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 		if ( Input.GetKeyDown( KeyCode.Alpha2 ) ) {
 			CalendarButtonClicked();
+		}
+		if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
+			To2DView();
+		}
+		if ( Input.GetKeyDown( KeyCode.Alpha4 ) ) {
+			To3DView();
 		}
 	}
 
@@ -169,9 +176,17 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 
 	public void To2DView() {
-		//Move the panels out
 		//move sorting buttons up/move thumb browser back
+		StartCoroutine( MoveBrowser( true ) );
 		//Hide scrolling buttons
+		m_LeftScroll.gameObject.SetActive( false );
+		m_RightScroll.gameObject.SetActive( false );
+	}
+
+	public void To3DView() {
+		StartCoroutine( MoveBrowser( false ) );
+		m_LeftScroll.gameObject.SetActive( true );
+		m_RightScroll.gameObject.SetActive( true );
 	}
 
 	//Many hover/nohover/clicked methods for buttons.
@@ -222,10 +237,10 @@ public class ThumbBrowser : MonoBehaviour {
 			m_SortButton.material.SetTextureScale( "_BorderTex", new Vector2( 1, -1 ) );
 		}
 		if ( m_Sorting == SortingType.Date ) {
-			SortByDate();
+			SortByDateColumn();
 		}
 		else if ( m_Sorting == SortingType.Country ) {
-			SortByCountry();
+			SortByCountryColumn();
 		}
 	}
 	public void GlobeButtonHover() {
@@ -276,7 +291,7 @@ public class ThumbBrowser : MonoBehaviour {
 			ChangeSorting( SortingType.None );
 		}
 		else {
-			SortByDate();
+			SortByDateColumn();
 			ChangeSorting( SortingType.Date );
 		}
 	}
@@ -285,7 +300,7 @@ public class ThumbBrowser : MonoBehaviour {
 	private IEnumerator MoveBrowser( bool _away ) {
 		Vector3 target;
 		if ( _away ) {
-			target = Vector3.zero;
+			target = new Vector3( 0.0f, 2.03f, -7.7f );
 		}
 		else {
 			target = new Vector3( 0.0f, 1.78f, -8.2f );
@@ -513,6 +528,72 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 		m_Thumbs.Clear();
 		m_Thumbs = temp;
+	}
+
+	private void SortByDateColumn() {
+		m_xVelocity = m_xAcceleration = 0.0f; //Stop things moving.
+		if ( m_TextPanels.Count > 0 ) { //Get rid of any existing panels
+			foreach ( TextPanel tp in m_TextPanels ) {
+				DestroyObject( tp.gameObject );
+			}
+			m_TextPanels.Clear();
+		}
+
+		SortDates();
+		float x = xSpacing;
+		float y = ySpacing * 2 - 0.1f;
+		int row = 0;
+		int column = 0;
+
+		List<ThumbTile> temp = new List<ThumbTile>();
+		List<ColumnAnchor> tempAnchs = new List<ColumnAnchor>();
+
+		foreach ( DateTime str in m_Dates ) {
+			TextPanel tempTx = Instantiate( m_TextPanelPrefab ) as TextPanel; //First a title panel is made to denote the country
+			Vector3 pos = new Vector3( x * column, y, -0.1f );
+
+			tempTx.transform.parent = m_ThumbAnchor.transform;
+			tempTx.SetPos( pos );
+
+			tempTx.SetText( str == new DateTime(1970, 1, 1) ? "Unknown" : DateFormat.WrittenDate( str ) );
+			m_TextPanels.Add( tempTx );
+			
+			ColumnAnchor anchor = Instantiate(m_ColumnAnchorPrefab) as ColumnAnchor;
+			anchor.transform.parent = m_ThumbAnchor.transform;
+			anchor.LocalPos = new Vector3( x * column, -(row * ySpacing) + ySpacing, 0.0f );
+			
+			for ( int i = 0; i < m_Thumbs.Count; ++i ) {
+				if ( m_Thumbs[i].Image.Date == str ) {
+					ThumbTile tempTile = Instantiate( m_TilePrefab ) as ThumbTile;
+					tempTile.transform.parent = anchor.transform;
+					tempTile.SetThumb( m_Thumbs[i].Image );
+					Vector3 tPos = new Vector3( 0.0f, -(row * ySpacing), 0.0f );
+
+					tempTile.SetPos(tPos);
+					temp.Add( tempTile );
+					
+					row++;
+				}
+			}
+			anchor.Tiles = row;
+			anchor.BottomPoint = -( row * ySpacing ) + ySpacing;
+			tempAnchs.Add( anchor );
+			column++;
+			row = 0;
+		}
+		foreach ( ThumbTile thumb in m_Thumbs ) {
+			DestroyObject( thumb.gameObject );
+		}
+		m_Thumbs.Clear();
+		m_Thumbs = temp;
+
+		if ( m_ColumnAnchors.Count > 0 ) {
+			foreach ( ColumnAnchor an in m_ColumnAnchors ) {
+				DestroyObject( an.gameObject );
+			}
+		}
+		m_ColumnAnchors.Clear();
+		m_ColumnAnchors = tempAnchs;
 	}
 
 	private void SortByDate() {
@@ -747,5 +828,30 @@ public class ThumbBrowser : MonoBehaviour {
 		float yPos = m_ColumnAnchors[m_ActiveColumn].LocalPos.y + yVelocity * Time.deltaTime;
 		m_ColumnAnchors[m_ActiveColumn].LocalY = yPos;
 		m_ColumnAnchors[m_ActiveColumn].Velocity = yVelocity;
+	}
+
+	private void ColumnToRest( bool _moving ) {
+		if ( !_moving ) {
+			Vector3 pos;
+			for ( int i = 0; i < m_ColumnAnchors.Count; i++ ) {
+				if ( i != m_ActiveColumn ) {
+					pos = m_ColumnAnchors[i].gameObject.transform.localPosition;
+					
+					float round = Mathf.Round( pos.y );
+
+					if ( round < -1.0f ) {
+						round = -1.0f;
+					}
+					else if ( round > ( ySpacing * m_ColumnAnchors[i].Tiles ) ) {
+						round = ySpacing * m_ColumnAnchors[i].Tiles;
+					}
+
+					if ( pos.y != round ) {
+						pos.y = round;
+						m_ColumnAnchors[i].gameObject.transform.localPosition = pos;
+					}
+				}
+			}
+		}
 	}
 }

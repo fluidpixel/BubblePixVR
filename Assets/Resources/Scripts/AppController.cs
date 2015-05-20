@@ -54,18 +54,15 @@ public class AppController : MonoBehaviour {
 	}
 
 	void Update() {
-#if UNITY_EDITOR
 		if ( Input.GetKeyDown( KeyCode.Escape ) ) {
-			if ( m_State == AppState.Viewer ) {
-				PanoToBrowser();
+			if ( m_State == AppState.Browser ) {
+				Application.Quit();
 			}
-		}
-#endif
-		if ( !m_Cardboard.VRModeEnabled ) {
-			m_Head.trackPosition = false;
-			m_Head.trackRotation = false;
-			m_Head.transform.rotation = new Quaternion();
-			m_CameraController.CameraReset();
+			else if ( m_State == AppState.Viewer ) {
+				#if UNITY_EDITOR
+				PanoToBrowser();
+				#endif
+			}
 		}
 	}
 
@@ -89,10 +86,10 @@ public class AppController : MonoBehaviour {
 	public void MenuToBrowser() {
 		m_State = AppState.Browser;
 
-		m_CameraController.MoveCamera( new Vector3( 0.0f, 1.0f, -15.0f ), 2.0f );
 		m_PanoViewer.gameObject.SetActive( true );
 		m_ThumbBrowser.ViewBrowser();
 		m_PanoViewer.SetCapActive( true );
+		m_CameraController.MoveCamera( new Vector3( 0.0f, 1.0f, -15.0f ), 2.0f );
 	}
 
 	public void BrowserToPano( ThumbTile _tile ) {
@@ -109,5 +106,20 @@ public class AppController : MonoBehaviour {
 		m_PanoViewer.ExitPanorama();
 		m_ThumbBrowser.ReturnToBrowser();
 		m_CameraController.BrowserButtonActive( false );
+	}
+
+	public void VrMode() {
+		if ( m_Cardboard.VRModeEnabled ) {
+			m_Head.trackPosition = m_Head.trackRotation = false;
+			m_Head.transform.rotation = new Quaternion();
+			m_CameraController.CameraReset();
+			m_ThumbBrowser.To2DView();
+		}
+		else {
+			m_Head.trackPosition = m_Head.trackRotation = true;
+			m_Head.transform.rotation = new Quaternion();
+			m_ThumbBrowser.To3DView();
+		}
+		m_Cardboard.ToggleVRMode();
 	}
 }

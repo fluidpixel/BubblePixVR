@@ -73,12 +73,6 @@ public class ThumbTile : MonoBehaviour {
 
 	public void SetPos( Vector3 _pos ) {
 		this.gameObject.transform.localPosition = _pos;
-		if ( _pos.y == 1.0f ) {
-			m_InfoPanel.transform.position = m_InfoPanel.transform.position - new Vector3( 0.0f, 0.1f, 0.0f );//top
-		}
-		else if ( _pos.y == -1.0f ) {
-			m_InfoPanel.transform.position = m_InfoPanel.transform.position + new Vector3( 0.0f, 0.06f, -0.1f );//bottom
-		}
 	}
 
 	public void Selected() {
@@ -104,5 +98,4 @@ public class ThumbTile : MonoBehaviour {
 				" \n <b>Location: </b>" + _thumb.Country +
 				" \n <b>Date Taken: </b>" + _thumb.DateString;
 	}
-
 }
