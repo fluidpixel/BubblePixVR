@@ -19,6 +19,10 @@ public class CameraController : MonoBehaviour
 	private bool m_Moving = false;
 	private Vector3 m_Target = new Vector3( 0.0f, 0.1f, 0.0f );
 
+	public CardboardHead Head {
+		get { return m_Head; }
+	}
+
 	void Update() {
 		Vector3 menu, camera;
 		menu = m_MenuPanel.transform.rotation.eulerAngles;

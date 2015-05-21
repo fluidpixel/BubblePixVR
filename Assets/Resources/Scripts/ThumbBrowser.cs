@@ -52,6 +52,9 @@ public class ThumbBrowser : MonoBehaviour {
 	private MeshRenderer m_GlobeIcon;
 
 	[SerializeField]
+	private MeshRenderer m_VRModeButton;
+
+	[SerializeField]
 	private GameObject m_ThumbAnchor;
 
 	[SerializeField]
@@ -86,13 +89,16 @@ public class ThumbBrowser : MonoBehaviour {
 	private float m_AccInc = 1.5f;
 	private float m_xVelocity = 0.0f;
 	private float m_MinVelocity = 0.1f;
-	private Texture2D m_PhotoTex, m_VideoTex;
+	private Texture2D m_PhotoTex, m_VideoTex, m_3DTex, m_2DTex;
 
 	void Start() {
 		m_VideoToggle.material.color = m_ScrollColor;
 		m_PhotoTex = Resources.Load( "Textures/Picture" ) as Texture2D;
 		m_VideoTex = Resources.Load( "Textures/Video" ) as Texture2D;
+		m_3DTex = Resources.Load( "Textures/3dmodeButton" ) as Texture2D;
+		m_2DTex = Resources.Load( "Textures/2dmodeButton" ) as Texture2D;
 		m_VideoToggle.material.SetTexture( "_BorderTex", m_PhotoTex );
+		m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
 	}
 
 	void Update() {
@@ -106,11 +112,10 @@ public class ThumbBrowser : MonoBehaviour {
 		#endif
 
 		if ( m_Thumbs.Count > 1 ) {
-
+			
 			ApplyAcceleration();
-
 			IntegrateXVelocity( ShouldMoveX() );
-
+			
 			if ( m_Sorting != SortingType.None ) { 
 				GetActiveColumn();
 				if ( m_ActiveColumn != -1 ) {
@@ -118,9 +123,10 @@ public class ThumbBrowser : MonoBehaviour {
 					if ( moveLeft || moveRight ) {
 						m_ColumnAnchors[m_ActiveColumn].Velocity = m_ColumnAnchors[m_ActiveColumn].Acceleration = 0.0f;
 					}
-
+					
 					ApplyColumnAcceleration();
 					IntegrateColumnVelocity( ShouldMoveY() );
+					
 					ColumnToRest( ShouldMoveY() );
 				}
 			}
@@ -183,22 +189,28 @@ public class ThumbBrowser : MonoBehaviour {
 		m_RightScroll.gameObject.SetActive( true );
 	}
 
+	public void DeselectThumbs() {
+		foreach ( ThumbTile TT in m_Thumbs ) {
+			TT.DeClicked();
+		}
+	}
+
 	//Many hover/nohover/clicked methods for buttons.
 	public void LeftTrigHover() {
 		m_LeftScroll.material.color = m_ScrollColorHover;
-		moveLeft = true;
+		moveRight = true;
 	}
 	public void RightTrigHover() {
 		m_RightScroll.material.color = m_ScrollColorHover;
-		moveRight = true;
+		moveLeft = true;
 	}
 	public void LeftTrigNoHover() {
 		m_LeftScroll.material.color = m_ScrollColor;
-		moveLeft = false;
+		moveRight = false;
 	}
 	public void RightTrigNoHover() {
 		m_RightScroll.material.color = m_ScrollColor;
-		moveRight = false;
+		moveLeft = false;
 	}
 	public void PVToggleHover() {
 		m_VideoToggle.material.color = m_ScrollColorHover;
@@ -289,6 +301,22 @@ public class ThumbBrowser : MonoBehaviour {
 			ChangeSorting( SortingType.Date );
 		}
 	}
+	public void VRModeButtonHover() {
+		m_VRModeButton.material.color = m_ScrollColorHover;
+	}
+	public void VRModeButtonNoHover() {
+		m_VRModeButton.material.color = m_ScrollColor;
+	}
+	public void VRModeButtonClicked() {
+		m_AppController.VrMode();
+
+		if ( m_AppController.VRMode ) {
+			m_VRModeButton.material.SetTexture( "_BorderTex", m_2DTex );
+		}
+		else {
+			m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
+		}
+	}
 
 	//Private methods, mostly stuff that gets reused.
 	private IEnumerator MoveBrowser( bool _away ) {
@@ -367,6 +395,7 @@ public class ThumbBrowser : MonoBehaviour {
 		FileHandler.Thumbnail[] thumbs = m_AppController.FH.GetThumbs();
 		float x = 0;
 		float y = ySpacing;
+		m_ThumbAnchor.gameObject.transform.localPosition = new Vector3( 0.0f, -0.85f, -2.95f );
 		for ( int i = 0; i < thumbs.Length; ++i ) {
 			ThumbTile temp = Instantiate( m_TilePrefab ) as ThumbTile;
 			temp.transform.parent = m_ThumbAnchor.gameObject.transform;
@@ -768,11 +797,13 @@ public class ThumbBrowser : MonoBehaviour {
 				m_xVelocity = -m_xVelocity * 0.5f; //if so, bounce.
 			}
 			else {
-				if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
-					m_xVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.x * 0.6f, m_MaxVelocity );
-				}
-				else if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
-					m_xVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.x * 0.6f, -m_MaxVelocity );
+				if ( m_AppController.TC.SwipeSpeed.x > m_AppController.TC.SwipeSpeed.y ) {
+					if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
+						m_xVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.x * 0.06f, m_MaxVelocity );
+					}
+					else if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
+						m_xVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.x * 0.06f, -m_MaxVelocity );
+					}
 				}
 			}
 		}
@@ -805,11 +836,13 @@ public class ThumbBrowser : MonoBehaviour {
 			yVelocity = -yVelocity;
 		}
 		else {
-			if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Positive ) {
-				yVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.y * 0.6f, m_MaxVelocity );
-			}
-			else if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Negative ) {
-				yVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.y * 0.6f, -m_MaxVelocity );
+			if ( m_AppController.TC.SwipeSpeed.y > m_AppController.TC.SwipeSpeed.x ) {
+				if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Positive ) {
+					yVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.y * 0.03f, m_MaxVelocity );
+				}
+				else if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Negative ) {
+					yVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.y * 0.03f, -m_MaxVelocity );
+				}
 			}
 		}
 
@@ -842,6 +875,7 @@ public class ThumbBrowser : MonoBehaviour {
 
 					if ( pos.y != round ) {
 						pos.y = round;
+						if ( pos.y > 0 )
 						m_ColumnAnchors[i].gameObject.transform.localPosition = pos;
 					}
 				}

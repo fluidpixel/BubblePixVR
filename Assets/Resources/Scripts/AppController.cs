@@ -4,7 +4,7 @@ using System.Globalization;
 
 public class AppController : MonoBehaviour {
 
-	enum AppState {
+	public enum AppState {
 		Browser = 0,
 		Viewer = 1
 	};
@@ -45,12 +45,20 @@ public class AppController : MonoBehaviour {
 	public TouchController TC {
 		get { return m_TouchController; }
 	}
+	public bool VRMode {
+		get { return m_Cardboard.VRModeEnabled; }
+	}
+	public AppState State {
+		get { return m_State; }
+	}
+
 
 	private AppState m_State = AppState.Browser;
 	private bool focusLost = false;
 
 	void Start() {
 		MenuToBrowser();
+		VrMode();
 	}
 
 	void Update() {

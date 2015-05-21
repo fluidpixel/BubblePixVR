@@ -13,17 +13,38 @@ public class ThumbTile : MonoBehaviour {
 	private MeshRenderer m_InfoPanel;
 
 	[SerializeField]
+	private MeshRenderer m_LargeInfoPanel;
+
+	[SerializeField]
 	private Text m_Text;
 
+	[SerializeField]
+	private Text m_LargeText;
+
+	private AppController m_AppController;
 	private FileHandler.Thumbnail m_Thumb;
 	private bool m_Selected = false;
-	private bool selectable;
+	private bool m_Selectable;
+	private bool m_Clicked;
 
 	public FileHandler.Thumbnail Image {
 		get { return m_Thumb; }
 	}
 
+	void Start() {
+		m_AppController = GetComponentInParent<AppController>() as AppController;
+	}
+
 	void Update() {
+		if ( m_AppController.VRMode ) {
+			m_InfoPanel.gameObject.SetActive( true );
+			m_LargeInfoPanel.gameObject.SetActive( false );
+		}
+		else {
+			m_InfoPanel.gameObject.SetActive( false );
+			m_LargeInfoPanel.gameObject.SetActive( true );
+		}
+
 		Vector3 pos = m_Mesh.gameObject.transform.position;
 
 		float xdist = (Mathf.Abs( pos.x ) - 2.0f) * 0.5f;
@@ -38,7 +59,7 @@ public class ThumbTile : MonoBehaviour {
 
 		float fade = Mathf.Max(xdist, ydist);
 
-		if ( m_Selected ) {
+		if ( m_Selected || m_Clicked ) {
 			color.w = 1.0f;
 			textColor.w = 1.0f;
 			infoColor.w = 0.6f;
@@ -51,13 +72,17 @@ public class ThumbTile : MonoBehaviour {
 
 		m_Mesh.material.color = color;
 		m_InfoPanel.material.color = infoColor;
+		m_LargeInfoPanel.material.color = infoColor;
 		m_Text.color = textColor;
+		m_LargeText.color = textColor;
 
 		if ( pos.x < 2.5f && pos.x > -2.5f ) {
-			selectable = true;
+			m_Selectable = true;
 		}
 		else {
-			selectable = false;
+			m_Selectable = false;
+			m_Clicked = false;
+			m_Selected = false;
 		}
 	}
 
@@ -65,6 +90,7 @@ public class ThumbTile : MonoBehaviour {
 		m_Thumb = _thumb;
 		m_Mesh.material.mainTexture = m_Thumb.Thumb;
 		m_Text.text = InfoString( m_Thumb );
+		m_LargeText.text = InfoString( m_Thumb );
 	}
 
 	public string GetImageString() {
@@ -76,7 +102,7 @@ public class ThumbTile : MonoBehaviour {
 	}
 
 	public void Selected() {
-		if ( selectable )
+		if ( m_Selectable && m_AppController.VRMode )
 			m_Selected = true;
 	}
 
@@ -84,11 +110,26 @@ public class ThumbTile : MonoBehaviour {
 		m_Selected = false;
 	}
 
+	public void DeClicked() {
+		m_Selected = false;
+		m_Clicked = false;
+	}
+
 	public void Clicked() {
-		if ( m_Selected ) { 
+		if ( !m_AppController.VRMode ) {
+			if ( m_Clicked ) {
+				m_Clicked = false;
+				DeSelected();
+				m_AppController.BrowserToPano( this );
+			}
+			else {
+				( GetComponentInParent<ThumbBrowser>() as ThumbBrowser ).DeselectThumbs();
+				m_Clicked = true;
+			}
+		}
+		else if ( m_Selected ) {
 			DeSelected();
-			AppController AC = GetComponentInParent<AppController>() as AppController;
-			AC.BrowserToPano( this );
+			m_AppController.BrowserToPano( this );
 		}
 	}
 

@@ -14,12 +14,14 @@ public class TouchController : MonoBehaviour {
 	private Text m_Text;
 
 	private Vector2 startPos = Vector2.zero;
-	private float swipeStartTime = 0;
-	private float minSwipeDist = 40.0f;
-	private float maxSwipeTime = 1.0f;
+	private float swipeStartTime = 0.0f;
+	private float minSwipeDist = 10.0f;
+	private float maxSwipeTime = 5.0f;
 	private float xSwipeSpeed = 0.0f;
 	private float ySwipeSpeed = 0.0f;
 	private Vector2 prevFramePos = new Vector2( -1.0f, -1.0f );
+	private bool began;
+	private bool xSwipe;
 
 	private Swipe m_xSwipe = Swipe.None;
 	private Swipe m_ySwipe = Swipe.None;
@@ -43,9 +45,11 @@ public class TouchController : MonoBehaviour {
 			switch ( touch.phase ) { //Screen has been touched, this could be a swipe.
 				case TouchPhase.Began:
 					m_xSwipe = m_ySwipe = Swipe.None;
+					xSwipeSpeed = ySwipeSpeed = 0.0f;
 					startPos = touch.position;
 					swipeStartTime = Time.time;
 					prevFramePos = new Vector2( -1.0f, -1.0f );
+					began = true;
 					break;
 
 				case TouchPhase.Moved:
@@ -66,35 +70,48 @@ public class TouchController : MonoBehaviour {
 					float swipeTime = Time.time - swipeStartTime;
 					float xSwipeDist = ( new Vector3( touch.position.x, 0, 0 ) - new Vector3( startPos.x, 0, 0 ) ).magnitude;
 					float ySwipeDist = ( new Vector3( 0, touch.position.y, 0 ) - new Vector3( 0, startPos.y, 0 ) ).magnitude;
-					 
-					if ( ( swipeTime < maxSwipeTime ) && ( xSwipeDist > minSwipeDist ) ) {
-						float swipeValue = Mathf.Sign( touch.position.x - startPos.x );
-						xSwipeSpeed = PixelsToPercentage( xSwipeDist, true ) / swipeTime;
-						
-						if ( swipeValue > 0 ) {
-							m_xSwipe = Swipe.Positive;
-						}
-						else if ( swipeValue < 0 ) {
-							m_xSwipe = Swipe.Negative;
-						}
-					}
-					else {
-						xSwipeSpeed = 0.0f;
-					}
 
-					if ( ( swipeTime < maxSwipeTime ) && ( ySwipeDist > minSwipeDist ) ) {
-						float swipeValue = Mathf.Sign( touch.position.y - startPos.y );
-						ySwipeSpeed = PixelsToPercentage( ySwipeDist, false ) / swipeTime;
-
-						if ( swipeValue > 0 ) {
-							m_ySwipe = Swipe.Positive;
+					if ( began ) {
+						if ( xSwipeDist > ySwipeDist ) {
+							xSwipe = true;
 						}
 						else {
-							m_ySwipe = Swipe.Negative;
+							xSwipe = false;
+						}
+					}
+
+					if ( xSwipe ) {
+						if ( ( swipeTime < maxSwipeTime ) && ( xSwipeDist > minSwipeDist ) ) {
+							float swipeValue = Mathf.Sign( touch.position.x - startPos.x );
+							xSwipeSpeed = PixelsToPercentage( xSwipeDist, true ) / swipeTime;
+
+							if ( swipeValue > 0 ) {
+								m_xSwipe = Swipe.Positive;
+							}
+							else if ( swipeValue < 0 ) {
+								m_xSwipe = Swipe.Negative;
+							}
+						}
+						else {
+							xSwipeSpeed = 0.0f;
 						}
 					}
 					else {
-						ySwipeSpeed = 0.0f;
+						
+						if ( ( swipeTime < maxSwipeTime ) && ( ySwipeDist > minSwipeDist ) ) {
+							float swipeValue = Mathf.Sign( touch.position.y - startPos.y );
+							ySwipeSpeed = PixelsToPercentage( ySwipeDist, false ) / swipeTime;
+
+							if ( swipeValue > 0 ) {
+								m_ySwipe = Swipe.Positive;
+							}
+							else {
+								m_ySwipe = Swipe.Negative;
+							}
+						}
+						else {
+							ySwipeSpeed = 0.0f;
+						}
 					}
 					prevFramePos = touch.position;
 					break;
