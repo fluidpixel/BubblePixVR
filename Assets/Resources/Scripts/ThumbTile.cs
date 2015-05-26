@@ -36,6 +36,11 @@ public class ThumbTile : MonoBehaviour {
 	}
 
 	void Update() {
+		if ( m_AppController.TC.Swiping ) {
+			m_Selected = false;
+			m_Clicked = false;
+		}
+
 		if ( m_AppController.VRMode ) {
 			m_InfoPanel.gameObject.SetActive( true );
 			m_LargeInfoPanel.gameObject.SetActive( false );

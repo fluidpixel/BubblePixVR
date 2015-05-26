@@ -10,9 +10,6 @@ public class TouchController : MonoBehaviour {
 		Negative = 2
 	}
 
-	[SerializeField]
-	private Text m_Text;
-
 	private Vector2 startPos = Vector2.zero;
 	private float swipeStartTime = 0.0f;
 	private float minSwipeDist = 10.0f;
@@ -32,6 +29,17 @@ public class TouchController : MonoBehaviour {
 
 	public Swipe[] SwipeDirection {
 		get { return new Swipe[] { m_xSwipe, m_ySwipe }; }
+	}
+
+	public bool Swiping {
+		get {
+			if ( m_xSwipe == Swipe.None && m_ySwipe == Swipe.None ) {
+				return false;
+			}
+			else {
+				return true;
+			}
+		}
 	}
 
 	void Update() {

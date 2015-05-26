@@ -29,9 +29,6 @@ public class PanoramaViewer : MonoBehaviour
 	private MeshRenderer m_BackButton;
 
 	[SerializeField]
-	private TextMesh m_Text;
-
-	[SerializeField]
 	private GameObject m_PanoButtons;
 
 	private bool m_IsCylinder = true;
@@ -45,7 +42,7 @@ public class PanoramaViewer : MonoBehaviour
 		m_Capsule.SetActive( _arg );
 	}
 
-	void Start()
+	void Start() 
 	{
 		m_ActiveMesh = m_Cylinder.GetComponent( "MeshRenderer" ) as MeshRenderer;
 	}
@@ -64,15 +61,14 @@ public class PanoramaViewer : MonoBehaviour
 		}
 
 		if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
-			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, Mathf.Min(m_Controller.TC.SwipeSpeed.x * 0.06f, 5.0f), 0.0f ) );
+			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, Mathf.Min(m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f), 0.0f ) );
 		}
 		else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
-			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, -Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.06f, 5.0f ), 0.0f ) );
+			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, -Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
 		}
-		m_Text.text = Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.06f, 5.0f ).ToString();
 	}
 
-	public void SwapMesh()
+	public void SwapMesh() 
 	{
 		if ( m_IsCylinder )
 		{
@@ -91,7 +87,7 @@ public class PanoramaViewer : MonoBehaviour
 		m_IsCylinder = !m_IsCylinder;
 	}
 
-	public void ViewPanorama( Texture2D _tex )
+	public void ViewPanorama( Texture2D _tex ) 
 	{		
 		if ( isMoving ) {
 			StopCoroutine( "MoveMesh" );
@@ -110,7 +106,7 @@ public class PanoramaViewer : MonoBehaviour
 		StartCoroutine( MoveMesh( true ) );
 	}
 
-	public void ExitPanorama()
+	public void ExitPanorama() 
 	{
 		if ( isMoving ) { 
 			StopCoroutine("MoveMesh");

@@ -52,7 +52,6 @@ public class AppController : MonoBehaviour {
 		get { return m_State; }
 	}
 
-
 	private AppState m_State = AppState.Browser;
 	private bool focusLost = false;
 

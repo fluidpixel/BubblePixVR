@@ -1,0 +1,204 @@
+package com.sherif.cardboard3d.bitmaphandler;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
+import android.media.ExifInterface;
+import android.util.Log;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
+/**
+ * Created by Sherif on 4/29/2015.
+ * Used to reduce the size of images so that Unity can access them at runtime.
+ * Will decode an image, resize if necessary, then unity can access the image through its properties.
+ */
+
+public class BitmapResizer {
+
+    private Context m_Context;
+    private int m_height;
+    private int m_width;
+    private int m_StartWidth;
+    private int m_StartHeight;
+    private String m_Country;
+    private String m_Date;
+    private byte[] m_image;
+
+    public int Height() {
+        return m_height;
+    }
+
+    public int Width() {
+        return m_width;
+    }
+
+    public int StartWidth() {
+        return m_StartWidth;
+    }
+
+    public int StartHeight() {
+        return m_StartHeight;
+    }
+
+    public String Country() { return m_Country; }
+
+    public String Date() { return m_Date; }
+
+    public byte[] GetImage() {
+        return m_image;
+    }
+
+    public BitmapResizer(Context _context) {
+        m_Context = _context;
+        m_height = m_width = m_StartWidth = m_StartHeight;
+        m_image = null;
+        m_Country = null;
+        m_Date = null;
+    }
+
+    public boolean DecodeSampledBitmapFromFile(String _fileName, boolean _toThumb, boolean _toSquare) {
+        File inFile = new File(_fileName);
+        Bitmap bm;
+        int width, height;
+        height = width = 4096;
+        String logTag = "BitmapHandler";
+
+        try {
+            ExifInterface exif = new ExifInterface(_fileName);
+            if (exif.getAttribute(ExifInterface.TAG_DATETIME) != null) {
+                m_Date = exif.getAttribute(ExifInterface.TAG_DATETIME);
+            }
+
+            float loc[] = {0.0f, 0.0f};
+            exif.getLatLong(loc);
+            if (loc[0] != 0.0f && loc[1] != 0.0f) {
+                m_Country = CountryFromLatLong(loc[0], loc[1]);
+            }
+
+        }
+        catch (IOException e) {
+            Log.e(logTag, e.getMessage());
+        }
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        bm = BitmapFactory.decodeFile(inFile.getAbsolutePath(), options);
+
+        //Log.e(logTag,"1. File decoded. Name: " + inFile.getName() + "Width: " + options.outWidth +
+        //                         " Height: " + options.outHeight +
+        //                       " MimeType: " + options.outMimeType);
+
+        m_StartWidth = options.outWidth;
+        m_StartHeight = options.outHeight;
+
+        //if ((float)options.outWidth / (float)options.outHeight < 2.0f) {
+        //    return false;
+        //}
+
+        if (options.outWidth > 4096 || options.outHeight > 4096) {
+            if (_toThumb) {
+                if (_toSquare) {
+                    options.inSampleSize = calculateInSampleSize(options, 4096, 512);
+                }
+                options.inSampleSize = calculateInSampleSize(options, 4096, 256);
+            }
+            else {
+                options.inSampleSize = calculateInSampleSize(options, 4096, 4096);
+            }
+
+        }
+        else {
+            width = options.outWidth;
+            height = options.outHeight;
+            options.inSampleSize = 1;
+        }
+        options.inJustDecodeBounds = false;
+        bm = BitmapFactory.decodeFile(_fileName, options);
+        //Log.e(logTag, "2. Resize complete. Width: " + bm.getWidth() +
+        //                                " Height: " + bm.getHeight() +
+        //                            " SampleSize: " + options.inSampleSize);
+
+        try {
+            ByteArrayOutputStream out = new ByteArrayOutputStream();
+            if (_toSquare) {
+                Bitmap thumbMap;
+                int x = (bm.getWidth() - bm.getHeight()) / 2;
+                thumbMap = Bitmap.createBitmap(bm, x, 0, bm.getHeight() - 1, bm.getHeight() - 1);
+                bm = thumbMap;
+            }
+
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            m_image = out.toByteArray();
+            m_width = bm.getWidth();
+            m_height = bm.getHeight();
+            out.flush();
+            out.close();
+
+            //Log.e(logTag,"1. File decoded. Name: " + inFile.getName() + "Width: " + options.outWidth +
+            //        " Height: " + options.outHeight +
+            //        " MimeType: " + options.outMimeType);
+
+            //Log.e(logTag, "3. Operation success. Final image width: " + m_width + " Height: " + m_height);
+        }
+        catch (Exception e) {
+            m_image = null;
+            m_height = -1;
+            m_width = -1;
+	        Log.e(logTag, e.getMessage());
+            return false;
+        }
+        return true;
+    }
+
+    private int calculateInSampleSize(BitmapFactory.Options options,
+                                             int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            //final int halfHeight = height / 2;
+            //final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while (height / inSampleSize > reqHeight || width / inSampleSize > reqWidth) {
+                inSampleSize *=2;
+            }
+
+        }
+        return inSampleSize;
+    }
+
+    private String CountryFromLatLong(float _lat, float _long) {
+        String out = "";
+        Geocoder geocoder = new Geocoder(m_Context, Locale.getDefault());
+        List<Address> addresses = null;
+
+        try {
+            addresses = geocoder.getFromLocation((double)_lat, (double)_long, 1);
+
+            if (addresses != null && !addresses.isEmpty()) {
+                return addresses.get(0).getCountryName();
+            }
+            else {
+                return null;
+            }
+        }
+        catch (IOException e) {
+            Log.e("BitmapHandler", e.getMessage());
+        }
+
+        return out;
+    }
+}
+

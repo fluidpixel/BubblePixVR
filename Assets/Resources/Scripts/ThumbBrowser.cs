@@ -3,21 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-/// <summary>
-///		<author>
-///			Sherif Salem
-///		</author>
-///		<date>
-///			22/4/2015
-///		</date>
-///		<purpose>
-///			Controls the browser component of the application.
-///			Specifically, handles:
-///			- Sorting of thumbnails.
-///			- Button-based methods (clicked/selected/deselected)
-///			- Transition between '2D' mode and VR or '3D' mode. 
-///		</purpose>
-/// </summary>
+///	Controls the browser component of the application.
+///	Specifically, handles:
+///	- Sorting of thumbnails.
+///	- Button-based methods (clicked/selected/deselected)
+///	- Transition between '2D' mode and VR or '3D' mode. 
 
 public class ThumbBrowser : MonoBehaviour {
 
@@ -93,6 +83,7 @@ public class ThumbBrowser : MonoBehaviour {
 
 	void Start() {
 		m_VideoToggle.material.color = m_ScrollColor;
+		m_VRModeButton.material.color = m_ScrollColor;
 		m_PhotoTex = Resources.Load( "Textures/Picture" ) as Texture2D;
 		m_VideoTex = Resources.Load( "Textures/Video" ) as Texture2D;
 		m_3DTex = Resources.Load( "Textures/3dmodeButton" ) as Texture2D;
@@ -484,7 +475,7 @@ public class ThumbBrowser : MonoBehaviour {
 		m_ColumnAnchors = tempAnchs;
 	}
 
-	private void SortByCountry() {
+	private void SortByCountry() { //Deprecated
 		m_xVelocity = m_xAcceleration = 0.0f; //Stop things moving.
 		if ( m_TextPanels.Count > 0 ) { //Get rid of any existing panels
 			foreach ( TextPanel tp in m_TextPanels ) {
@@ -619,7 +610,7 @@ public class ThumbBrowser : MonoBehaviour {
 		m_ColumnAnchors = tempAnchs;
 	}
 
-	private void SortByDate() {
+	private void SortByDate() { //Deprecated
 		m_xVelocity = m_xAcceleration = 0.0f; //Stop things moving.
 		if ( m_TextPanels.Count > 0 ) {
 			foreach ( TextPanel tp in m_TextPanels ) {
