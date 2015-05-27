@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by Sherif on 4/29/2015.
+ * Created by Sherif on 29/4/2015.
  * Used to reduce the size of images so that Unity can access them at runtime.
  * Will decode an image, resize if necessary, then unity can access the image through its properties.
  */

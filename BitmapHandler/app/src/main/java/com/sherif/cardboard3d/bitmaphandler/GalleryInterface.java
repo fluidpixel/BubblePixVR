@@ -5,15 +5,13 @@ import android.database.Cursor;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 import java.io.File;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Sherif Salem on 5/7/2015.
+ * Created by Sherif Salem on 7/5/2015.
  * Produces a list of paths to all items in the android image gallery.
  */
 
@@ -25,7 +23,7 @@ public class GalleryInterface {
 		context = _context;
 	}
 
-	public String[] GetGalleryPaths () {
+	public String[] GetGalleryImagePaths() {
 		List<String> res = new ArrayList<String>();
 		String[] proj = null;
 		Cursor cursor = context.getContentResolver().query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
@@ -54,6 +52,12 @@ public class GalleryInterface {
 		String[] ret = res.toArray(new String[res.size()]);
 		//Log.i("PathFinder", "" + ret.length);
 		return ret;
+	}
+
+	public String[] GetGalleryVideoPaths() {
+		List<String> res = new ArrayList<String>();
+
+		return res.toArray(new String[res.size()]);
 	}
 
 	/**

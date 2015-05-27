@@ -807,7 +807,7 @@ public class ThumbBrowser : MonoBehaviour {
 		m_ThumbAnchor.transform.position = pos;		
 	}
 
-	private void IntegrateColumnVelocity( bool _moving ) { //Same as IntegrateXVelocity, just for the active column's vertical motion.
+	private void IntegrateColumnVelocity( bool _moving ) { //Mostly the same as IntegrateXVelocity, just for the active column's vertical motion.
 		float yVelocity;
 		//Calculate the velocity of the column and apply damping if the user isn't trying to move it.
 		yVelocity = ( m_ColumnAnchors[m_ActiveColumn].Velocity + m_ColumnAnchors[m_ActiveColumn].Acceleration * Time.deltaTime ) * ( _moving ? 1.0f : 0.96f );
