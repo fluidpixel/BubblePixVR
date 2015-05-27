@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour
-{
+//Contains methods and references related to the camera system and the buttons beneath it.
+
+public class CameraController : MonoBehaviour {
 
 	[SerializeField]
 	private GameObject m_BrowserButton;

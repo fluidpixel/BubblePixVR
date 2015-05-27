@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Will produce a cylinder with no top or bottom, and curved sides (only shows during runtime)
+
 public class CurvedCylinder : MonoBehaviour {
 
 	[SerializeField]

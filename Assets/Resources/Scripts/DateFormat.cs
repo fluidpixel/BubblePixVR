@@ -2,6 +2,9 @@
 using System;
 using System.Collections;
 
+// Simple class to handle the conversion of a string date to a number
+// of different data types, and vice versa.
+
 public static class DateFormat {
 	
 	private static string[] months = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};

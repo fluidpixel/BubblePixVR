@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Provides a more complex anchor system for the columns of the browser, exposing information
+//that is useful for controlling column motion, including the column's acceleration and velocity
+//(each column moves independently of the others)
+
 public class ColumnAnchor : MonoBehaviour {
 
 	private float m_Velocity = 0.0f;

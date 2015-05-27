@@ -3,11 +3,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-///	Controls the browser component of the application.
-///	Specifically, handles:
-///	- Sorting of thumbnails.
-///	- Button-based methods (clicked/selected/deselected)
-///	- Transition between '2D' mode and VR or '3D' mode. 
+// Controls the browser component of the application.
+// Specifically, handles:
+// - Sorting of thumbnails.
+// - Button-based methods (clicked/selected/deselected)
+// - Transition between '2D' mode and VR or '3D' mode. 
 
 public class ThumbBrowser : MonoBehaviour {
 
@@ -73,7 +73,7 @@ public class ThumbBrowser : MonoBehaviour {
 	private Color m_ScrollColorHover = new Color( 0.44f, 0.48f, 0.62f, 0.54f );
 	private Color m_ActiveButtonColor = new Color( 0.32f, 0.7f, 0.4f, 0.27f );
 	private Color m_ActiveButtonColorHover = new Color( 0.32f, 0.7f, 0.4f, 0.54f );
-	private float m_MaxVelocity = 6.0f;
+	private float m_MaxVelocity = 10.0f;
 	private float m_MaxAcceleration = 4.0f;
 	private float m_xAcceleration = 0.0f;
 	private float m_AccInc = 1.5f;
@@ -114,10 +114,10 @@ public class ThumbBrowser : MonoBehaviour {
 					if ( moveLeft || moveRight ) {
 						m_ColumnAnchors[m_ActiveColumn].Velocity = m_ColumnAnchors[m_ActiveColumn].Acceleration = 0.0f;
 					}
-					
-					ApplyColumnAcceleration();
-					IntegrateColumnVelocity( ShouldMoveY() );
-					
+					if ( m_ColumnAnchors[m_ActiveColumn].Tiles > 2 ) {
+						ApplyColumnAcceleration();
+						IntegrateColumnVelocity( ShouldMoveY() );
+					}
 					ColumnToRest( ShouldMoveY() );
 				}
 			}
@@ -136,7 +136,6 @@ public class ThumbBrowser : MonoBehaviour {
 
 	public void ViewBrowser() {
 		this.gameObject.SetActive( true );
-		//StartCoroutine( MoveBrowser( false ) );
 		PopThumbs();
 	}
 
@@ -309,7 +308,7 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 	}
 
-	//Private methods, mostly stuff that gets reused.
+	//Private methods, mostly stuff that gets reused or takes up alot of space within other methods.
 	private IEnumerator MoveBrowser( bool _away ) {
 		Vector3 target;
 		if ( _away ) {
@@ -341,7 +340,7 @@ public class ThumbBrowser : MonoBehaviour {
 			}
 		}
 		if ( !exists )
-			m_Countries.Add( _country );
+			m_Countries.Add( StringCheck( _country ) );
 	}
 
 	private void AddDate( DateTime _date ) {
@@ -790,10 +789,10 @@ public class ThumbBrowser : MonoBehaviour {
 			else {
 				if ( m_AppController.TC.SwipeSpeed.x > m_AppController.TC.SwipeSpeed.y ) {
 					if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
-						m_xVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.x * 0.06f, m_MaxVelocity );
+						m_xVelocity = Mathf.Min( m_AppController.TC.SwipeSpeed.x * 0.08f, m_MaxVelocity );
 					}
 					else if ( m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
-						m_xVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.x * 0.06f, -m_MaxVelocity );
+						m_xVelocity = Mathf.Max( -m_AppController.TC.SwipeSpeed.x * 0.08f, -m_MaxVelocity );
 					}
 				}
 			}
@@ -822,10 +821,11 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 
 		//Inverts the velocity (with damping) if it has scrolled to the top or bottom.
-		if ( ( m_ColumnAnchors[m_ActiveColumn].LocalPos.y < -1.0f && yVelocity < 0.0f ) ||
-		( m_ColumnAnchors[m_ActiveColumn].LocalPos.y > ( ySpacing * m_ColumnAnchors[m_ActiveColumn].Tiles ) && yVelocity > 0.0f ) ) {
-			yVelocity = -yVelocity;
+		if ( ( m_ColumnAnchors[m_ActiveColumn].LocalPos.y < 0.6f && yVelocity < 0.0f ) ||
+		( m_ColumnAnchors[m_ActiveColumn].LocalPos.y > ( ySpacing * m_ColumnAnchors[m_ActiveColumn].Tiles - ( ySpacing + 0.6f ) ) && yVelocity > 0.0f ) ) {
+			yVelocity = -yVelocity * 0.6f;
 		}
+
 		else {
 			if ( m_AppController.TC.SwipeSpeed.y > m_AppController.TC.SwipeSpeed.x ) {
 				if ( m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Positive ) {
@@ -872,5 +872,12 @@ public class ThumbBrowser : MonoBehaviour {
 				}
 			}
 		}
+	}
+
+	private string StringCheck( string _arg ) {
+		if ( _arg != null )
+			return _arg;
+		else
+			return "";
 	}
 }

@@ -30,7 +30,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &117892
 GameObject:
   m_ObjectHideFlags: 1
@@ -65,7 +65,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &142166
 GameObject:
   m_ObjectHideFlags: 1
@@ -460,9 +460,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156506}
-  m_LocalRotation: {x: .1305262, y: 0, z: 0, w: .991444886}
-  m_LocalPosition: {x: -1.69000006, y: -2.5999999, z: -.202000007}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.52999997, y: -2.78999996, z: -.140000001}
+  m_LocalScale: {x: .850000024, y: 1, z: .850000024}
   m_Children:
   - {fileID: 456510}
   - {fileID: 456508}
@@ -1024,7 +1024,6 @@ MonoBehaviour:
   m_TextPanelPrefab: {fileID: 11412110, guid: 031db915f4551fa46bdf74f7d62979c7, type: 2}
   m_ColumnAnchorPrefab: {fileID: 11445276, guid: 000b973ed3ebeb24296fe8319f0c617b,
     type: 2}
-  m_Text: {fileID: 0}
 --- !u!114 &11456504
 MonoBehaviour:
   m_ObjectHideFlags: 1

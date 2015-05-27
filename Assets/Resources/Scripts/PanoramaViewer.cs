@@ -1,15 +1,13 @@
-﻿/* Handles the meshes related to browsing and viewing of panoramas,
- * along with the methods that move and enable parts of the viewer.
- */
-
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PanoramaViewer : MonoBehaviour
-{
+// Handles the meshes related to the viewing of panoramas,
+// along with the methods that move and enable parts of the viewer.
+
+public class PanoramaViewer : MonoBehaviour {
 	[SerializeField]
 	private AppController m_Controller;
 

@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
-
 using System;
 using System.IO;
 using System.Collections;
 using System.Globalization;
 using System.Collections.Generic;
+
+//Handles the importing of files external to the application, by interacting with the
+//Java-Unity Interface class.
 
 public class FileHandler : MonoBehaviour {
 	public class Thumbnail {
@@ -159,7 +161,7 @@ public class FileHandler : MonoBehaviour {
 	}
 
 	private string Country() {
-		string[] nations = { "United Kingdom", "Australia", "United States of America", "Japan", "" };
+		string[] nations = { "", "", "United States of America", "Japan", "" };
 
 		return nations[UnityEngine.Random.Range( 0, nations.Length - 1 )];
 	}

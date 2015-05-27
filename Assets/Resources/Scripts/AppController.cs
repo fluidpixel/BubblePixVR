@@ -2,6 +2,10 @@
 using System.Collections;
 using System.Globalization;
 
+//Centralised controller class that allows all other classes access to each other, especially
+//for access to things like the File Handler and Touch Controller. Also maintains track of the 
+//state of the app and manages the transtions between each.
+
 public class AppController : MonoBehaviour {
 
 	public enum AppState {
@@ -99,7 +103,6 @@ public class AppController : MonoBehaviour {
 		m_PanoViewer.gameObject.SetActive( true );
 		m_ThumbBrowser.ViewBrowser();
 		m_PanoViewer.SetCapActive( true );
-		//m_CameraController.MoveCamera( new Vector3( 0.0f, 1.0f, -15.0f ), 2.0f );
 	}
 
 	public void BrowserToPano( ThumbTile _tile ) {
@@ -122,7 +125,6 @@ public class AppController : MonoBehaviour {
 		if ( m_Cardboard.VRModeEnabled ) {
 			m_Head.trackPosition = m_Head.trackRotation = false;
 			m_Head.transform.rotation = new Quaternion();
-			//m_CameraController.CameraReset();
 			m_ThumbBrowser.To2DView();
 		}
 		else {

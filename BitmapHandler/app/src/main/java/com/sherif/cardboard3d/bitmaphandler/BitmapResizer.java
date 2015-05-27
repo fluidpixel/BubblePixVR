@@ -59,8 +59,8 @@ public class BitmapResizer {
         m_Context = _context;
         m_height = m_width = m_StartWidth = m_StartHeight;
         m_image = null;
-        m_Country = null;
-        m_Date = null;
+        m_Country = "";
+        m_Date = "";
     }
 
     public boolean DecodeSampledBitmapFromFile(String _fileName, boolean _toThumb, boolean _toSquare) {
@@ -97,10 +97,6 @@ public class BitmapResizer {
 
         m_StartWidth = options.outWidth;
         m_StartHeight = options.outHeight;
-
-        //if ((float)options.outWidth / (float)options.outHeight < 2.0f) {
-        //    return false;
-        //}
 
         if (options.outWidth > 4096 || options.outHeight > 4096) {
             if (_toThumb) {
@@ -141,9 +137,7 @@ public class BitmapResizer {
             out.flush();
             out.close();
 
-            //Log.e(logTag,"1. File decoded. Name: " + inFile.getName() + "Width: " + options.outWidth +
-            //        " Height: " + options.outHeight +
-            //        " MimeType: " + options.outMimeType);
+            Log.e(logTag,"1. File decoded. Name: " + inFile.getName() + " Exif: Date: " + m_Date + " Country: " + m_Country);
 
             //Log.e(logTag, "3. Operation success. Final image width: " + m_width + " Height: " + m_height);
         }
@@ -151,7 +145,7 @@ public class BitmapResizer {
             m_image = null;
             m_height = -1;
             m_width = -1;
-	        Log.e(logTag, e.getMessage());
+	        Log.e(logTag, "Error occurred with image processing: " + e.getMessage());
             return false;
         }
         return true;
@@ -191,7 +185,7 @@ public class BitmapResizer {
                 return addresses.get(0).getCountryName();
             }
             else {
-                return null;
+                return out;
             }
         }
         catch (IOException e) {

@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
+//Used to detect swipe interactions from the user.
+
 public class TouchController : MonoBehaviour {
 
 	public enum Swipe {

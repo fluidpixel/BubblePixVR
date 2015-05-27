@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.Collections;
 
+//Prefab script that defines each thumbnail, and it's indvidual behaviour in the browser.
+
 public class ThumbTile : MonoBehaviour {
 
 	[SerializeField]

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Provides a wrapper for all calls to external Java plugins, and will store its outputs
+//to allow unity access to them.
+
 public class JavaUnityInterface : MonoBehaviour {
 
 	private AndroidJavaObject m_ImageResizer = null;
