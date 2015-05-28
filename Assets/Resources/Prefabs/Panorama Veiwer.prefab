@@ -141,6 +141,38 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!1 &148206
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 448206}
+  - 114: {fileID: 11448206}
+  m_Layer: 0
+  m_Name: JVI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &148208
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 448208}
+  - 114: {fileID: 11448208}
+  m_Layer: 0
+  m_Name: VideoPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &176202
 GameObject:
   m_ObjectHideFlags: 1
@@ -256,6 +288,7 @@ Transform:
   - {fileID: 480214}
   - {fileID: 480212}
   - {fileID: 402018}
+  - {fileID: 448208}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &421730
@@ -294,6 +327,31 @@ Transform:
   m_Children: []
   m_Father: {fileID: 480212}
   m_RootOrder: 0
+--- !u!4 &448206
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 448208}
+  m_RootOrder: 0
+--- !u!4 &448208
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148208}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 448206}
+  m_Father: {fileID: 421728}
+  m_RootOrder: 4
 --- !u!4 &476202
 Transform:
   m_ObjectHideFlags: 1
@@ -634,7 +692,9 @@ MonoBehaviour:
   m_MeshAnchor: {fileID: 480212}
   m_Capsule: {fileID: 121732}
   m_BackButton: {fileID: 2302096}
+  m_TestPanel: {fileID: 0}
   m_PanoButtons: {fileID: 102018}
+  m_VideoPlayer: {fileID: 11448208}
 --- !u!114 &11429838
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -665,6 +725,31 @@ MonoBehaviour:
           m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &11448206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f9265ee231d9bf419f20014c2309368, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11448208
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 148208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81a5c80b3a51ae44bbced4a70555183, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_JVInterface: {fileID: 11448206}
+  m_TargetFrameRate: 30
+  m_Text: {fileID: 0}
 --- !u!114 &11476202
 MonoBehaviour:
   m_ObjectHideFlags: 1

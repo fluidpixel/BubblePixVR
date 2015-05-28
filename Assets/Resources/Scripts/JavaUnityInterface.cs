@@ -9,6 +9,7 @@ public class JavaUnityInterface : MonoBehaviour {
 	private AndroidJavaObject m_ImageResizer = null;
 	private AndroidJavaObject m_ActivityContext = null;
 	private AndroidJavaObject m_GalleryPathGrabber = null;
+	
 
 	private byte[] m_ImageBytes;
 	private int m_Width, m_Height, m_StartWidth, m_StartHeight;
@@ -63,7 +64,7 @@ public class JavaUnityInterface : MonoBehaviour {
 		string[] ret;
 	
 		m_GalleryPathGrabber = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.GalleryInterface", GetActivityContext() );
-		ret = m_GalleryPathGrabber.Call<string[]>( "GetGalleryPaths" );
+		ret = m_GalleryPathGrabber.Call<string[]>( "GetGalleryImagePaths" );
 	
 		return ret;
 	}
@@ -85,5 +86,4 @@ public class JavaUnityInterface : MonoBehaviour {
 		}
 		return m_ActivityContext;
 	}
-
 }

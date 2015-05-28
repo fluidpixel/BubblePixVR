@@ -27,10 +27,17 @@ public class PanoramaViewer : MonoBehaviour {
 	private MeshRenderer m_BackButton;
 
 	[SerializeField]
+	private MeshRenderer m_TestPanel;
+
+	[SerializeField]
 	private GameObject m_PanoButtons;
+
+	[SerializeField]
+	private VideoPlayer m_VideoPlayer;
 
 	private bool m_IsCylinder = true;
 	private bool isMoving = false;
+	private bool videoMode = false;
 	private MeshRenderer m_ActiveMesh;
 	private Vector3 m_Target;
 
@@ -63,6 +70,11 @@ public class PanoramaViewer : MonoBehaviour {
 		}
 		else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
 			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, -Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
+		}
+
+		if ( videoMode && m_VideoPlayer.FrameChanged ) {
+			Debug.Log("Doing the texture grab thing");
+			m_TestPanel.material.mainTexture = m_VideoPlayer.GetFrame();
 		}
 	}
 
@@ -102,6 +114,11 @@ public class PanoramaViewer : MonoBehaviour {
 		}
 		m_ActiveMesh.renderer.material.mainTexture = _tex;
 		StartCoroutine( MoveMesh( true ) );
+	}
+
+	public void ViewVideo() {
+		m_VideoPlayer.LoadVideo("/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4");
+		videoMode = true;
 	}
 
 	public void ExitPanorama() 
