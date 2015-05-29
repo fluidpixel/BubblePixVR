@@ -1,10 +1,12 @@
 package com.sherif.cardboard3d.bitmaphandler;
 
 import android.graphics.Bitmap;
+import android.graphics.Path;
 import android.media.MediaMetadataRetriever;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
 
 /**
  * Created by Sherif Salem on 27/5/2015.
@@ -15,11 +17,13 @@ import java.io.ByteArrayOutputStream;
 public class VideoHandler {
 
 	private MediaMetadataRetriever m_MetaData;
-	private String m_Path;
 	private int m_Width;
 	private int m_Height;
 	private long m_Length;
 	private String m_FileName;
+	private int m_Size;
+
+	private byte[][] m_Frames;
 
 	public int Width() {
 		return m_Width;
@@ -37,6 +41,14 @@ public class VideoHandler {
 		return m_FileName;
 	}
 
+	public int BitmapSize() {
+		return m_Size;
+	}
+
+	public byte[][] ByteVideo() {
+		return m_Frames;
+	}
+
 	public VideoHandler(String _path) {
 		try {
 			m_MetaData = new MediaMetadataRetriever();
@@ -44,7 +56,6 @@ public class VideoHandler {
 			m_Height = Integer.parseInt(m_MetaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
 			m_Width = Integer.parseInt(m_MetaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
 			m_Length = Long.parseLong(m_MetaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
-			m_FileName = m_MetaData.extractMetadata(MediaMetadataRetriever.METADATA_KEY_TITLE);
 		}
 		catch (Exception e) {
 			m_Width = m_Height = -1;
@@ -55,17 +66,18 @@ public class VideoHandler {
 	}
 
 	//Takes in a float representing where in the video (in milliseconds) a frame should be pulled from.
-	public byte[] GetFrameAtTime( float _msec ) {
-		long uSec = (long)_msec * 1000L;
+	public byte[] GetFrameAtTime( long _msec ) {
+		long uSec = _msec * 1000L;
 		byte[] outBytes;
 		try {
-			Bitmap bm = m_MetaData.getFrameAtTime(uSec, MediaMetadataRetriever.OPTION_CLOSEST);
-
+			Bitmap bm = m_MetaData.getFrameAtTime(uSec);
+			//Log.e("VideoHandler", "Grabbed frame at: " + _msec + "mSecs.");
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 			bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
-
+			m_Size = bm.getByteCount();
 			outBytes = out.toByteArray();
+
 			out.flush();
 			out.close();
 			return outBytes;
@@ -74,5 +86,29 @@ public class VideoHandler {
 			Log.e("VideoHandler", "Error grabbing frame at: " + uSec + "uSecs. Message: " + e.getMessage());
 			return null;
 		}
+	}
+
+	public byte[][] GetFrames(int _frameRate) {
+		long totalFrames = m_Length * 1000 * _frameRate;
+		long invFrameRate = 1 / _frameRate;
+		Bitmap bm;
+		ByteBuffer buffer;
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+		byte[][] bytes = new byte[(int)totalFrames][];
+		for (long currentFrame = 0L; currentFrame <= totalFrames; ++currentFrame) {
+			try {
+				bm = m_MetaData.getFrameAtTime(currentFrame * invFrameRate);
+				bm.compress(Bitmap.CompressFormat.JPEG, 10, out);
+				bytes[(int) currentFrame] = out.toByteArray();
+				out.flush();
+				bm.recycle();
+			}
+			catch (Exception e) {
+				Log.e("VideoHandler", "Error with compression: " + e.getMessage());
+			}
+		}
+		m_Frames = bytes;
+		return bytes;
 	}
 }

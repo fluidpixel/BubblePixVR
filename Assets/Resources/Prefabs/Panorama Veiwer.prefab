@@ -86,7 +86,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &121730
 GameObject:
   m_ObjectHideFlags: 1
@@ -748,7 +748,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_JVInterface: {fileID: 11448206}
-  m_TargetFrameRate: 30
+  m_TargetFrameRate: 10
+  m_PanoViewer: {fileID: 11421728}
   m_Text: {fileID: 0}
 --- !u!114 &11476202
 MonoBehaviour:

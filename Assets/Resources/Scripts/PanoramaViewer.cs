@@ -73,7 +73,7 @@ public class PanoramaViewer : MonoBehaviour {
 		}
 
 		if ( videoMode && m_VideoPlayer.FrameChanged ) {
-			Debug.Log("Doing the texture grab thing");
+			//Debug.Log("Doing the texture grab thing");
 			m_TestPanel.material.mainTexture = m_VideoPlayer.GetFrame();
 		}
 	}
@@ -118,6 +118,7 @@ public class PanoramaViewer : MonoBehaviour {
 
 	public void ViewVideo() {
 		m_VideoPlayer.LoadVideo("/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4");
+		//m_TestPanel.material.mainTexture = m_VideoPlayer.GetFrame();
 		videoMode = true;
 	}
 

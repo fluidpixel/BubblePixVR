@@ -3,17 +3,21 @@ using System.Collections;
 
 public class JavaVideoInterface : MonoBehaviour {
 
-	public struct VideoInfo {
+	public struct Video {
 		private int m_Width;
 		private int m_Height;
 		private long m_Length;
 		private string m_Name;
+		private int m_FrameRate;
+		private byte[][] m_ByteVideo;
 
-		public VideoInfo( int _w, int _h, long _l, string _s ) {
+		public Video( int _w, int _h, long _l, string _s, byte[][] _b, int _f ) {
 			m_Width = _w;
 			m_Height = _h;
 			m_Length = _l;
 			m_Name = _s;
+			m_ByteVideo = _b;
+			m_FrameRate = _f;
 		}
 
 		public int Width {
@@ -28,12 +32,19 @@ public class JavaVideoInterface : MonoBehaviour {
 		public string Name {
 			get { return m_Name; }
 		}
+		public int FrameRate {
+			get { return m_FrameRate; }
+		}
+		public byte[][] ByteVideo {
+			get { return m_ByteVideo; }
+		}
 	}
 
 	private AndroidJavaObject m_VideoPlayer = null;
-	private VideoInfo m_VideoInfo;
+	private Video m_VideoInfo;
+	private int m_FrameRate = 7;
 
-	public VideoInfo GetVideoInfo {
+	public Video GetVideoInfo {
 		get { return m_VideoInfo; }
 	}
 
@@ -41,7 +52,7 @@ public class JavaVideoInterface : MonoBehaviour {
 		m_VideoPlayer = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.VideoHandler", _path );
 		long length = m_VideoPlayer.Call<long>( "Length" );
 		if ( length != -1 ) {
-			m_VideoInfo = new VideoInfo( m_VideoPlayer.Call<int>("Width"), m_VideoPlayer.Call<int>("Height"), m_VideoPlayer.Call<long>("Length"), m_VideoPlayer.Call<string>("FileName") );
+			m_VideoInfo = new Video( m_VideoPlayer.Call<int>( "Width" ), m_VideoPlayer.Call<int>( "Height" ), m_VideoPlayer.Call<long>( "Length" ), m_VideoPlayer.Call<string>( "FileName" ), m_VideoPlayer.Call<byte[][]>( "GetFrames", m_FrameRate ), m_FrameRate );
 			return true;
 		}
 		else {
