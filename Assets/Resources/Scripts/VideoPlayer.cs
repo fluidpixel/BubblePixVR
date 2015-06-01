@@ -50,8 +50,8 @@ public class VideoPlayer : MonoBehaviour {
 	public void PlayVideo() {
 		m_Playing = true;
 		m_PanoViewer.gameObject.SetActive( true );
-		StartCoroutine( FramesFromBytes() );
-		//StartCoroutine(GetFrames());
+		//StartCoroutine( FramesFromBytes() );
+		StartCoroutine(GetFrames());
 	}
 
 	public void PauseVideo() {
@@ -97,10 +97,11 @@ public class VideoPlayer : MonoBehaviour {
 				deltaTime = 0.0f;
 				AdvanceFrame();
 
-				long time = (long)( (float)m_CurrentFrame * frameStep * 1000.0f );
+				long time = (long)( m_CurrentFrame * frameStep * 1000 );
 
 				m_Frame.LoadImage( m_JVInterface.GetFrameAtTime( time ) ); //The approx time of the current frame in msec.
 				m_FrameChanged = true;
+				yield return null;
 			}
 			yield return null;
 		}
