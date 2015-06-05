@@ -2,15 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf09fb5-bb3e-4943-93e1-887f7a4ca759" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoPlayer.java" />
+      <change type="MOVED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\src\main\java\com\sherif\cardboard3d\bitmaphandler\VideoHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar" afterPath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/release/BitmapResizer.jar" afterPath="$PROJECT_DIR$/app/release/BitmapResizer.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar.meta" afterPath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar.meta" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Prefabs/FileHandler.prefab" afterPath="$PROJECT_DIR$/../Assets/Resources/Prefabs/FileHandler.prefab" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/JavaVideoInterface.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/JavaVideoInterface.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Prefabs/Panorama Veiwer.prefab" afterPath="$PROJECT_DIR$/../Assets/Resources/Prefabs/Panorama Veiwer.prefab" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/PanoramaViewer.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/PanoramaViewer.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/PlainTextured.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/PlainTextured.mat" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../ProjectSettings/ProjectSettings.asset" afterPath="$PROJECT_DIR$/../ProjectSettings/ProjectSettings.asset" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/VideoPlayer.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/VideoPlayer.cs" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Scenes/Wall.unity" afterPath="$PROJECT_DIR$/../Assets/Scenes/Wall.unity" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BitmapHandler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -155,31 +165,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BitmapResizer.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
+      <file leaf-file-name="VideoTester.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
+              <caret line="134" column="51" selection-start-line="134" selection-start-column="51" selection-end-line="134" selection-end-column="51" />
               <folding>
-                <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
-                <element signature="method#calculateInSampleSize#0;class#BitmapResizer#0" expanded="false" />
-                <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
+                <element signature="imports" expanded="true" />
+                <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+                <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+                <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="VideoHandler.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java">
+      <file leaf-file-name="VideoPlayer.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoPlayer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6451613">
-              <caret line="67" column="30" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
+            <state vertical-scroll-proportion="0.79569894">
+              <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="method#VideoHandler#0;class#VideoHandler#0" expanded="false" />
-                <element signature="e#1705#1706#0" expanded="true" />
-                <element signature="method#GetFrameAtTime#0;class#VideoHandler#0" expanded="false" />
-                <element signature="method#GetFrames#0;class#VideoHandler#0" expanded="false" />
+                <element signature="method#IsPlaying#0;class#VideoPlayer#0" expanded="false" />
+                <element signature="e#888#889#0" expanded="true" />
+                <element signature="e#928#929#0" expanded="true" />
+                <element signature="e#2106#2107#0" expanded="true" />
+                <element signature="e#2139#2140#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -189,10 +201,10 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+              <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="method#GetGalleryImagePaths#0;class#GalleryInterface#0" expanded="false" />
+                <element signature="e#507#508#0" expanded="true" />
+                <element signature="e#532#533#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1240,7 +1252,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4290939001993" />
+        <entry key="$PROJECT_DIR$" value="4299847063117" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1540,7 +1552,13 @@
       <list>
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/TextureSurfaceRenderer.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTextureRenderer.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoAssetActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoPlayer.java" />
       </list>
     </option>
   </component>
@@ -1577,8 +1595,6 @@
     </navigator>
     <panes>
       <pane id="ProjectPane" />
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
@@ -1636,6 +1652,8 @@
         </subPane>
       </pane>
       <pane id="Scratches" />
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -1649,9 +1667,9 @@
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
-    <property name="settings.editor.selected.configurable" value="editor.preferences.appearance" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
-    <property name="last_opened_file_path" value="$USER_HOME$/AppData/Local/GitHub/PortableGit_c2ba306e536fdf878271f7fe636a147ff37326ad/bin/git.exe" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Desktop/NDK-samples" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
   </component>
@@ -1855,7 +1873,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="32" width="1696" height="1026" extended-state="7" />
+    <frame x="-8" y="32" width="1696" height="1026" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -1866,13 +1884,13 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912844" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32912844" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912844" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.13247864" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.14896215" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32967034" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -1883,7 +1901,7 @@
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912844" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1904,65 +1922,165 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
-          <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
-            <element signature="method#calculateInSampleSize#0;class#BitmapResizer#0" expanded="false" />
-            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="47" selection-start-line="68" selection-start-column="47" selection-end-line="68" selection-end-column="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#VideoHandler#0;class#VideoHandler#0" expanded="false" />
-            <element signature="e#1705#1706#0" expanded="true" />
-            <element signature="method#GetFrameAtTime#0;class#VideoHandler#0" expanded="false" />
-            <element signature="method#GetFrames#0;class#VideoHandler#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#GetGalleryImagePaths#0;class#GalleryInterface#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
-          <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
-            <element signature="method#calculateInSampleSize#0;class#BitmapResizer#0" expanded="false" />
-            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#VideoHandler#0;class#VideoHandler#0" expanded="false" />
-            <element signature="e#1705#1706#0" expanded="true" />
-            <element signature="method#GetFrameAtTime#0;class#VideoHandler#0" expanded="false" />
-            <element signature="method#GetFrames#0;class#VideoHandler#0" expanded="false" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#IsPlaying#0;class#VideoPlayer#0" expanded="false" />
+            <element signature="e#888#889#0" expanded="true" />
+            <element signature="e#928#929#0" expanded="true" />
+            <element signature="e#2106#2107#0" expanded="true" />
+            <element signature="e#2139#2140#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding>
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="133" column="0" selection-start-line="133" selection-start-column="0" selection-end-line="133" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="26" column="0" selection-start-line="26" selection-start-column="0" selection-end-line="26" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#IsPlaying#0;class#VideoPlayer#0" expanded="false" />
+            <element signature="e#888#889#0" expanded="true" />
+            <element signature="e#928#929#0" expanded="true" />
+            <element signature="e#2106#2107#0" expanded="true" />
+            <element signature="e#2139#2140#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding>
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding>
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
+          <folding>
+            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
+            <element signature="method#calculateInSampleSize#0;class#BitmapResizer#0" expanded="false" />
+            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="63" column="30" selection-start-line="63" selection-start-column="30" selection-end-line="63" selection-end-column="30" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
+          <folding>
+            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
+            <element signature="method#calculateInSampleSize#0;class#BitmapResizer#0" expanded="false" />
+            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="68" column="47" selection-start-line="68" selection-start-column="47" selection-end-line="68" selection-end-column="47" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1972,8 +2090,44 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding>
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
+          <folding>
+            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
+            <element signature="method#calculateInSampleSize#0;class#BitmapResizer#0" expanded="false" />
+            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#GetGalleryImagePaths#0;class#GalleryInterface#0" expanded="false" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
+          <folding>
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1990,16 +2144,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#VideoHandler#0;class#VideoHandler#0" expanded="false" />
-            <element signature="e#1705#1706#0" expanded="true" />
-            <element signature="method#GetFrameAtTime#0;class#VideoHandler#0" expanded="false" />
-            <element signature="method#GetFrames#0;class#VideoHandler#0" expanded="false" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -2009,30 +2162,16 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="58" column="0" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="method#GetGalleryImagePaths#0;class#GalleryInterface#0" expanded="false" />
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="0" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
+        <state vertical-scroll-proportion="0.7242888">
+          <caret line="115" column="37" selection-start-line="115" selection-start-column="37" selection-end-line="115" selection-end-column="37" />
           <folding>
             <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#calculateInSampleSize#0;class#BitmapResizer#0" expanded="false" />
@@ -2041,27 +2180,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+    <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="25" column="0" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="7" column="24" selection-start-line="7" selection-start-column="24" selection-end-line="7" selection-end-column="24" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTester.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="134" column="51" selection-start-line="134" selection-start-column="51" selection-end-line="134" selection-end-column="51" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#GetGalleryImagePaths#0;class#GalleryInterface#0" expanded="false" />
+            <element signature="method#VideoTester#1;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrameAtTime#0;class#VideoTester#0" expanded="false" />
+            <element signature="method#GetFrames#0;class#VideoTester#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6451613">
-          <caret line="67" column="30" selection-start-line="67" selection-start-column="30" selection-end-line="67" selection-end-column="30" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="27" selection-start-line="22" selection-start-column="27" selection-end-line="22" selection-end-column="27" />
+          <folding>
+            <element signature="e#507#508#0" expanded="true" />
+            <element signature="e#532#533#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoPlayer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.79569894">
+          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="method#VideoHandler#0;class#VideoHandler#0" expanded="false" />
-            <element signature="e#1705#1706#0" expanded="true" />
-            <element signature="method#GetFrameAtTime#0;class#VideoHandler#0" expanded="false" />
-            <element signature="method#GetFrames#0;class#VideoHandler#0" expanded="false" />
+            <element signature="method#IsPlaying#0;class#VideoPlayer#0" expanded="false" />
+            <element signature="e#888#889#0" expanded="true" />
+            <element signature="e#928#929#0" expanded="true" />
+            <element signature="e#2106#2107#0" expanded="true" />
+            <element signature="e#2139#2140#0" expanded="true" />
           </folding>
         </state>
       </provider>

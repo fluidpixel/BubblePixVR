@@ -43,6 +43,10 @@ public class PanoramaViewer : MonoBehaviour {
 
 	private int m_ImageCount;
 
+	public MeshRenderer TestPanel {
+		get { return m_TestPanel; }
+	}
+
 	public void SetCapActive( bool _arg ) {
 		m_Capsule.SetActive( _arg );
 	}
@@ -70,11 +74,6 @@ public class PanoramaViewer : MonoBehaviour {
 		}
 		else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
 			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, -Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
-		}
-
-		if ( videoMode && m_VideoPlayer.FrameChanged ) {
-			//Debug.Log("Doing the texture grab thing");
-			m_TestPanel.material.mainTexture = m_VideoPlayer.GetFrame();
 		}
 	}
 
@@ -117,8 +116,6 @@ public class PanoramaViewer : MonoBehaviour {
 	}
 
 	public void ViewVideo() {
-		m_VideoPlayer.LoadVideo("/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4");
-		//m_TestPanel.material.mainTexture = m_VideoPlayer.GetFrame();
 		videoMode = true;
 	}
 
