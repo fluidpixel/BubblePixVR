@@ -1,8 +1,10 @@
 package com.sherif.cardboard3d.bitmaphandler;
 
+import android.content.Context;
 import android.graphics.SurfaceTexture;
-import android.media.MediaPlayer;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Surface;
 
@@ -11,7 +13,7 @@ import java.io.IOException;
 /**
  * Created by Sherif on 04-Jun-15.
  */
-public class VideoPlayer implements SurfaceTexture.OnFrameAvailableListener {
+public class VideoPlayer implements SurfaceTexture.OnFrameAvailableListener, MediaPlayer.OnPreparedListener {
 
 	private static final String TAG = "VideoHandler";
 
@@ -40,33 +42,48 @@ public class VideoPlayer implements SurfaceTexture.OnFrameAvailableListener {
 			return m_Ready;
 		}
 	}
-
-	public VideoPlayer() {
-		m_MediaPlayer = new MediaPlayer();
+	public boolean IsReady() {
+		return m_Ready;
 	}
 
-	public boolean PrepareVideo(String _path, int _texPtr) {
-		m_SurfTex = new SurfaceTexture(_texPtr);
-		m_SurfTex.setOnFrameAvailableListener(this);
+	public VideoPlayer(String _path, Context _cont) {
+		m_MediaPlayer = new MediaPlayer();
+		MediaMetadataRetriever mdr = new MediaMetadataRetriever();
+		mdr.setDataSource(_path);
+		m_Height = Integer.parseInt(mdr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+		m_Width = Integer.parseInt(mdr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+		m_Length = Integer.parseInt(mdr.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+		mdr.release();
+		mdr = null;
 
 		try {
-			m_MediaPlayer.setDataSource(_path);
-			Surface surface = new Surface(m_SurfTex);
-			m_MediaPlayer.setSurface(surface);
-			surface.release();
-
-			m_Height = m_MediaPlayer.getVideoHeight();
-			m_Width = m_MediaPlayer.getVideoWidth();
-			m_Length = m_MediaPlayer.getDuration();
-
-			m_MediaPlayer.prepareAsync();
-			m_Ready = true;
+			Uri uri = Uri.parse(_path);
+			Log.i(TAG, uri.getPath());
+			m_MediaPlayer.setDataSource(_cont, uri);
+			m_MediaPlayer.setOnPreparedListener(this);
 		}
 		catch (IOException e) {
-			Log.e(TAG, "Error loading media from :" + _path + " - Message: " + e.getMessage());
+			Log.e(TAG, "Error setting data source: " + e.getMessage());
+		}
+		m_Ready = true;
+	}
+
+	public void PrepareVideo(int _texPtr) {
+		try {
+			m_SurfTex = new SurfaceTexture(_texPtr);
+			m_SurfTex.setOnFrameAvailableListener(this);
+			Log.i(TAG, "Surface Texture ready");
+			Surface surface = new Surface(m_SurfTex);
+			m_MediaPlayer.setSurface(surface);
+			Log.i(TAG, "Surface Ready");
+			surface.release();
+
+			m_MediaPlayer.prepare();
+		}
+		catch (IOException | IllegalStateException e) {
+			Log.e(TAG, "Error preparing player: " + e.getMessage());
 			m_Ready = false;
 		}
-		return m_Ready;
 	}
 
 	public void StartVideo() {
@@ -94,9 +111,16 @@ public class VideoPlayer implements SurfaceTexture.OnFrameAvailableListener {
 			m_MediaPlayer.stop();
 
 		m_MediaPlayer.release();
+		m_MediaPlayer = null;
 	}
 
 	public void onFrameAvailable(SurfaceTexture _surfaceTex) {
 		m_SurfTex.updateTexImage();
+		_surfaceTex.updateTexImage();
+	}
+
+	public void onPrepared(MediaPlayer _mediaPlayer) {
+		Log.i(TAG, "Media player ready");
+		StartVideo();
 	}
 }

@@ -57,6 +57,21 @@ public class GalleryInterface {
 	public String[] GetGalleryVideoPaths() {
 		List<String> res = new ArrayList<String>();
 
+		String[] proj = null;
+		Cursor cursor = context.getContentResolver().query(MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+				proj, null, null, null);
+
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				do {
+					String path = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+					//File fi = new File(path);
+					res.add(path);
+				} while (cursor.moveToNext());
+			}
+			cursor.close();
+		}
+
 		return res.toArray(new String[res.size()]);
 	}
 
