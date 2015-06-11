@@ -26,7 +26,8 @@ public class VideoPlayer : MonoBehaviour {
 	}
 
 	public void TextureTest() {
-		Test = true;
+		m_Text.text = m_JVInterface.TestJNI();
+		//Test = true;
 	}
 
 	void OnPreRender() { //Stuck the JNI call to video player in here so it's called in the render thread.
@@ -41,7 +42,7 @@ public class VideoPlayer : MonoBehaviour {
 			ptr = m_Frame.GetNativeTexturePtr();
 			PlayVideo();
 		}
-		m_Text.text = m_JVInterface.IsPlaying.ToString() + " " + m_JVInterface.Width + "x" + m_JVInterface.Height; 
+		//m_Text.text = m_JVInterface.IsPlaying.ToString() + " " + m_JVInterface.Width + "x" + m_JVInterface.Height; 
 	}
 
 	void OnPostRender() {

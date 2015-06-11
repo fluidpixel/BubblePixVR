@@ -1,11 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Runtime.InteropServices;
 
 public class JavaVideoInterface : MonoBehaviour {
 	
 	private AndroidJavaObject m_VideoPlayer = null;
 	private AndroidJavaObject m_PathGrabber = null;
 	private AndroidJavaObject m_ActivityContext = null;
+	private AndroidJavaObject m_Tester = null;
+
+	[DllImport ("NDKBridge")]
+	static extern int intFromJNI();
 
 	public int Height {
 		get {
@@ -46,6 +51,17 @@ public class JavaVideoInterface : MonoBehaviour {
 			else
 				return false;
 		}
+	}
+
+	public string TestJNI() {
+		string ret;
+		m_Tester = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.VideoTester" );
+		
+		if (m_Tester != null)
+			ret = m_Tester.Call<string>( "Test" );
+		else
+			ret = "broke";
+		return ret;
 	}
 
 	public string GetVideoPaths() {
