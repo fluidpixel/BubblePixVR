@@ -8,15 +8,18 @@ package com.sherif.cardboard3d.bitmaphandler;
 public class VideoTester {
 
 	public int Test() {
-		return intFromJNI();
+		return 123;
+	}
+
+	public String TestString() {
+		return stringFromJNI();
 	}
 
 	public VideoTester() {
 
 	}
 
-	//private native String stringFromJNI();
-	private native int intFromJNI();
+	public native String stringFromJNI();
 
 	static {
 		System.loadLibrary("NDKBridge");

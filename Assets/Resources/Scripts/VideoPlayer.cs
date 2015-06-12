@@ -26,8 +26,8 @@ public class VideoPlayer : MonoBehaviour {
 	}
 
 	public void TextureTest() {
-		m_Text.text = m_JVInterface.TestJNI();
-		//Test = true;
+		//m_Text.text = m_JVInterface.TestJNI();
+		Test = true;
 	}
 
 	void OnPreRender() { //Stuck the JNI call to video player in here so it's called in the render thread.
@@ -36,20 +36,21 @@ public class VideoPlayer : MonoBehaviour {
 			m_JVInterface.InitPlayer("/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4");
 		}
 		if ( m_JVInterface.IsReady && m_Frame == null ) {
-			m_Frame = new Texture2D( m_JVInterface.Width, m_JVInterface.Height );
+			m_Frame = new Texture2D( 1024, 512 );
 			m_PanoViewer.TestPanel.material.mainTexture = m_Frame;
 			m_JVInterface.PrepareVideo( m_PanoViewer.TestPanel.material.mainTexture.GetNativeTextureID() + 1 );
 			ptr = m_Frame.GetNativeTexturePtr();
 			PlayVideo();
 		}
-		//m_Text.text = m_JVInterface.IsPlaying.ToString() + " " + m_JVInterface.Width + "x" + m_JVInterface.Height; 
-	}
-
-	void OnPostRender() {
 		if ( m_JVInterface.IsPlaying ) {
 			m_Frame.UpdateExternalTexture( ptr );
 			GL.InvalidateState();
 		}
+		m_Text.text = m_JVInterface.IsPlaying.ToString() + " " + m_JVInterface.Width + "x" + m_JVInterface.Height; 
+	}
+
+	void OnPostRender() {
+		
 	}
 
 	public void PlayVideo() {

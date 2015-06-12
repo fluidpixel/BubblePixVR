@@ -54,14 +54,15 @@ public class JavaVideoInterface : MonoBehaviour {
 	}
 
 	public string TestJNI() {
-		string ret;
-		m_Tester = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.VideoTester" );
-		
-		if (m_Tester != null)
-			ret = m_Tester.Call<string>( "Test" );
-		else
-			ret = "broke";
-		return ret;
+		//string ret;
+		//m_Tester = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.VideoTester" );
+		//
+		//if (m_Tester != null)
+		//	ret = m_Tester.Call<string>( "stringFromJNI" );
+		//else
+		//	ret = "broke";
+		//
+		return intFromJNI().ToString();
 	}
 
 	public string GetVideoPaths() {

@@ -1,5 +1,7 @@
 LOCAL_PATH := $(call my-dir)
 
+LOCAL_SHARED_LIBRARIES += liblog
+
 include $(CLEAR_VARS)
 
 LOCAL_MODULE    := NDKBridge

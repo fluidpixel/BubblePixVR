@@ -116,7 +116,7 @@ public class VideoPlayer implements SurfaceTexture.OnFrameAvailableListener, Med
 
 	public void onFrameAvailable(SurfaceTexture _surfaceTex) {
 		m_SurfTex.updateTexImage();
-		_surfaceTex.updateTexImage();
+		//_surfaceTex.updateTexImage();
 	}
 
 	public void onPrepared(MediaPlayer _mediaPlayer) {

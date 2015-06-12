@@ -9,6 +9,7 @@ android {
         targetSdkVersion 22
         ndk {
             moduleName "NDKBridge"
+            ldLibs "log"
         }
     }
     buildTypes {
@@ -20,8 +21,8 @@ android {
 }
 
 dependencies {
-    //compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile fileTree(dir: '/build/intermediates/ndk/release/lib', include: ['*.jar'])
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(dir: '/build/intermediates/ndk/release/lib', include: ['*.so'])
     compile 'com.android.support:appcompat-v7:22.0.0'
 }
 
@@ -41,9 +42,9 @@ task exportJar(type: Copy) {
 }
 
 task exportLibs(type: Copy) {
-    from('/build/intermediates/ndk/release/')
-    into('release/')
-    include('libs/')
+    from('build/intermediates/ndk/release/lib')
+    into('release/libs')
 }
 
-exportJar.dependsOn(deleteOldLibs, exportLibs, deleteOldJar, build)
+exportJar.dependsOn(deleteOldJar, build, exportLibs)
+exportLibs.dependsOn(deleteOldLibs, build)
