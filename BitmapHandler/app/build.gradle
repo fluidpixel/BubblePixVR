@@ -7,10 +7,6 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 22
-        ndk {
-            moduleName "NDKBridge"
-            ldLibs "log"
-        }
     }
     buildTypes {
         release {
@@ -22,12 +18,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile fileTree(dir: '/build/intermediates/ndk/release/lib', include: ['*.so'])
     compile 'com.android.support:appcompat-v7:22.0.0'
-}
-
-task deleteOldLibs(type: Delete) {
-    delete 'release/libs/'
 }
 
 task deleteOldJar(type: Delete) {
@@ -41,10 +32,4 @@ task exportJar(type: Copy) {
     rename('classes.jar', 'BitmapResizer.jar')
 }
 
-task exportLibs(type: Copy) {
-    from('build/intermediates/ndk/release/lib')
-    into('release/libs')
-}
-
-exportJar.dependsOn(deleteOldJar, build, exportLibs)
-exportLibs.dependsOn(deleteOldLibs, build)
+exportJar.dependsOn(deleteOldJar, build)

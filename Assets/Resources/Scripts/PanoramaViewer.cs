@@ -32,12 +32,9 @@ public class PanoramaViewer : MonoBehaviour {
 	[SerializeField]
 	private GameObject m_PanoButtons;
 
-	[SerializeField]
-	private VideoPlayer m_VideoPlayer;
-
 	private bool m_IsCylinder = true;
 	private bool isMoving = false;
-	private bool videoMode = false;
+	//private bool videoMode = false;
 	private MeshRenderer m_ActiveMesh;
 	private Vector3 m_Target;
 
@@ -116,7 +113,7 @@ public class PanoramaViewer : MonoBehaviour {
 	}
 
 	public void ViewVideo() {
-		videoMode = true;
+		//videoMode = true;
 	}
 
 	public void ExitPanorama() 
