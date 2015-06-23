@@ -7,33 +7,14 @@ public class VideoPlayer : MonoBehaviour {
 
 	#region DllImports
 
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern void SetTimeFromUnity( float _t );
+	[DllImport ("NativeRenderPlugin")]
+	private static extern void SetTimeFromUnity(float _t);
 
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern void SetTextureFromUnity( System.IntPtr _texPtr );
+	[DllImport ("NativeRenderPlugin")]
+	private static extern void SetTexFromUnity(System.IntPtr _texPtr, int _width, int _height);
 
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern int InitNativeVideo( char[] _fName );
-
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern void DestroyPlayer();
-
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern int Width();
-
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern int Height();
-
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern int Duration();
-
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern int FrameRate();
-
-	[DllImport( "NativeMediaPlayer" )]
-	private static extern int DecodeFrame();
-
+	[DllImport ("NativeMediaPlayer")]
+	private static extern int InitNativeVideo( char[] _fname );
 	#endregion
 
 	public struct VideoInfo {
@@ -54,36 +35,27 @@ public class VideoPlayer : MonoBehaviour {
 	 * 2.	Set texture from unity
 	 * 3.	DecodeFrame()
 	 * 4.	Set playing to true
-	 * 
 	 */
 
 	void Start() {
-		//char[] str = ("/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4").ToCharArray();
-		//int res = InitNativeVideo( str );
-		//if ( res != 0 ) {
-		//	Debug.Log("Error with initialising native video plugin. Err Code: " + res.ToString());
-		//}
-
 		Texture2D tex = new Texture2D(255, 255, TextureFormat.ARGB32, false);
 		tex.filterMode = FilterMode.Point;
 		tex.Apply();
+		string hello = "hello";
+
+		InitNativeVideo(hello.ToCharArray());
 
 		m_Mesh.material.mainTexture = tex;
+		
+		SetTexFromUnity(tex.GetNativeTexturePtr(), 255, 255);
+	}
 
-		SetTextureFromUnity(tex.GetNativeTexturePtr());
-		//DecodeFrame();
+	void OnPreRender() {
+		
+		SetTimeFromUnity( Time.timeSinceLevelLoad );
+	
+		GL.IssuePluginEvent( 1 );
 		m_Playing = true;
-		StartCoroutine(CallPluginAtEOF());
+		
 	}
-
-	private IEnumerator CallPluginAtEOF() {
-		while ( m_Playing ) {
-			yield return new WaitForEndOfFrame();
-
-			SetTimeFromUnity(Time.timeSinceLevelLoad);
-
-			GL.IssuePluginEvent(1);
-		}
-	}
-
 }
