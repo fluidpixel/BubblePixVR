@@ -15,6 +15,13 @@ public class VideoPlayer : MonoBehaviour {
 
 	[DllImport ("NativeMediaPlayer")]
 	private static extern int InitNativeVideo( char[] _fname );
+
+	[DllImport ("NativeMediaPlayer")]
+	private static extern int Init();
+
+	[DllImport ("NativeMediaPlayer")]
+	private static extern int DecodeFrame();
+
 	#endregion
 
 	public struct VideoInfo {
@@ -41,7 +48,7 @@ public class VideoPlayer : MonoBehaviour {
 		Texture2D tex = new Texture2D(255, 255, TextureFormat.ARGB32, false);
 		tex.filterMode = FilterMode.Point;
 		tex.Apply();
-		string hello = "hello";
+		string hello = "/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4";
 
 		InitNativeVideo(hello.ToCharArray());
 
@@ -50,12 +57,16 @@ public class VideoPlayer : MonoBehaviour {
 		SetTexFromUnity(tex.GetNativeTexturePtr(), 255, 255);
 	}
 
+	void Update() {
+		if ( Init() == 1 && !m_Playing) {
+			m_Playing = true;
+			DecodeFrame();
+		}
+	}
+
 	void OnPreRender() {
-		
 		SetTimeFromUnity( Time.timeSinceLevelLoad );
 	
-		GL.IssuePluginEvent( 1 );
-		m_Playing = true;
-		
+		GL.IssuePluginEvent( 1 );		
 	}
 }
