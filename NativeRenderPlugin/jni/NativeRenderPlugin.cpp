@@ -12,6 +12,7 @@
 
 #include <jni.h>
 #include "GLContainer.cpp"
+#include "FFContainer.cpp"
 
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	LOGD("JNI attached.");
@@ -26,6 +27,4 @@ extern "C" void EXPORT_API UnitySetGraphicsDevice (void* _device, int _deviceTyp
 
 extern "C" void EXPORT_API UnityRenderEvent(int _eventID);
 
-extern "C" void Test() {
-	__android_log_print(ANDROID_LOG_ERROR, "TEST", "WORKS!");
-}
+extern "C" int InitNativeVideo(char _fname[]);

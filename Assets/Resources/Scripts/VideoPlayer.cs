@@ -7,20 +7,14 @@ public class VideoPlayer : MonoBehaviour {
 
 	#region DllImports
 
-	[DllImport ("NativeRenderPlugin")]
+	[DllImport ("NativeMediaPlayer")]
 	private static extern void SetTimeFromUnity(float _t);
 
-	[DllImport ("NativeRenderPlugin")]
+	[DllImport ("NativeMediaPlayer")]
 	private static extern void SetTexFromUnity(System.IntPtr _texPtr, int _width, int _height);
 
 	[DllImport ("NativeMediaPlayer")]
-	private static extern int InitNativeVideo( char[] _fname );
-
-	[DllImport ("NativeMediaPlayer")]
-	private static extern int Init();
-
-	[DllImport ("NativeMediaPlayer")]
-	private static extern int DecodeFrame();
+	private static extern int PlayVideo( string _fname );
 
 	#endregion
 
@@ -45,28 +39,31 @@ public class VideoPlayer : MonoBehaviour {
 	 */
 
 	void Start() {
-		Texture2D tex = new Texture2D(255, 255, TextureFormat.ARGB32, false);
-		tex.filterMode = FilterMode.Point;
-		tex.Apply();
-		string hello = "/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4";
-
-		InitNativeVideo(hello.ToCharArray());
-
-		m_Mesh.material.mainTexture = tex;
-		
-		SetTexFromUnity(tex.GetNativeTexturePtr(), 255, 255);
+		StartCoroutine(WaitATick());
 	}
 
 	void Update() {
-		if ( Init() == 1 && !m_Playing) {
-			m_Playing = true;
-			DecodeFrame();
-		}
+		
 	}
 
 	void OnPreRender() {
 		SetTimeFromUnity( Time.timeSinceLevelLoad );
 	
 		GL.IssuePluginEvent( 1 );		
+	}
+
+	private IEnumerator WaitATick() {
+		yield return new WaitForSeconds( 3 );
+		Texture2D tex = new Texture2D( 255, 255, TextureFormat.ARGB32, false );
+		tex.filterMode = FilterMode.Point;
+		tex.Apply();
+
+		m_Mesh.material.mainTexture = tex;
+
+		SetTexFromUnity( tex.GetNativeTexturePtr(), 255, 255 );
+
+		string hello = "/storage/emulated/0/DCIM/Camera/VID_20150528_144533.mp4";
+
+		PlayVideo( hello );
 	}
 }
