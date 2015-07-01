@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: SortButton
-  m_Shader: {fileID: 4800000, guid: 7c17f7ab77ae8884a8520edc1be47cc1, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9e2184013a24dc84b912858b7874bc6c, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -27,7 +27,11 @@ Material:
           m_Texture: {fileID: 2800000, guid: ea0269b28f7dd4448ac7d38eac5c9af7, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-    m_Floats: {}
+    m_Floats:
+      data:
+        first:
+          name: _isActive
+        second: 0
     m_Colors:
       data:
         first:

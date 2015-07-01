@@ -39,6 +39,10 @@ Material:
         first:
           name: _Shininess
         second: .078125
+      data:
+        first:
+          name: _isActive
+        second: 0
     m_Colors:
       data:
         first:

@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: NavButton
-  m_Shader: {fileID: 4800000, guid: 7c17f7ab77ae8884a8520edc1be47cc1, type: 3}
+  m_Shader: {fileID: 4800000, guid: 9e2184013a24dc84b912858b7874bc6c, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:

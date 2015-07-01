@@ -34,6 +34,12 @@ public class AppController : MonoBehaviour {
 	[SerializeField]
 	private CardboardHead m_Head;
 
+	[SerializeField]
+	private ProximityDetector m_ProximityDetector;
+
+	[SerializeField]
+	private FPSCounter m_FPSCounter;
+
 	public FileHandler FH {
 		get { return m_FileHandler; }
 	}
@@ -58,6 +64,8 @@ public class AppController : MonoBehaviour {
 
 	private AppState m_State = AppState.Browser;
 	private bool focusLost = false;
+	private float faceTime = 0.0f;
+	bool facePhone = false;
 
 	void Start() {
 		MenuToBrowser();
@@ -65,6 +73,8 @@ public class AppController : MonoBehaviour {
 	}
 
 	void Update() {
+		m_FPSCounter.SetFrames(m_ProximityDetector.Distance.ToString());
+
 		if ( Input.GetKeyDown( KeyCode.Escape ) ) {
 			if ( m_State == AppState.Browser ) {
 				Application.Quit();
@@ -76,8 +86,11 @@ public class AppController : MonoBehaviour {
 			}
 		}
 		if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
-			VrMode();
+			facePhone = !facePhone;
 		}
+
+		if (m_ProximityDetector.Distance != -1.0f)
+			CheckIfViewer();
 	}
 
 	void OnApplicationFocus( bool _focus ) {
@@ -133,5 +146,26 @@ public class AppController : MonoBehaviour {
 			m_ThumbBrowser.To3DView();
 		}
 		m_Cardboard.ToggleVRMode();
+	}
+
+	private void CheckIfViewer() {
+		if ( m_ProximityDetector.Distance < 1.0f ) {
+			facePhone = true;
+		}
+		else {
+			facePhone = false;
+		}
+
+		if ( facePhone != VRMode ) {
+			faceTime += Time.deltaTime;
+		}
+		else {
+			faceTime = 0.0f;
+		}
+
+		if ( faceTime >= 2.0f ) {
+			VrMode();
+			faceTime = 0.0f;
+		}
 	}
 }

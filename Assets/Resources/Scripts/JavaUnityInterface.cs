@@ -10,7 +10,6 @@ public class JavaUnityInterface : MonoBehaviour {
 	private AndroidJavaObject m_ActivityContext = null;
 	private AndroidJavaObject m_GalleryPathGrabber = null;
 	
-
 	private byte[] m_ImageBytes;
 	private int m_Width, m_Height, m_StartWidth, m_StartHeight;
 	private string m_Country, m_Date;
