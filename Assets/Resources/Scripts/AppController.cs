@@ -69,7 +69,6 @@ public class AppController : MonoBehaviour {
 
 	void Start() {
 		MenuToBrowser();
-		VrMode();
 	}
 
 	void Update() {
@@ -86,7 +85,7 @@ public class AppController : MonoBehaviour {
 			}
 		}
 		if ( Input.GetKeyDown( KeyCode.Alpha3 ) ) {
-			facePhone = !facePhone;
+			VrMode();
 		}
 
 		if (m_ProximityDetector.Distance != -1.0f)

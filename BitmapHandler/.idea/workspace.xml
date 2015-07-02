@@ -2,33 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf09fb5-bb3e-4943-93e1-887f7a4ca759" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/ProximityChecker.java" />
-      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\src\main\java\com\sherif\cardboard3d\bitmaphandler\VideoPlayer.java" afterPath="" />
-      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\src\main\java\com\sherif\cardboard3d\bitmaphandler\VideoTester.java" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar" afterPath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/release/BitmapResizer.jar" afterPath="$PROJECT_DIR$/app/release/BitmapResizer.jar" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/AppController.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/AppController.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/BackButton.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/BackButton.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar.meta" afterPath="$PROJECT_DIR$/../Assets/Plugins/Android/BitmapResizer.jar.meta" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/CalendarIcon.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/CalendarIcon.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Prefabs/CardboardMain.prefab" afterPath="$PROJECT_DIR$/../Assets/Resources/Prefabs/CardboardMain.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/FPSCounter.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/FPSCounter.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/GalleryThumb.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/GalleryThumb.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/GlobeIcon.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/GlobeIcon.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/JavaUnityInterface.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/JavaUnityInterface.cs" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/NavButton.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/NavButton.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/PhotoVideoToggle.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/PhotoVideoToggle.mat" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Shaders/PlasmaEffect.shader" afterPath="$PROJECT_DIR$/../Assets/Resources/Shaders/PlasmaEffect.shader" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/SortButton.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/SortButton.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/SortButtonFlipped.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/SortButtonFlipped.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Prefabs/ThumbBrowser.prefab" afterPath="$PROJECT_DIR$/../Assets/Resources/Prefabs/ThumbBrowser.prefab" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Materials/VRModeButton.mat" afterPath="$PROJECT_DIR$/../Assets/Resources/Materials/VRModeButton.mat" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Scenes/Wall.unity" afterPath="$PROJECT_DIR$/../Assets/Scenes/Wall.unity" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BitmapHandler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -2060,7 +2034,7 @@
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912844" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25688073" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25688073" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32912844" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />

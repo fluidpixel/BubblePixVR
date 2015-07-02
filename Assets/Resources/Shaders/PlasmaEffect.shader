@@ -20,8 +20,6 @@
 			uniform sampler2D _BorderTex;
 			uniform fixed4 _Color;
 
-		
-
 			struct v2f {
 				float4 pos : SV_POSITION;
 				float2 uv : TEXCOORD0;
@@ -70,10 +68,14 @@
 					fragColor.a = 0.0f;
 				}
 				
-				return fragColor;
+				//Sobel filter to provide edge highlights
+
+
+
+				return fragColor ;
 			}
 			ENDCG
 		}
 	} 
-	//Fallback "Transparent/VertexLit"
+	Fallback "Transparent/VertexLit"
 }
