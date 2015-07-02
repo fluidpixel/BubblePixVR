@@ -37,9 +37,6 @@ public class AppController : MonoBehaviour {
 	[SerializeField]
 	private ProximityDetector m_ProximityDetector;
 
-	[SerializeField]
-	private FPSCounter m_FPSCounter;
-
 	public FileHandler FH {
 		get { return m_FileHandler; }
 	}
@@ -69,11 +66,10 @@ public class AppController : MonoBehaviour {
 
 	void Start() {
 		MenuToBrowser();
+		VrMode();
 	}
 
 	void Update() {
-		m_FPSCounter.SetFrames(m_ProximityDetector.Distance.ToString());
-
 		if ( Input.GetKeyDown( KeyCode.Escape ) ) {
 			if ( m_State == AppState.Browser ) {
 				Application.Quit();

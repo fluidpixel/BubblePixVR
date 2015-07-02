@@ -10,14 +10,10 @@ public class FPSCounter : MonoBehaviour {
 	
 	float deltaTime = 0.0f;
 
-	public void SetFrames(string _arg) {
-		m_Text.text = _arg;
-	}
-
 	void Update() {
-		//deltaTime += ( Time.deltaTime - deltaTime ) * 0.1f;
-		//float fps = 1.0f / deltaTime;
-		//m_Text.text = ((int)fps).ToString();
+		deltaTime += ( Time.deltaTime - deltaTime ) * 0.1f;
+		float fps = 1.0f / deltaTime;
+		m_Text.text = "FPS: " + ((int)fps).ToString();
 	}
 
 	//void OnGUI() {

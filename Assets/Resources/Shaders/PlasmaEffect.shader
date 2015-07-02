@@ -3,7 +3,8 @@
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_BorderTex("Border Texture", 2D) = "white" {}
-		_isActive("is Active", Int) = 0
+		_TexHeight("Texture Height", Int) = 0
+		_TexWidth("Texture Width", Int) = 0 
 	}
 	SubShader {
 		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
@@ -19,6 +20,8 @@
 			uniform sampler2D _MainTex;
 			uniform sampler2D _BorderTex;
 			uniform fixed4 _Color;
+			uniform int _TexHeight;
+			uniform int _TexWidth;
 
 			struct v2f {
 				float4 pos : SV_POSITION;
@@ -68,10 +71,6 @@
 					fragColor.a = 0.0f;
 				}
 				
-				//Sobel filter to provide edge highlights
-
-
-
 				return fragColor ;
 			}
 			ENDCG

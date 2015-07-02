@@ -31,7 +31,7 @@ Material:
         first:
           name: _BorderTex
         second:
-          m_Texture: {fileID: 2800000, guid: 5a996084be4287e498448343e02a850a, type: 3}
+          m_Texture: {fileID: 2800000, guid: 44357d749f3beb642aec68f1398a5d34, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -43,6 +43,14 @@ Material:
         first:
           name: _isActive
         second: 0
+      data:
+        first:
+          name: _TexHeight
+        second: 256
+      data:
+        first:
+          name: _TexWidth
+        second: 512
     m_Colors:
       data:
         first:

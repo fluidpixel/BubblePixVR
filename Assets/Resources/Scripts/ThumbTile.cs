@@ -83,7 +83,7 @@ public class ThumbTile : MonoBehaviour {
 		m_Text.color = textColor;
 		m_LargeText.color = textColor;
 
-		if ( pos.x < 2.5f && pos.x > -2.5f ) {
+		if ( pos.x < 2.5f && pos.x > -2.5f && pos.y < 2.0f && pos.y > -0.3f ) {
 			m_Selectable = true;
 		}
 		else {
