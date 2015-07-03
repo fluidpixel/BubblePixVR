@@ -68,7 +68,7 @@
 				float4 border = tex2D (_BorderTex, i.uv);
 				
 				if (border.r < 0.5f) {
-					fragColor.a = 0.0f;
+					fragColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 				}
 				
 				return fragColor ;
