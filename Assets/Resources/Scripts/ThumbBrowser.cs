@@ -95,6 +95,9 @@ public class ThumbBrowser : MonoBehaviour {
 	private float m_AccInc = 1.5f;
 	private float m_xVelocity = 0.0f;
 	private float m_MinVelocity = 0.1f;
+	private float m_GlobeButtonPosx = -1.8f;
+	private float m_CalendarButtonPosx = -3.36f;
+	private float m_SortOrderPosx = 4.9f;
 	private Texture2D m_PhotoTex, m_VideoTex, m_3DTex, m_2DTex;
 
 	#endregion
@@ -104,17 +107,22 @@ public class ThumbBrowser : MonoBehaviour {
 #region MonoBehaviour Overrides
 
 	void Start() {
-		m_VideoToggle.material.color = m_ScrollColor;
-		m_VRModeButton.material.color = m_ScrollColor;
 		m_PhotoTex = Resources.Load( "Textures/Picture" ) as Texture2D;
 		m_VideoTex = Resources.Load( "Textures/Video" ) as Texture2D;
 		m_3DTex = Resources.Load( "Textures/3dmodeButton" ) as Texture2D;
 		m_2DTex = Resources.Load( "Textures/2dmodeButton" ) as Texture2D;
 		m_VideoToggle.material.SetTexture( "_BorderTex", m_PhotoTex );
 		m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
-		m_SortButton.material.color = m_ScrollColor;
-		m_GlobeIcon.material.color = m_ScrollColor;
-		m_CalendarIcon.material.color = m_ScrollColor;
+		//Set all the things to a color.
+		m_LeftScroll.material.color = 
+		m_RightScroll.material.color = 
+		m_TopScroll.material.color = 
+		m_BotScroll.material.color = 
+		m_SortButton.material.color = 
+		m_GlobeIcon.material.color = 
+		m_CalendarIcon.material.color =
+		m_VideoToggle.material.color = 
+		m_VRModeButton.material.color = m_ScrollColor;
 	}
 
 	void Update() {
@@ -161,17 +169,12 @@ public class ThumbBrowser : MonoBehaviour {
 
 #endregion
 
-#region Public Methods
+#region Transition Methods
 
 	public void ViewBrowser() {
 		this.gameObject.SetActive( true );
 		PopThumbs();
 	}
-
-	public void ReturnToBrowser() {
-		this.gameObject.SetActive( true );
-	}
-
 	public void RefreshBrowser() {
 		foreach ( ThumbTile thumb in m_Thumbs ) {
 			DestroyObject( thumb.gameObject );
@@ -189,31 +192,54 @@ public class ThumbBrowser : MonoBehaviour {
 		m_Thumbs.Clear();
 		PopThumbs();
 	}
-
-	public void ViewImage() {
-		this.gameObject.SetActive( false );
-	}
-
 	public void To2DView() {
+		StopAllCoroutines();
 		//move sorting buttons up/move thumb browser back
 		StartCoroutine( MoveBrowser( true ) );
+		StartCoroutine( MoveSortButtons( true ) );
 		//Hide scrolling buttons
 		EnableVerticalTriggers( false );
 		EnableHorizontalTriggers( false );
 	}
-
 	public void To3DView() {
+		StopAllCoroutines();
 		StartCoroutine( MoveBrowser( false ) );
+		StartCoroutine( MoveSortButtons( false ) );
 		EnableHorizontalTriggers( true );
 
 		if ( m_Sorting != SortingType.None )
 			EnableVerticalTriggers( true );
 	}
+	private IEnumerator MoveSortButtons( bool _inwards ) {
+		float target = 2.15f;
 
-	public void DeselectThumbs() {
-		foreach ( ThumbTile TT in m_Thumbs ) {
-			TT.DeClicked();
+		Vector3 globeTarget, calendarTarget, sortTarget;
+
+		float diff = ( m_GlobeButtonPosx - m_GlobeIcon.transform.localPosition.x ) + ( m_CalendarButtonPosx - m_CalendarIcon.transform.localPosition.x ) + ( m_SortOrderPosx - m_SortButton.transform.localPosition.x );
+
+		if ( _inwards ) { //Check if it should be moving inwards
+			globeTarget = new Vector3( m_GlobeButtonPosx + target, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
+			calendarTarget = new Vector3( m_CalendarButtonPosx + target, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
+			sortTarget = new Vector3( m_SortOrderPosx - target, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
 		}
+		else { //Should it move outwards?
+			globeTarget = new Vector3( m_GlobeButtonPosx, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
+			calendarTarget = new Vector3( m_CalendarButtonPosx, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
+			sortTarget = new Vector3( m_SortOrderPosx, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
+		}
+
+		float time = 2.0f * Time.deltaTime;
+
+		while ( Vector3.Distance( m_SortButton.transform.localPosition, sortTarget ) > 0.05f ) {
+			m_GlobeIcon.gameObject.transform.localPosition = Vector3.Lerp( m_GlobeIcon.transform.localPosition, globeTarget, time );
+			m_CalendarIcon.transform.localPosition = Vector3.Lerp( m_CalendarIcon.transform.localPosition, calendarTarget, time );
+			m_SortButton.transform.localPosition = Vector3.Lerp( m_SortButton.transform.localPosition, sortTarget, time );
+			yield return null;
+		}
+		m_GlobeIcon.gameObject.transform.localPosition = globeTarget;
+		m_CalendarIcon.gameObject.transform.localPosition = calendarTarget;
+		m_SortButton.gameObject.transform.localPosition = sortTarget;
+		
 	}
 
 #endregion
@@ -222,19 +248,15 @@ public class ThumbBrowser : MonoBehaviour {
 
 	public void LeftTrigHover() {
 		m_LeftScroll.material.color = m_ScrollColorHover;
-		moveRight = true;
 	}
 	public void RightTrigHover() {
 		m_RightScroll.material.color = m_ScrollColorHover;
-		moveLeft = true;
 	}
 	public void TopTrigHover() {
 		m_TopScroll.material.color = m_ScrollColorHover;
-		moveUp = true;
 	}
 	public void BotTrigHover() {
 		m_BotScroll.material.color = m_ScrollColorHover;
-		moveDown = true;
 	}
 	public void PVToggleHover() {
 		m_VideoToggle.material.color = m_ScrollColorHover;
@@ -368,11 +390,41 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 	}
 
+	//SET THE COLORS TO CHANGE
+
+	public void LeftTrigClicked() {
+		moveRight = !moveRight;
+		if (moveRight)
+			m_LeftScroll.material.color = m_ActiveButtonColorHover;
+		else
+			m_LeftScroll.material.color = m_ScrollColorHover;
+	}
+	public void RightTrigClicked() {
+		moveLeft = !moveLeft;
+		if ( moveLeft )
+			m_RightScroll.material.color = m_ActiveButtonColorHover;
+		else
+			m_RightScroll.material.color = m_ScrollColorHover;
+	}
+	public void TopTrigClicked() {
+		moveUp = !moveUp;
+		if (moveUp)
+			m_TopScroll.material.color = m_ActiveButtonColorHover;
+		else
+			m_TopScroll.material.color = m_ScrollColorHover;
+	}
+	public void BotTrigClicked() {
+		moveDown = !moveDown;
+		if ( moveDown )
+			m_BotScroll.material.color = m_ActiveButtonColorHover;
+		else
+			m_BotScroll.material.color = m_ScrollColorHover;
+	}
+
+
 #endregion
 
-#region Private Methods
-
-	#region Private - Sorting Methods
+#region Sorting Methods
 
 	private void SortDates() {
 		Vector3 pos = m_ThumbAnchor.transform.localPosition;
@@ -396,7 +448,7 @@ public class ThumbBrowser : MonoBehaviour {
 			m_Countries.Sort( ( a, b ) => b.CompareTo( a ) );
 		}
 	}
-	private void PopThumbs() {
+	public void PopThumbs() {
 		FileHandler.Thumbnail[] thumbs = m_AppController.FH.GetThumbs();
 		float x = 0;
 		float y = ySpacing - 0.3f;
@@ -555,8 +607,22 @@ public class ThumbBrowser : MonoBehaviour {
 
 	#endregion
 
-	#region Private - Carousel Motion Methods
+#region Carousel Motion Methods
 
+	public void SweepToCentre( GameObject _tileToMove ) {
+		StopAllCoroutines();
+		Vector3 targetPos = m_ThumbAnchor.transform.position - new Vector3( _tileToMove.transform.position.x, 0.0f, 0.0f );
+		StartCoroutine( SweepOverTime( _tileToMove, targetPos ) );
+	}
+	private IEnumerator SweepOverTime( GameObject _tileToMove, Vector3 _targetPos ) {
+		
+		while ( Mathf.Abs( _tileToMove.transform.position.x ) > 0.1f ) { //Current position of tile is not 0
+			
+			m_ThumbAnchor.transform.position = Vector3.Lerp( m_ThumbAnchor.transform.position, _targetPos, Time.deltaTime);
+
+			yield return null;
+		}
+	}
 	private void GetActiveColumn() {
 		m_ActiveColumn = -1;
 		for ( int i = 0; i < m_ColumnAnchors.Count; i++ ) {
@@ -726,8 +792,13 @@ public class ThumbBrowser : MonoBehaviour {
 
 	#endregion
 
-	#region Private - Misc Methods
+#region Misc Methods
 
+	public void DeselectThumbs() {
+		foreach ( ThumbTile TT in m_Thumbs ) {
+			TT.DeClicked();
+		}
+	}
 	private IEnumerator MoveBrowser( bool _away ) {
 		Vector3 target;
 		if ( _away ) {
@@ -787,8 +858,6 @@ public class ThumbBrowser : MonoBehaviour {
 		m_RightScroll.gameObject.SetActive( _arg );
 		m_LeftScroll.gameObject.SetActive( _arg );
 	}
-
-	#endregion
 
 #endregion
 

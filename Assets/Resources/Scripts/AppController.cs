@@ -109,14 +109,15 @@ public class AppController : MonoBehaviour {
 		m_State = AppState.Browser;
 
 		m_PanoViewer.gameObject.SetActive( true );
-		m_ThumbBrowser.ViewBrowser();
+		m_ThumbBrowser.gameObject.SetActive( true );
+		m_ThumbBrowser.PopThumbs();
 		m_PanoViewer.SetCapActive( true );
 	}
 
 	public void BrowserToPano( ThumbTile _tile ) {
 		m_State = AppState.Viewer;
 
-		m_ThumbBrowser.ViewImage();
+		m_ThumbBrowser.gameObject.SetActive( false );
 		m_PanoViewer.ViewPanorama( m_FileHandler.TexFromThumb( _tile.Image ) );
 		m_CameraController.BrowserButtonActive( true );
 	}
@@ -125,7 +126,7 @@ public class AppController : MonoBehaviour {
 		m_State = AppState.Browser;
 
 		m_PanoViewer.ExitPanorama();
-		m_ThumbBrowser.ReturnToBrowser();
+		m_ThumbBrowser.gameObject.SetActive( true );
 		m_CameraController.BrowserButtonActive( false );
 	}
 

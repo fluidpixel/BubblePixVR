@@ -53,7 +53,7 @@
 				v += sin(sqrt(c.x * c.x + c.y * c.y +1.0) + time);
 				v *= 0.5f;
 				
-				float rgb = sin( v * 5 * pi);
+				float rgb = sin(v * 5 * pi);
 				
 				float4 wave = float4(rgb, rgb, rgb, 1.0f);
 				

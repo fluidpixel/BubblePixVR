@@ -54,7 +54,7 @@ public class ThumbTile : MonoBehaviour {
 
 		Vector3 pos = m_Mesh.gameObject.transform.position;
 
-		float xdist = (Mathf.Abs( pos.x ) - 2.0f) * 0.5f;
+		float xdist = ( Mathf.Abs( pos.x ) - 2.0f ) * 0.1f;
 		float ydist = Mathf.Abs( pos.y - 0.93f ) - 1.0f;
 
 		Vector4 color = m_Mesh.material.color;
@@ -89,7 +89,7 @@ public class ThumbTile : MonoBehaviour {
 		else {
 			m_Selectable = false;
 			m_Clicked = false;
-			m_Selected = false;
+			//m_Selected = false;
 		}
 	}
 
@@ -137,6 +137,9 @@ public class ThumbTile : MonoBehaviour {
 		else if ( m_Selected ) {
 			DeSelected();
 			m_AppController.BrowserToPano( this );
+		}
+		else if ( !m_Selectable ) {
+			m_AppController.TB.SweepToCentre(this.gameObject);
 		}
 	}
 

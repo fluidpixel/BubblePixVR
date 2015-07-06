@@ -21,7 +21,7 @@ public class TextPanel : MonoBehaviour {
 	void Update() {
 		Vector3 pos = gameObject.transform.position;
 
-		float dist = Mathf.Clamp( Mathf.Abs( pos.x ) * 0.3f, 0.0f, 1.0f );
+		float dist = Mathf.Clamp( ( Mathf.Abs( pos.x ) - 2.0f ) * 0.1f, 0.0f, 1.0f );
 
 		Vector4 color = m_TextMesh.color;
 		Vector4 panelColor = m_Panel.renderer.material.color;

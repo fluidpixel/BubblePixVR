@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: NavButton
+  m_Name: ScrollSquare
   m_Shader: {fileID: 4800000, guid: 9e2184013a24dc84b912858b7874bc6c, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
@@ -22,41 +22,22 @@ Material:
           m_Offset: {x: 0, y: 0}
       data:
         first:
-          name: _BumpMap
-        second:
-          m_Texture: {fileID: 0}
-          m_Scale: {x: 1, y: 1}
-          m_Offset: {x: 0, y: 0}
-      data:
-        first:
           name: _BorderTex
         second:
-          m_Texture: {fileID: 2800000, guid: 44357d749f3beb642aec68f1398a5d34, type: 3}
+          m_Texture: {fileID: 2800000, guid: 5a996084be4287e498448343e02a850a, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
-          name: _isActive
+          name: _TexHeight
         second: 0
       data:
         first:
-          name: _TexHeight
-        second: 256
-      data:
-        first:
           name: _TexWidth
-        second: 512
-      data:
-        first:
-          name: _Shininess
-        second: .078125
+        second: 0
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .436580896, g: .476863593, b: .625, a: .274509817}
-      data:
-        first:
-          name: _SpecColor
-        second: {r: .5, g: .5, b: .5, a: 1}
+        second: {r: .435294122, g: .478431374, b: .623529434, a: .274509817}
