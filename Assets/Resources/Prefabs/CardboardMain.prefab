@@ -88,6 +88,7 @@ GameObject:
   - 114: {fileID: 11471044}
   - 114: {fileID: 11471042}
   - 114: {fileID: 11421194}
+  - 114: {fileID: 11465024}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -217,7 +218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &171066
 GameObject:
   m_ObjectHideFlags: 1
@@ -359,7 +360,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_HDR: 0
-  m_OcclusionCulling: 0
+  m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
 --- !u!20 &2071032
@@ -423,7 +424,7 @@ Camera:
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_HDR: 0
-  m_OcclusionCulling: 0
+  m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: .0219999999
 --- !u!23 &2371030
@@ -438,7 +439,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 9eda0932f25ae41a891d5e59269420a0, type: 2}
+  - {fileID: 2100000, guid: 2836bc3b729088e488c8b44e8161a917, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -522,11 +523,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97b4768c3683045e4bfdb2e78272970c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  threshhold: .202999994
-  intensity: .400000006
-  blurSize: 5.5
-  resolution: 1
-  blurIterations: 4
+  threshhold: .129999995
+  intensity: .300000012
+  blurSize: 3
+  resolution: 0
+  blurIterations: 3
   blurType: 1
   fastBloomShader: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
 --- !u!114 &11444392
@@ -603,6 +604,32 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &11465024
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9aaa3f5f2d574f228e4a21aa38b61e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mode: 1
+  showGeneratedNormals: 0
+  offsetScale: .200000003
+  blurRadius: 18
+  edgeThresholdMin: .0500000007
+  edgeThreshold: .400000006
+  edgeSharpness: 4
+  dlaaSharp: 0
+  ssaaShader: {fileID: 4800000, guid: b3728d1488b02490cbd196c7941bf1f8, type: 3}
+  dlaaShader: {fileID: 4800000, guid: 017ca72b9e8a749058d13ebd527e98fa, type: 3}
+  nfaaShader: {fileID: 4800000, guid: ce0cb2621f6d84e21a87414e471a3cce, type: 3}
+  shaderFXAAPreset2: {fileID: 4800000, guid: 6f1418cffd12146f2a83be795f6fa5a7, type: 3}
+  shaderFXAAPreset3: {fileID: 4800000, guid: c182fa94a5a0a4c02870641efcd38cd5, type: 3}
+  shaderFXAAII: {fileID: 4800000, guid: cd5b323dcc592457790ff18b528f5e67, type: 3}
+  shaderFXAAIII: {fileID: 4800000, guid: c547503fff0e8482ea5793727057041c, type: 3}
 --- !u!114 &11471034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -743,14 +770,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6788e8e1b3f7447db6657ef0959d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directRender: 1
+  directRender: 0
   stereoMultiplier: 1
-  matchMonoFOV: 0
+  matchMonoFOV: .5
   matchByZoom: 0
   centerOfInterest: {fileID: 0}
   radiusOfInterest: 0
   checkStereoComfort: 1
-  screenParallax: 0
+  screenParallax: .5
   stereoPaddingX: 0
   stereoPaddingY: 0
 --- !u!114 &11471048
@@ -800,18 +827,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a40b544b8c3553c40852ae7ad35a9343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nativeDistortionCorrection: 0
+  distortionCorrection: 1
   vrModeEnabled: 1
   enableAlignmentMarker: 1
-  enableSettingsButton: 0
-  tapIsTrigger: 1
+  enableSettingsButton: 1
+  TapIsTrigger: 1
   neckModelScale: 1
-  backButtonExitsApp: 1
   autoDriftCorrection: 1
   autoUntiltHead: 1
+  simulateDistortionCorrection: 1
+  UseUnityRemoteInput: 0
   screenSize: 0
   deviceType: 0
-  simulateDistortionCorrection: 1
 --- !u!114 &11471062
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1118,7 +1145,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 0, y: 56.9000015}
+  m_AnchoredPosition: {x: 0, y: 72.3000031}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: .5, y: .5}
 --- !u!224 &22471034

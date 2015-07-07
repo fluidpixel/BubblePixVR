@@ -65,12 +65,18 @@
 				else {
 					fragColor *= _Color;
 				}
-				float4 border = tex2D (_BorderTex, i.uv);
+				float4 image = tex2D (_BorderTex, i.uv);
 				
-				if (border.r < 0.5f) {
+				if (image.r < 0.5f) {
 					fragColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 				}
 				
+				float4 border = tex2D(_MainTex, i.uv);
+
+				if (border.r < 0.5f) {
+					fragColor.a = 0.0f;
+				}
+
 				return fragColor ;
 			}
 			ENDCG

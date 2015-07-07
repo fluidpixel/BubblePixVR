@@ -62,7 +62,6 @@ public class Cardboard : MonoBehaviour {
         device.SetVRModeEnabled(value);
       }
       vrModeEnabled = value;
-	  TapIsTrigger = value;
     }
   }
   [SerializeField]

@@ -505,6 +505,7 @@ public class ThumbBrowser : MonoBehaviour {
 			m_Countries.Sort( ( a, b ) => b.CompareTo( a ) );
 		}
 	}
+	//Provides the initial, unsorted display of the thubnails.
 	public void PopThumbs() {
 		FileHandler.Thumbnail[] thumbs = m_AppController.FH.GetThumbs();
 		float x = 0;
@@ -530,6 +531,7 @@ public class ThumbBrowser : MonoBehaviour {
 			}
 		}
 	}
+	//Rearranges the columns with sorting rules applied.
 	private void SortColumns( bool _byCountry ) {
 		m_xVelocity = m_xAcceleration = 0.0f; //Stop things moving.
 		if ( m_TextPanels.Count > 0 ) { //Get rid of any existing panels
