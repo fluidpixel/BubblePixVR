@@ -141,7 +141,7 @@ public class AppController : MonoBehaviour {
 			m_Head.transform.rotation = new Quaternion();
 			m_ThumbBrowser.To3DView();
 		}
-		m_Cardboard.ToggleVRMode();
+		m_Cardboard.VRModeEnabled = !m_Cardboard.VRModeEnabled;
 	}
 
 	private void CheckIfViewer() {

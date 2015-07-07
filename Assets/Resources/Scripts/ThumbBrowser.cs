@@ -872,7 +872,7 @@ public class ThumbBrowser : MonoBehaviour {
 			target = new Vector3( 0.0f, 7.25f, 7.0f );
 		}
 		else {
-			target = new Vector3( 0.0f, 7.35f, 6.78f );
+			target = new Vector3( 0.0f, 7.25f, 7.2f );//= new Vector3( 0.0f, 7.35f, 6.78f );
 		}
 
 		float diff = Vector3.Distance( target, this.gameObject.transform.localPosition ) * 0.5f;
