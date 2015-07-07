@@ -29,17 +29,15 @@ public class CameraController : MonoBehaviour {
 		menu = m_MenuPanel.transform.rotation.eulerAngles;
 		camera = m_MainCamera.transform.rotation.eulerAngles;
 
-		menu.y = Mathf.Clamp(camera.y, 0.0f, 360.0f);
-		m_MenuPanel.transform.rotation = Quaternion.Euler(menu);
+		menu.y = Mathf.Clamp( camera.y, 0.0f, 360.0f );
+		m_MenuPanel.transform.rotation = Quaternion.Euler( menu );
 	}
 
-	public bool IsMoving
-	{
+	public bool IsMoving {
 		get { return m_Moving; }
 	}
 
-	public Vector3 GetPosition
-	{
+	public Vector3 GetPosition {
 		get { return this.transform.position; }
 	}
 
@@ -47,44 +45,37 @@ public class CameraController : MonoBehaviour {
 		m_BrowserButton.SetActive( _arg );
 	}
 
-	private Vector3 Position
-	{
+	private Vector3 Position {
 		set { this.transform.position = value; }
 	}
 
 	public void CameraReset() {
-		StartCoroutine(RotateHead());
+		StartCoroutine( RotateHead() );
 	}
 
-	public void Return()
-	{
-		if ( m_Moving )
-		{
+	public void Return() {
+		if ( m_Moving ) {
 			StopCoroutine( "CameraLerp" );
 			Position = m_Target;
 		}
 		StartCoroutine( CameraLerp( new Vector3( 0.0f, 1.0f, 0.0f ), 2.0f ) );
 	}
 
-	public void MoveCamera( Vector3 _EndPos, float _t )
-	{
-		if ( m_Moving )
-		{
+	public void MoveCamera( Vector3 _EndPos, float _t ) {
+		if ( m_Moving ) {
 			StopCoroutine( "CameraLerp" );
 			Position = m_Target;
 		}
 		StartCoroutine( CameraLerp( _EndPos, _t ) );
 	}
 
-	private IEnumerator CameraLerp( Vector3 _EndPos, float _t )
-	{
+	private IEnumerator CameraLerp( Vector3 _EndPos, float _t ) {
 		m_Target = _EndPos;
 		m_Moving = true;
 		float diff = Vector3.Distance( _EndPos, GetPosition ) * 0.01f;
 		while ( GetPosition != _EndPos ) {
 			Position = Vector3.Slerp( GetPosition, _EndPos, _t * Time.deltaTime );
-			if ( Vector3.Distance( _EndPos, GetPosition ) < diff )
-			{
+			if ( Vector3.Distance( _EndPos, GetPosition ) < diff ) {
 				Position = _EndPos;
 			}
 			yield return null;
@@ -96,7 +87,7 @@ public class CameraController : MonoBehaviour {
 	private IEnumerator RotateHead() {
 
 		while ( m_Head.transform.rotation.eulerAngles != Vector3.zero ) {
-			m_Head.transform.rotation = Quaternion.Euler(Vector3.Lerp(m_Head.transform.rotation.eulerAngles, Vector3.zero, Time.deltaTime));
+			m_Head.transform.rotation = Quaternion.Euler( Vector3.Lerp( m_Head.transform.rotation.eulerAngles, Vector3.zero, Time.deltaTime ) );
 			yield return null;
 		}
 		yield return null;

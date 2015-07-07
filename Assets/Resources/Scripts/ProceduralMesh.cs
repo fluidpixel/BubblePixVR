@@ -107,7 +107,7 @@ public class ProceduralMesh : MonoBehaviour {
 
 
 		float diff = Time.realtimeSinceStartup - startTime;
-		Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
+		Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Verticies: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
 

@@ -96,8 +96,10 @@ public class ThumbBrowser : MonoBehaviour {
 	private float m_xVelocity = 0.0f;
 	private float m_MinVelocity = 0.1f;
 	private float m_GlobeButtonPosx = -1.8f;
-	private float m_CalendarButtonPosx = -3.36f;
+	private float m_CalendarButtonPosx = -3.34f;
 	private float m_SortOrderPosx = 4.9f;
+	private float m_LeftScrollPosx = -1.5f;
+	private float m_RightScrollPosx = 1.5f;
 	private Texture2D m_PhotoTex, m_VideoTex, m_3DTex, m_2DTex;
 
 	#endregion
@@ -196,50 +198,109 @@ public class ThumbBrowser : MonoBehaviour {
 		StopAllCoroutines();
 		//move sorting buttons up/move thumb browser back
 		StartCoroutine( MoveBrowser( true ) );
-		StartCoroutine( MoveSortButtons( true ) );
-		//Hide scrolling buttons
-		EnableVerticalTriggers( false );
-		EnableHorizontalTriggers( false );
+		StartCoroutine( MoveSortButtons( 0 ) );
 	}
 	public void To3DView() {
 		StopAllCoroutines();
 		StartCoroutine( MoveBrowser( false ) );
-		StartCoroutine( MoveSortButtons( false ) );
-		EnableHorizontalTriggers( true );
 
-		if ( m_Sorting != SortingType.None )
-			EnableVerticalTriggers( true );
-	}
-	private IEnumerator MoveSortButtons( bool _inwards ) {
-		float target = 2.15f;
-
-		Vector3 globeTarget, calendarTarget, sortTarget;
-
-		float diff = ( m_GlobeButtonPosx - m_GlobeIcon.transform.localPosition.x ) + ( m_CalendarButtonPosx - m_CalendarIcon.transform.localPosition.x ) + ( m_SortOrderPosx - m_SortButton.transform.localPosition.x );
-
-		if ( _inwards ) { //Check if it should be moving inwards
-			globeTarget = new Vector3( m_GlobeButtonPosx + target, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
-			calendarTarget = new Vector3( m_CalendarButtonPosx + target, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
-			sortTarget = new Vector3( m_SortOrderPosx - target, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
+		if ( m_Sorting != SortingType.None ) {
+			StartCoroutine( MoveSortButtons( 1 ) );
 		}
-		else { //Should it move outwards?
-			globeTarget = new Vector3( m_GlobeButtonPosx, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
-			calendarTarget = new Vector3( m_CalendarButtonPosx, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
-			sortTarget = new Vector3( m_SortOrderPosx, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
+		else {
+			StartCoroutine( MoveSortButtons( 2 ) );
+		}
+	}
+	private IEnumerator MoveSortButtons( int _position ) {
+		float target;
+		Vector3 globeTarget, calendarTarget, sortTarget, leftScrollTarget, rightScrollTarget;
+
+		if ( _position == 0 ) { //Move inwards
+			target = 2.15f;
+			globeTarget			= new Vector3( m_GlobeButtonPosx + target, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
+			calendarTarget		= new Vector3( m_CalendarButtonPosx + target, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
+			sortTarget			= new Vector3( m_SortOrderPosx - target, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
+			leftScrollTarget	= new Vector3( m_LeftScrollPosx + target, m_LeftScroll.transform.localPosition.y, m_LeftScroll.transform.localPosition.z );
+			rightScrollTarget	= new Vector3( m_RightScrollPosx - target, m_RightScroll.transform.localPosition.y, m_RightScroll.transform.localPosition.z );
+
+			if ( m_LeftScroll.gameObject.activeSelf ) {
+				SetAlpha( m_LeftScroll, 0.46875f );
+				SetAlpha( m_RightScroll, 0.46875f );
+
+				StartCoroutine( AlphaFade( m_LeftScroll, 0.0f, 0.02f ) );
+				StartCoroutine( AlphaFade( m_RightScroll, 0.0f, 0.02f ) );
+			}
+			if ( m_TopScroll.gameObject.activeSelf ) {
+				SetAlpha( m_TopScroll, 0.46875f );
+				SetAlpha( m_BotScroll, 0.46875f );
+
+				StartCoroutine( AlphaFade( m_TopScroll, 0.0f, 0.02f ) );
+				StartCoroutine( AlphaFade( m_BotScroll, 0.0f, 0.02f ) );
+			}
+		}
+		else if ( _position == 1 ){ //Move outwards
+			globeTarget			= new Vector3( m_GlobeButtonPosx, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
+			calendarTarget		= new Vector3( m_CalendarButtonPosx, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
+			sortTarget			= new Vector3( m_SortOrderPosx, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
+			leftScrollTarget	= new Vector3( m_LeftScrollPosx, m_LeftScroll.transform.localPosition.y, m_LeftScroll.transform.localPosition.z );
+			rightScrollTarget	= new Vector3( m_RightScrollPosx, m_RightScroll.transform.localPosition.y, m_RightScroll.transform.localPosition.z );
+
+			if ( !m_LeftScroll.gameObject.activeSelf ) {
+				EnableHorizontalTriggers( true );
+
+				SetAlpha( m_LeftScroll, 0.0f );
+				SetAlpha( m_RightScroll, 0.0f );
+
+				StartCoroutine( AlphaFade( m_LeftScroll, 0.46875f, 0.02f ) );
+				StartCoroutine( AlphaFade( m_RightScroll, 0.46875f, 0.02f ) );
+			}
+
+			if ( !m_TopScroll.gameObject.activeSelf ) {
+				EnableVerticalTriggers( true );
+
+				SetAlpha( m_TopScroll, 0.0f );
+				SetAlpha( m_BotScroll, 0.0f );
+
+				StartCoroutine( AlphaFade( m_TopScroll, 0.46875f, 0.01f ) );
+				StartCoroutine( AlphaFade( m_BotScroll, 0.46875f, 0.01f ) );
+			}
+			
+		}
+		else { //Half move for when vertical scrolling is not needed.
+			target = 1.2f;
+			globeTarget			= new Vector3( m_GlobeButtonPosx + target, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
+			calendarTarget		= new Vector3( m_CalendarButtonPosx + target, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
+			sortTarget			= new Vector3( m_SortOrderPosx - target, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
+			leftScrollTarget	= new Vector3( m_LeftScrollPosx + target - 0.13f, m_LeftScroll.transform.localPosition.y, m_LeftScroll.transform.localPosition.z );
+			rightScrollTarget	= new Vector3( m_RightScrollPosx - target + 0.13f, m_RightScroll.transform.localPosition.y, m_RightScroll.transform.localPosition.z );
+
+			if ( !m_LeftScroll.gameObject.activeSelf ) {
+				EnableHorizontalTriggers( true );
+
+				SetAlpha( m_LeftScroll, 0.0f );
+				SetAlpha( m_RightScroll, 0.0f );
+
+				StartCoroutine( AlphaFade( m_LeftScroll, 0.46875f, 0.02f ) );
+				StartCoroutine( AlphaFade( m_RightScroll, 0.46875f, 0.02f ) );
+			}
 		}
 
 		float time = 2.0f * Time.deltaTime;
 
 		while ( Vector3.Distance( m_SortButton.transform.localPosition, sortTarget ) > 0.05f ) {
-			m_GlobeIcon.gameObject.transform.localPosition = Vector3.Lerp( m_GlobeIcon.transform.localPosition, globeTarget, time );
-			m_CalendarIcon.transform.localPosition = Vector3.Lerp( m_CalendarIcon.transform.localPosition, calendarTarget, time );
-			m_SortButton.transform.localPosition = Vector3.Lerp( m_SortButton.transform.localPosition, sortTarget, time );
+			m_GlobeIcon.gameObject.transform.localPosition	= Vector3.Lerp( m_GlobeIcon.transform.localPosition, globeTarget, time );
+			m_CalendarIcon.transform.localPosition			= Vector3.Lerp( m_CalendarIcon.transform.localPosition, calendarTarget, time );
+			m_SortButton.transform.localPosition			= Vector3.Lerp( m_SortButton.transform.localPosition, sortTarget, time );
+			m_RightScroll.transform.localPosition			= Vector3.Lerp( m_RightScroll.transform.localPosition, rightScrollTarget, time );
+			m_LeftScroll.transform.localPosition			= Vector3.Lerp( m_LeftScroll.transform.localPosition, leftScrollTarget, time );
 			yield return null;
 		}
-		m_GlobeIcon.gameObject.transform.localPosition = globeTarget;
-		m_CalendarIcon.gameObject.transform.localPosition = calendarTarget;
-		m_SortButton.gameObject.transform.localPosition = sortTarget;
-		
+		m_GlobeIcon.transform.localPosition		= globeTarget;
+		m_CalendarIcon.transform.localPosition	= calendarTarget;
+		m_SortButton.transform.localPosition	= sortTarget;
+		m_LeftScroll.transform.localPosition	= leftScrollTarget;
+		m_RightScroll.transform.localPosition	= rightScrollTarget;
+
 	}
 
 #endregion
@@ -389,9 +450,6 @@ public class ThumbBrowser : MonoBehaviour {
 			m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
 		}
 	}
-
-	//SET THE COLORS TO CHANGE
-
 	public void LeftTrigClicked() {
 		moveRight = !moveRight;
 		if (moveRight)
@@ -420,7 +478,6 @@ public class ThumbBrowser : MonoBehaviour {
 		else
 			m_BotScroll.material.color = m_ScrollColorHover;
 	}
-
 
 #endregion
 
@@ -581,31 +638,41 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 		m_ColumnAnchors.Clear();
 		m_ColumnAnchors = tempAnchs;
+
+		//Call a corourtine to move some stuff
+		
 	}
 	private void ChangeSorting( SortingType _arg ) {
+		StopAllCoroutines();
 		m_Sorting = _arg;
 		if ( m_Sorting == SortingType.None ) {
 			m_GlobeIcon.material.color = m_ScrollColor;
 			m_CalendarIcon.material.color = m_ScrollColor;
 			EnableVerticalTriggers( false );
+			if ( m_AppController.VRMode ) { 
+				StartCoroutine( MoveSortButtons( 2 ) );
+			}
+			else {
+				StartCoroutine( MoveSortButtons( 0 ) );
+			}
 		}
 		else if ( m_Sorting == SortingType.Date ) {
 			m_GlobeIcon.material.color = m_ScrollColor;
 			m_CalendarIcon.material.color = m_ActiveButtonColor;
 			if ( m_AppController.VRMode ) {
-				EnableVerticalTriggers( true );
+				StartCoroutine( MoveSortButtons( 1 ) );
 			}
 		}
 		else {
 			m_GlobeIcon.material.color = m_ActiveButtonColor;
 			m_CalendarIcon.material.color = m_ScrollColor;
 			if ( m_AppController.VRMode ) {
-				EnableVerticalTriggers( true );
+				StartCoroutine( MoveSortButtons( 1 ) );
 			}
 		}
 	}
 
-	#endregion
+#endregion
 
 #region Carousel Motion Methods
 
@@ -648,7 +715,7 @@ public class ThumbBrowser : MonoBehaviour {
 			return false;
 		}
 	}
-	private void ApplyAcceleration() { //Will apply an acceleration to the carousel/active column in the desired direction.
+	private void ApplyAcceleration() { //Will apply an acceleration to the carousel in the desired direction.
 		//Forces the carousel to immediately change direction when it's asked to move in the opposite direciton to it's current.
 		if ( ( moveRight || m_AppController.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) && m_xAcceleration < m_MaxAcceleration ) {
 			m_xAcceleration += m_AccInc;
@@ -668,15 +735,15 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 	private void ApplyColumnAcceleration() {
 		if ( ( moveUp || m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Positive ) && m_ColumnAnchors[m_ActiveColumn].Acceleration < m_MaxAcceleration ) {
-			m_ColumnAnchors[m_ActiveColumn].Acceleration += m_AccInc;
+			m_ColumnAnchors[m_ActiveColumn].Acceleration -= m_AccInc;
 			if ( m_ColumnAnchors[m_ActiveColumn].Velocity < 0.0f ) {
-				m_ColumnAnchors[m_ActiveColumn].Velocity = 0.5f;
+				m_ColumnAnchors[m_ActiveColumn].Velocity = -0.5f;
 			}
 		}
 		else if ( ( moveDown || m_AppController.TC.SwipeDirection[1] == TouchController.Swipe.Negative ) && m_ColumnAnchors[m_ActiveColumn].Acceleration > -m_MaxAcceleration ) {
-			m_ColumnAnchors[m_ActiveColumn].Acceleration -= m_AccInc;
+			m_ColumnAnchors[m_ActiveColumn].Acceleration += m_AccInc;
 			if ( m_ColumnAnchors[m_ActiveColumn].Velocity > 0.0f ) {
-				m_ColumnAnchors[m_ActiveColumn].Velocity = -0.5f;
+				m_ColumnAnchors[m_ActiveColumn].Velocity = 0.5f;
 			}
 		}
 		else {
@@ -857,6 +924,35 @@ public class ThumbBrowser : MonoBehaviour {
 	private void EnableHorizontalTriggers( bool _arg ) {
 		m_RightScroll.gameObject.SetActive( _arg );
 		m_LeftScroll.gameObject.SetActive( _arg );
+	}
+	private IEnumerator AlphaFade( MeshRenderer _argMesh, float _target, float _rate ) {
+		Color color = _argMesh.material.color;
+		bool subtract = _target < color.a ? true : false;
+
+		while ( Mathf.Abs(_target - color.a ) > 0.01f ) {
+			color = _argMesh.material.color;
+			
+			if ( subtract )
+				color.a -= _rate;
+			else
+				color.a += _rate;
+			
+			_argMesh.material.color = color;
+			
+			yield return null;
+		}
+		color.a = _target;
+		_argMesh.material.color = color;
+
+		if ( _target == 0.0f ) {
+			_argMesh.gameObject.SetActive( false );
+		}
+
+	}
+	private void SetAlpha( MeshRenderer _argMesh, float _value ) {
+		Color color = _argMesh.material.color;
+		color.a = _value;
+		_argMesh.material.color = color;
 	}
 
 #endregion
