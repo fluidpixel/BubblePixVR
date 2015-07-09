@@ -2,7 +2,7 @@
 //Future support for iOS?
 
 #include <GLES2/gl2.h>
-#include <GLES2/egl.h>
+#include <EGL/egl.h>
 #include <math.h>
 #include <android/log.h>
 
@@ -256,11 +256,6 @@ static void Render(const float* _worldMatrix, const float* _identMatrix, float* 
 	// update native texture from code
 	if (texPtr)
 	{
-		glPixelStorei( GL_UNPACK_SWAP_BYTES, GL_FALSE );
-		glPixelStorei( GL_UNPACK_LSB_FIRST,  GL_TRUE  );
-		glPixelStorei( GL_UNPACK_ROW_LENGTH, 0 );
-		glPixelStorei( GL_UNPACK_SKIP_PIXELS, 0);
-		glPixelStorei( GL_UNPACK_SKIP_ROWS, 0);
 		glPixelStorei( GL_UNPACK_ALIGNMENT, 1);
 
 		GLuint gltex = (GLuint)(size_t)(texPtr);

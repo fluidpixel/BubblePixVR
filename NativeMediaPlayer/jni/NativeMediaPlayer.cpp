@@ -6,6 +6,9 @@
 #include <jni.h>
 #include "ffContainer.cpp"
 
+#undef LOG_TAG
+#define LOG_TAG "JNI"
+
 jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	LOGD("JNI attached.");
   JNIEnv* jni_env = 0;
@@ -15,18 +18,8 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 
 /*-----ffmpeg methods-----*/
 
-extern "C" int PlayVideo(const char* _fname);
+//extern "C" int PlayVideo(const char* _fname);
 
-extern "C" void EXPORT_API UnitySetGraphicsDevice (void* _device, int _deviceType, int _eventType);
+//extern "C" void EXPORT_API UnitySetGraphicsDevice (void* _device, int _deviceType, int _eventType);
 
-extern "C" void EXPORT_API UnityRenderEvent(int _eventID);
-
-/*
-extern void DestroyPlayer();
-extern int Width();
-extern int Height();
-extern int Duration();
-extern int FrameRate();
-extern int DecodeFrame();
-extern int Init();
-*/
+//extern "C" void EXPORT_API UnityRenderEvent(int _eventID);

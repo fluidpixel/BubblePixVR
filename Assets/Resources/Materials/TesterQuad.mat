@@ -6,8 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: SortButton
-  m_Shader: {fileID: 4800000, guid: 9e2184013a24dc84b912858b7874bc6c, type: 3}
+  m_Name: TesterQuad
+  m_Shader: {fileID: 4800000, guid: 7c17f7ab77ae8884a8520edc1be47cc1, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -17,31 +17,19 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 5afa4de3dd2bac647adf59d842c2f8ab, type: 3}
+          m_Texture: {fileID: 2800000, guid: 376f5f7154eafe548b1ced9ce83abb84, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BorderTex
         second:
-          m_Texture: {fileID: 2800000, guid: ea0269b28f7dd4448ac7d38eac5c9af7, type: 3}
+          m_Texture: {fileID: 2800000, guid: ed867099470fda246bf23fc0acaeba63, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
-    m_Floats:
-      data:
-        first:
-          name: _isActive
-        second: 0
-      data:
-        first:
-          name: _TexHeight
-        second: 512
-      data:
-        first:
-          name: _TexWidth
-        second: 256
+    m_Floats: {}
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: .435294122, g: .478431374, b: .623529434, a: .274509817}
+        second: {r: 1, g: 1, b: 1, a: 1}

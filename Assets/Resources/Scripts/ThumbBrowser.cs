@@ -216,7 +216,7 @@ public class ThumbBrowser : MonoBehaviour {
 		Vector3 globeTarget, calendarTarget, sortTarget, leftScrollTarget, rightScrollTarget;
 
 		if ( _position == 0 ) { //Move inwards
-			target = 2.15f;
+			target = 2.21f;
 			globeTarget			= new Vector3( m_GlobeButtonPosx + target, m_GlobeIcon.transform.localPosition.y, m_GlobeIcon.transform.localPosition.z );
 			calendarTarget		= new Vector3( m_CalendarButtonPosx + target, m_CalendarIcon.transform.localPosition.y, m_CalendarIcon.transform.localPosition.z );
 			sortTarget			= new Vector3( m_SortOrderPosx - target, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
