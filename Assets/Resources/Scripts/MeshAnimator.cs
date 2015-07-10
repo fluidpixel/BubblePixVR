@@ -9,19 +9,57 @@ public class MeshAnimator : MonoBehaviour {
 	[SerializeField]
 	private MeshFilter m_MeshFilter;
 
+	private Mesh m_CurvedMesh;
 	private Vector3[] m_Vertices;
 	private Mesh m_Mesh;
 	private int z = 1;
 
 	// Use this for initialization
 	void Start () {
-		m_Mesh = Instantiate( m_MeshOriginal ) as Mesh;
+		m_Mesh = ProceduralMesh.GeneratePlane( 20, 40 );
+		
+		 //Instantiate( m_MeshOriginal ) as Mesh;
+		m_CurvedMesh = ProceduralMesh.GenerateCurvedCylinder( 19, 39 );
+		
 		m_MeshFilter.mesh = m_Mesh;
 		m_Vertices = m_Mesh.vertices;
+
+		//StartCoroutine(MorphMesh());
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		
+	}
+
+	private IEnumerator MorphMesh() {
+		Vector3[] vertices	= new Vector3[m_Mesh.vertexCount];
+		Vector2[] texCoords = new Vector2[m_Mesh.uv.Length];
+		Vector3[] normals	= new Vector3[m_Mesh.normals.Length];
+		m_Mesh.triangles = m_CurvedMesh.triangles;
+		while ( Vector3.Distance( m_Mesh.vertices[0], m_CurvedMesh.vertices[0] ) > 0.01f ) {
+			for ( int i = 0; i < m_Mesh.vertexCount; i++ ) {
+				vertices[i]		= Vector3.Slerp(m_Mesh.vertices[i], m_CurvedMesh.vertices[i], Time.deltaTime);
+				texCoords[i]	= Vector2.Lerp(m_Mesh.uv[i], m_CurvedMesh.uv[i], Time.deltaTime);
+				normals[i]		= Vector3.Slerp(m_Mesh.normals[i], m_CurvedMesh.normals[i], Time.deltaTime);
+
+				if ( i == m_Mesh.vertexCount * 0.5 ) {
+					yield return null;
+				}
+			}
+			m_Mesh.vertices = vertices;
+			m_Mesh.uv		= texCoords;
+			m_Mesh.normals	= normals;
+			m_Mesh.RecalculateBounds();
+			yield return null;
+		}
+		m_Mesh.vertices	= m_CurvedMesh.vertices;
+		m_Mesh.uv		= m_CurvedMesh.uv;
+		m_Mesh.normals	= m_CurvedMesh.normals;
+		m_Mesh.RecalculateBounds();
+	}
+
+	private void JiggleMesh() {
 		//The new vertices
 		Vector3[] vertices = new Vector3[m_Vertices.Length];
 		//Random values to move the axis by and create the jingle
@@ -34,8 +72,8 @@ public class MeshAnimator : MonoBehaviour {
 			Vector3 vertex = m_Vertices[i];
 			//Make a change to each of the coordinates of this vertex
 
-			vertex.y += Mathf.Abs( vertex.x * (0.001f * z + vertex.y) );
-			
+			vertex.y += Mathf.Abs( vertex.x * ( 0.001f * z + vertex.y ) );
+
 			//Add the new vertex to our new array
 			vertices[i] = vertex;
 		}
