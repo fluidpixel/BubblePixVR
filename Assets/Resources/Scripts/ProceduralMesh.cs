@@ -278,7 +278,7 @@ public class ProceduralMesh : MonoBehaviour {
 		float startTime = Time.realtimeSinceStartup;
 		
 
-		numVertices = _width * _height + _width + _height;
+		numVertices = _width * _height;
 		numIndices = 6 * ( _width - 1 ) * _height;
 
 		vertices = new Vector3[numVertices];
@@ -297,9 +297,9 @@ public class ProceduralMesh : MonoBehaviour {
 
 		for ( int i = 0; i < _height; ++i ) {
 			for ( int j = 0; j < _width; ++j ) {
-				vertices[i * _width + j] = new Vector3( (j - halfWidth) * xInc, (i - halfHeight) * yInc, 0.0f );
+				vertices[i * _width + j] = new Vector3( -(j - halfWidth) * xInc, (i - halfHeight) * yInc, 0.0f );
 				texCoords[i * _width + j] = new Vector2( j * sideInc, i * heightInc );
-				normals[i * _width + j] = Vector3.forward;
+				normals[i * _width + j] = Vector3.back;
 			}
 		}
 
@@ -332,7 +332,91 @@ public class ProceduralMesh : MonoBehaviour {
 		ret.RecalculateNormals();
 
 		float diff = Time.realtimeSinceStartup - startTime;
-		Debug.Log( "Plane mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
+		//Debug.Log( "Plane mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
+		return ret;
+	}
+
+	public static Mesh GenerateCurvedCylinderSegment( int _height, int _sides, float _arc, float _multi ) {
+		Debug.Log(_multi.ToString());
+		float startTime = Time.realtimeSinceStartup;
+
+		numVertices = _sides * _height;
+		numIndices = 6 * ( _sides - 1 ) * _height;
+
+		vertices = new Vector3[numVertices];
+		texCoords = new Vector2[numVertices];
+		normals = new Vector3[numVertices];
+		indices = new int[numIndices];
+
+		float heightInc = 1.0f / (float)( _height - 2 );
+		float sideInc = 1.0f / (float)( _sides - 1 );
+		float degInc = (_arc / _multi) / ( (float)_sides - 1 );
+		float bulgeInc = 90.0f / (float)_height;
+		float bulge = (_height / 2.0f) * bulgeInc;
+		float deg = 0.0f;
+		float rad = 0.0f;
+
+		float halfHeight = ( _height - 1 ) / 2;
+		float halfWidth = ( _sides - 1 ) / 2;
+
+		float xInc = 1.0f / _height;
+		float yInc = 1.0f / _sides;
+
+		Vector3 centrePos;
+		Vector3 unitPos;
+
+		for ( int i = 0; i < _height; ++i ) {
+			bulge += bulgeInc;
+			for ( int j = 0; j < _sides; ++j ) {
+				centrePos = unitPos = Vector3.zero;
+
+				centrePos.y = -Mathf.Cos( Mathf.Deg2Rad * bulge );
+				rad = Mathf.Sin( Mathf.Deg2Rad * bulge ); //Defines vertical bulge
+
+				//unitPos = new Vector3( ( j - halfWidth ) * xInc, ( i - halfHeight ) * yInc, 0.0f );
+
+				unitPos.x += Mathf.Cos( Mathf.Deg2Rad * deg) * _multi;
+				unitPos.z += Mathf.Sin( Mathf.Deg2Rad * deg) / _multi;
+
+				vertices[i * _sides + j] = centrePos + unitPos * rad;
+				texCoords[i * _sides + j] = new Vector2( j * sideInc, i * heightInc );
+				normals[i * _sides + j] = Vector3.Normalize( centrePos + unitPos * rad );
+				deg += degInc;
+			}
+			deg = 0.0f;
+		}
+
+		int offset = 0;
+
+		for ( int i = 1; i < _height - 1; ++i ) {
+			for ( int j = 0; j < _sides - 1; ++j ) {
+				int a = i * _sides + j;
+				int b = ( i - 1 ) * _sides + j;
+				int c = ( i - 1 ) * _sides + j + 1;
+				int d = i * _sides + j + 1;
+
+				indices[offset++] = c;
+				indices[offset++] = b;
+				indices[offset++] = a;
+
+				indices[offset++] = a;
+				indices[offset++] = d;
+				indices[offset++] = c;
+			}
+		}
+
+		Mesh ret = new Mesh();
+
+		ret.vertices = vertices;
+		ret.uv = texCoords;
+		ret.triangles = indices;
+		ret.normals = normals;
+		ret.RecalculateBounds();
+		ret.RecalculateNormals();
+
+
+		float diff = Time.realtimeSinceStartup - startTime;
+		//Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Verticies: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
 
