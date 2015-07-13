@@ -88,7 +88,7 @@ public class ProceduralMesh : MonoBehaviour {
 
 
 		float diff = Time.realtimeSinceStartup - startTime;
-		Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Verticies: " + numVertices + ". Indicies: " + numIndices + "." );
+		//Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Verticies: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
 
@@ -336,10 +336,11 @@ public class ProceduralMesh : MonoBehaviour {
 		return ret;
 	}
 
-	public static Mesh GenerateCurvedCylinderSegment( int _height, int _sides, float _arc, float _multi ) {
+	public static Mesh GenerateCurvedCylinderSegment( int _height, int _sides, float _multi ) {
 		Debug.Log(_multi.ToString());
 		float startTime = Time.realtimeSinceStartup;
 
+		float curveOffset = _multi > 2.0f ? 2.0f : _multi;
 		numVertices = _sides * _height;
 		numIndices = 6 * ( _sides - 1 ) * _height;
 
@@ -350,17 +351,12 @@ public class ProceduralMesh : MonoBehaviour {
 
 		float heightInc = 1.0f / (float)( _height - 2 );
 		float sideInc = 1.0f / (float)( _sides - 1 );
-		float degInc = (_arc / _multi) / ( (float)_sides - 1 );
+		//float degInc = (360.0f / _multi) / ( (float)_sides - 1 ); //Replace with this when done testing.
+		float degInc = 360.0f / ( (float)_sides - 1 );
 		float bulgeInc = 90.0f / (float)_height;
-		float bulge = (_height / 2.0f) * bulgeInc;
+		float bulge = (_height * 0.5f) * bulgeInc;
 		float deg = 0.0f;
 		float rad = 0.0f;
-
-		float halfHeight = ( _height - 1 ) / 2;
-		float halfWidth = ( _sides - 1 ) / 2;
-
-		float xInc = 1.0f / _height;
-		float yInc = 1.0f / _sides;
 
 		Vector3 centrePos;
 		Vector3 unitPos;
@@ -371,12 +367,10 @@ public class ProceduralMesh : MonoBehaviour {
 				centrePos = unitPos = Vector3.zero;
 
 				centrePos.y = -Mathf.Cos( Mathf.Deg2Rad * bulge );
-				rad = Mathf.Sin( Mathf.Deg2Rad * bulge ); //Defines vertical bulge
+				rad = Mathf.Sin( Mathf.Deg2Rad * bulge / 2 ); //Defines vertical bulge
 
-				//unitPos = new Vector3( ( j - halfWidth ) * xInc, ( i - halfHeight ) * yInc, 0.0f );
-
-				unitPos.x += Mathf.Cos( Mathf.Deg2Rad * deg) * _multi;
-				unitPos.z += Mathf.Sin( Mathf.Deg2Rad * deg) / _multi;
+				unitPos.x += Mathf.Cos( Mathf.Deg2Rad * deg) * curveOffset;
+				unitPos.z += Mathf.Sin( Mathf.Deg2Rad * deg) / curveOffset;
 
 				vertices[i * _sides + j] = centrePos + unitPos * rad;
 				texCoords[i * _sides + j] = new Vector2( j * sideInc, i * heightInc );

@@ -19,11 +19,11 @@ public class MeshAnimator : MonoBehaviour {
 		width = 39;
 		height = 19;
 
-		m_Mesh = ProceduralMesh.GeneratePlane( height, width );
+		m_Mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, z );
 
 		m_MeshFilter.mesh = m_Mesh;
 		m_Vertices = m_Mesh.vertices;
-		StartCoroutine(PlaneToCircle());
+		//StartCoroutine(PlaneToCircle());
 	}
 	
 	// Update is called once per frame
@@ -37,18 +37,18 @@ public class MeshAnimator : MonoBehaviour {
 
 		if ( Input.GetKeyDown( KeyCode.UpArrow ) ) {
 			z += 0.1f;
-			m_MeshFilter.mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, 360.0f, z );
+			m_MeshFilter.mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, z );
 			
 		}
 		else if ( Input.GetKeyDown( KeyCode.DownArrow ) ) {
 			z -= 0.1f;
-			m_MeshFilter.mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, 360.0f, z );
+			m_MeshFilter.mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, z );
 			
 		}
 
 		if ( Input.GetKeyDown( KeyCode.Space ) ) {
 			
-			m_MeshFilter.mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, 360.0f, z );
+			m_MeshFilter.mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, z );
 			
 			StopAllCoroutines();
 			if ( z == 1.0f ) {
@@ -116,10 +116,10 @@ public class MeshAnimator : MonoBehaviour {
 		Vector3[] normals = new Vector3[width * height];
 
 		target = ProceduralMesh.GeneratePlane(height, width);
-
+		z = 1.0f;
 		//Stage one is to flatten it enough to resemble a plane
 		while ( z < 2.0f ) {
-			m_Mesh = ProceduralMesh.GenerateCurvedCylinderSegment(height, width, 360.0f, z);
+			m_Mesh = ProceduralMesh.GenerateCurvedCylinderSegment(height, width, z);
 			m_MeshFilter.mesh = m_Mesh;
 			z += 0.01f;
 			yield return null;
@@ -160,35 +160,27 @@ public class MeshAnimator : MonoBehaviour {
 		Vector2[] texCoords = new Vector2[width * height];
 		Vector3[] normals = new Vector3[width * height];
 
-		target = ProceduralMesh.GenerateCurvedCylinderSegment(height, width, 360.0f, 2);
-		Debug.Log(Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ).ToString());
+		target = ProceduralMesh.GenerateCurvedCylinderSegment(height, width, 2);
+		//Debug.Log(Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ).ToString());
+
+		m_Mesh.triangles = target.triangles;
+		float time;
 		while ( Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) > 0.01f ) {
+		time = (Time.deltaTime / Vector3.Distance(m_Mesh.vertices[0], target.vertices[0])) * 0.5f;
 			if ( !paused ) {
 				for ( int i = 0; i < m_Mesh.vertexCount; i++ ) {
-					vertices[i] = Vector3.Lerp( m_Mesh.vertices[i], target.vertices[i], (Time.deltaTime / Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) ) * 0.5f );
-					//texCoords[i] = Vector2.Lerp( m_Mesh.uv[i], target.uv[i], Time.deltaTime );
-					//normals[i] = Vector3.Lerp( m_Mesh.normals[i], target.normals[i], Time.deltaTime );
-
-					if ( i == m_Mesh.vertexCount * 0.5 ) {
-						yield return null;
-					}
+					vertices[i] = Vector3.Lerp( m_Mesh.vertices[i], target.vertices[i], time);
 				}
 				m_Mesh.vertices = vertices;
-				//m_Mesh.uv = texCoords;
-				//m_Mesh.normals = normals;
-				//m_Mesh.RecalculateBounds();
+			
 			}
 			yield return null;
 		}
-
 		m_Mesh.vertices = target.vertices;
-		m_Mesh.uv = target.uv;
-		m_Mesh.normals = target.normals;
-		//m_Mesh.RecalculateBounds();
+		
 		z = 2.0f;
-
 		while ( z > 1.0f ) {
-			m_Mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, 360.0f, z );
+			m_Mesh = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, z );
 			m_MeshFilter.mesh = m_Mesh;
 			z -= 0.01f;
 			yield return null;
