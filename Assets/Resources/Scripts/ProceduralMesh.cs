@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 
 public class ProceduralMesh : MonoBehaviour {
+
 	private static int numVertices;
 	private static int numIndices;
 
@@ -90,47 +91,6 @@ public class ProceduralMesh : MonoBehaviour {
 		float diff = Time.realtimeSinceStartup - startTime;
 		//Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Verticies: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
-	}
-
-	public static Vector3[] GenerateCurvedCylinderVerts( int _height, int _sides ) {
-		float startTime = Time.realtimeSinceStartup;
-
-		numVertices = _sides * _height;
-
-
-		vertices = new Vector3[numVertices];
-
-		float heightInc = 1.0f / (float)_height;
-		float sideInc = 1.0f / ( (float)_sides - 1 );
-		float height = -heightInc;
-		float degInc = 360.0f / ( (float)_sides - 1 );
-		float bulgeInc = 90.0f / (float)_height - 1;
-		float bulge = 15 * bulgeInc;
-		float deg = 0.0f;
-		float rad = 0.0f;
-
-		Vector3 centrePos;
-		Vector3 unitPos;
-
-		for ( int i = 0; i < _height - 1; ++i ) {
-			height += heightInc;
-			bulge += bulgeInc;
-			for ( int j = 0; j < _sides; ++j ) {
-				centrePos = unitPos = Vector3.zero;
-
-				centrePos.y = -Mathf.Cos( Mathf.Deg2Rad * bulge );
-				rad = Mathf.Sin( Mathf.Deg2Rad * bulge );
-
-				unitPos.x = Mathf.Cos( Mathf.Deg2Rad * deg );
-				unitPos.z = Mathf.Sin( Mathf.Deg2Rad * deg );
-
-				vertices[i * _sides + j] = centrePos + unitPos * rad;
-		
-				deg += degInc;
-			}
-			deg = 0.0f;
-		}
-		return vertices;
 	}
 
 	public static Mesh GenerateCylinder( int _height, int _sides ) {
@@ -336,11 +296,10 @@ public class ProceduralMesh : MonoBehaviour {
 		return ret;
 	}
 
-	public static Mesh GenerateCurvedCylinderSegment( int _height, int _sides, float _multi ) {
-		Debug.Log(_multi.ToString());
+	public static Mesh GenerateCurvedCylinderSegment( int _height, int _sides, float _deg, float _curve ) {
 		float startTime = Time.realtimeSinceStartup;
 
-		float curveOffset = _multi > 2.0f ? 2.0f : _multi;
+		float curveOffset = _deg > 2.0f ? 2.0f : _deg;
 		numVertices = _sides * _height;
 		numIndices = 6 * ( _sides - 1 ) * _height;
 
@@ -351,9 +310,8 @@ public class ProceduralMesh : MonoBehaviour {
 
 		float heightInc = 1.0f / (float)( _height - 2 );
 		float sideInc = 1.0f / (float)( _sides - 1 );
-		//float degInc = (360.0f / _multi) / ( (float)_sides - 1 ); //Replace with this when done testing.
-		float degInc = 360.0f / ( (float)_sides - 1 );
-		float bulgeInc = 90.0f / (float)_height;
+		float degInc = (360.0f / _deg) / ( (float)_sides - 1 );
+		float bulgeInc = 90.0f / (float)_height; //4.7
 		float bulge = (_height * 0.5f) * bulgeInc;
 		float deg = 0.0f;
 		float rad = 0.0f;
@@ -367,7 +325,9 @@ public class ProceduralMesh : MonoBehaviour {
 				centrePos = unitPos = Vector3.zero;
 
 				centrePos.y = -Mathf.Cos( Mathf.Deg2Rad * bulge );
-				rad = Mathf.Sin( Mathf.Deg2Rad * bulge / 2 ); //Defines vertical bulge
+
+				rad = Mathf.Sin( Mathf.Deg2Rad * bulge ); //Defines vertical bulge
+				rad = Mathf.Clamp(rad, _curve, 1.2f);
 
 				unitPos.x += Mathf.Cos( Mathf.Deg2Rad * deg) * curveOffset;
 				unitPos.z += Mathf.Sin( Mathf.Deg2Rad * deg) / curveOffset;
@@ -414,73 +374,4 @@ public class ProceduralMesh : MonoBehaviour {
 		return ret;
 	}
 
-	public static Mesh GenerateQuad() {
-		Quad quadVals = MakeQuad();
-		Mesh ret = new Mesh();
-
-		ret.vertices = quadVals.Vertices.ToArray();
-		ret.uv = quadVals.UVs.ToArray();
-		ret.normals = quadVals.Normals.ToArray();
-		ret.triangles = quadVals.Indices;
-		ret.RecalculateBounds();
-		ret.RecalculateNormals();
-
-		return ret;
-	}
-
-	private static Quad MakeQuad() {
-		Quad ret = new Quad();
-
-		ret.Vertices = new List<Vector3>();
-		ret.UVs = new List<Vector2>();
-		ret.Normals = new List<Vector3>();
-
-		ret.Vertices.Add( new Vector3( 0.0f, 0.0f, 0.0f ) );
-		ret.UVs.Add( Vector2.zero );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Vertices.Add( new Vector3( 0.0f, 0.0f, 1.0f ) );
-		ret.UVs.Add( new Vector2( 0.0f, 1.0f ) );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Vertices.Add( new Vector3( 1.0f, 0.0f, 1.0f ) );
-		ret.UVs.Add( new Vector2( 1.0f, 1.0f ) );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Vertices.Add( new Vector3( 1.0f, 0.0f, 0.0f ) );
-		ret.UVs.Add( new Vector2( 1.0f, 0.0f ) );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Indices = new int[] { 0, 1, 2, 0, 2, 3 };
-
-		return ret;
-	}
-
-	private static Quad MakeQuad( Vector3 _size ) {
-		Quad ret = new Quad();
-
-		ret.Vertices = new List<Vector3>();
-		ret.UVs = new List<Vector2>();
-		ret.Normals = new List<Vector3>();
-
-		ret.Vertices.Add( new Vector3( 0.0f, 0.0f, 0.0f ) );
-		ret.UVs.Add( Vector2.zero );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Vertices.Add( new Vector3( 0.0f, 0.0f, 1.0f ) );
-		ret.UVs.Add( new Vector2( 0.0f, 1.0f ) );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Vertices.Add( new Vector3( 1.0f, 0.0f, 1.0f ) );
-		ret.UVs.Add( new Vector2( 1.0f, 1.0f ) );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Vertices.Add( new Vector3( 1.0f, 0.0f, 0.0f ) );
-		ret.UVs.Add( new Vector2( 1.0f, 0.0f ) );
-		ret.Normals.Add( Vector3.up );
-
-		ret.Indices = new int[] { 0, 1, 2, 0, 2, 3 };
-
-		return ret;
-	}
 }

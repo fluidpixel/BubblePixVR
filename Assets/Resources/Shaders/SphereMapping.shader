@@ -1,17 +1,15 @@
-﻿// Unlit shader. Simplest possible textured shader.
-// - no lighting
-// - no lightmap support
-// - no per-material color
-
-Shader "Custom/CullingReversed" {
+﻿Shader "Custom/CullingReversed" {
 Properties {
 	_MainTex ("Base (RGB)", 2D) = "black" {}
+	_BorderTex ("Border Tex(RGB)", 2D) = "white" {}
+	_BorderAlpha ("Border Alpha (float)", Float) = 0.0
 }
 
 SubShader {
-	Tags { "RenderType"="Opaque" }
-	LOD 100
+	Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
+	LOD 200
 	Cull front
+	Blend SrcAlpha OneMinusSrcAlpha
 	Pass {
 		CGPROGRAM
 			#pragma vertex vert
@@ -26,30 +24,33 @@ SubShader {
 
 			struct v2f {
 				float4 vertex : SV_POSITION;
-				float2 texcoord : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 			};
 
-			sampler2D _MainTex;
-			float4 _MainTex_ST;
+			uniform sampler2D _MainTex;
+			uniform sampler2D _BorderTex;
+			uniform float _BorderAlpha;
 			
 			v2f vert (appdata_t v)
 			{
-				float2 inv = v.texcoord;
-				inv.x = 1.0 - inv.x;
-
 				v2f o;
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
-				o.texcoord = TRANSFORM_TEX(inv, _MainTex);
+				o.uv = v.texcoord;
 				return o;
 			}
 			
-			fixed4 frag (v2f i) : SV_Target
+			float4 frag (v2f i) : SV_Target
 			{
-				fixed4 col = tex2D(_MainTex, i.texcoord);
+				float4 col = tex2D(_MainTex, i.uv);
+				float4 border = tex2D(_BorderTex, i.uv);
+
+				if (border.r < 0.5f) {
+					col.a = _BorderAlpha;
+				}
+
 				return col;
 			}
 		ENDCG
+		}
 	}
-}
-
 }
