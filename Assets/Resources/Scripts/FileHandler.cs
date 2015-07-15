@@ -93,9 +93,7 @@ public class FileHandler : MonoBehaviour {
 	}
 
 	public Thumbnail[] GetThumbs() {
-#if UNITY_EDITOR
-		//Do nothing.
-#elif UNITY_ANDROID
+#if UNITY_ANDROID && !UNITY_EDITOR
 		UpdateImages();
 #endif
 		return m_Thumbs.ToArray();

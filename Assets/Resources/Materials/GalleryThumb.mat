@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: GalleryThumb
-  m_Shader: {fileID: 4800000, guid: 7c17f7ab77ae8884a8520edc1be47cc1, type: 3}
+  m_Shader: {fileID: 4800000, guid: 93759f00cd0487941b13ad7ad3574c84, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -17,7 +17,7 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: c435fb157199ac84fb7b93e031f351f7, type: 3}
+          m_Texture: {fileID: 2800000, guid: 376f5f7154eafe548b1ced9ce83abb84, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
@@ -37,14 +37,18 @@ Material:
     m_Floats:
       data:
         first:
-          name: _isActive
+          name: _BorderAlpha
         second: 0
       data:
         first:
           name: _Shininess
         second: .078125
+      data:
+        first:
+          name: _isActive
+        second: 0
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 0}
+        second: {r: 1, g: 1, b: 1, a: 1}

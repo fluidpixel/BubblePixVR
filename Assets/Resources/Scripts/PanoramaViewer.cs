@@ -98,21 +98,22 @@ public class PanoramaViewer : MonoBehaviour {
 
 	public void ViewPanorama( Texture2D _tex ) 
 	{		
-		if ( isMoving ) {
-			StopCoroutine( "MoveMesh" );
-			m_MeshAnchor.localPosition = m_Target;
-		}
-
-		if ( m_IsCylinder )
-		{
-			m_Cylinder.SetActive( true );
-		}
-		else
-		{
-			m_Sphere.SetActive( true );
-		}
-		m_ActiveMesh.renderer.material.mainTexture = _tex;
-		StartCoroutine( MoveMesh( true ) );
+		//if ( isMoving ) {
+		//	StopCoroutine( "MoveMesh" );
+		//	m_MeshAnchor.localPosition = m_Target;
+		//}
+		//
+		//if ( m_IsCylinder )
+		//{
+		//	m_Cylinder.SetActive( true );
+		//}
+		//else
+		//{
+		//	m_Sphere.SetActive( true );
+		//}
+		//m_ActiveMesh.renderer.material.mainTexture = _tex;
+		//StartCoroutine( MoveMesh( true ) );
+		m_BackButton.gameObject.SetActive( false );
 	}
 
 	public void ViewVideo() {
@@ -121,12 +122,14 @@ public class PanoramaViewer : MonoBehaviour {
 
 	public void ExitPanorama() 
 	{
-		if ( isMoving ) { 
-			StopCoroutine("MoveMesh");
-			m_MeshAnchor.localPosition = m_Target;
-		}
+		//if ( isMoving ) { 
+		//	StopCoroutine("MoveMesh");
+		//	m_MeshAnchor.localPosition = m_Target;
+		//}
 
-		StartCoroutine( MoveMesh( false ) );
+		//StartCoroutine( MoveMesh( false ) );
+
+		m_BackButton.gameObject.SetActive( false );
 	}
 
 	public void ButtonClicked() {

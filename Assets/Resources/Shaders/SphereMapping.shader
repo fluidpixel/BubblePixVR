@@ -1,5 +1,6 @@
-﻿Shader "Custom/CullingReversed" {
+﻿Shader "Custom/ReverseCulling/TexturedTransparent" {
 Properties {
+	_Color ("Color (float)", color) = (0,0,0,1)
 	_MainTex ("Base (RGB)", 2D) = "black" {}
 	_BorderTex ("Border Tex(RGB)", 2D) = "white" {}
 	_BorderAlpha ("Border Alpha (float)", Float) = 0.0
@@ -30,6 +31,7 @@ SubShader {
 			uniform sampler2D _MainTex;
 			uniform sampler2D _BorderTex;
 			uniform float _BorderAlpha;
+			uniform float4 _Color;
 			
 			v2f vert (appdata_t v)
 			{
@@ -48,7 +50,7 @@ SubShader {
 					col.a = _BorderAlpha;
 				}
 
-				return col;
+				return col * _Color;
 			}
 		ENDCG
 		}

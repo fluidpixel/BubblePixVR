@@ -118,7 +118,11 @@ public class AppController : MonoBehaviour {
 		m_State = AppState.Viewer;
 
 		m_ThumbBrowser.gameObject.SetActive( false );
-		m_PanoViewer.ViewPanorama( m_FileHandler.TexFromThumb( _tile.Image ) );
+
+		Vector3 targetPos = _tile.MeshTransform.InverseTransformPoint( m_CameraController.gameObject.transform.position );
+
+		_tile.Animator.ToCylinder(targetPos);
+
 		m_CameraController.BrowserButtonActive( true );
 	}
 

@@ -18,6 +18,9 @@ public class ThumbTile : MonoBehaviour {
 	private MeshRenderer m_LargeInfoPanel;
 
 	[SerializeField]
+	private MeshAnimator m_Animator;
+
+	[SerializeField]
 	private Text m_Text;
 
 	[SerializeField]
@@ -31,6 +34,14 @@ public class ThumbTile : MonoBehaviour {
 
 	public FileHandler.Thumbnail Image {
 		get { return m_Thumb; }
+	}
+
+	public MeshAnimator Animator {
+		get { return m_Animator; }
+	}
+
+	public Transform MeshTransform {
+		get { return m_Mesh.transform; }
 	}
 
 	void Start() {
@@ -130,7 +141,7 @@ public class ThumbTile : MonoBehaviour {
 				m_AppController.BrowserToPano( this );
 			}
 			else {
-				( GetComponentInParent<ThumbBrowser>() as ThumbBrowser ).DeselectThumbs();
+				( GetComponentInParent<AppController>() as AppController ).TB.DeselectThumbs();
 				m_Clicked = true;
 			}
 		}
