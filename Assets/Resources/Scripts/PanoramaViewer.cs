@@ -8,6 +8,9 @@ using System.Collections.Generic;
 // along with the methods that move and enable parts of the viewer.
 
 public class PanoramaViewer : MonoBehaviour {
+
+#region Variable Declarations
+
 	[SerializeField]
 	private AppController m_Controller;
 
@@ -40,16 +43,29 @@ public class PanoramaViewer : MonoBehaviour {
 	//private bool videoMode = false;
 	private MeshRenderer m_ActiveMesh;
 	private Vector3 m_Target;
-
+	private ThumbTile m_ActiveThumb;
 	private int m_ImageCount;
+
+#endregion
+
+#region Accessor/Mutator Methods
 
 	public MeshRenderer TestPanel {
 		get { return m_TestPanel; }
 	}
 
+	public ThumbTile ActiveThumb {
+		get { return m_ActiveThumb; }
+		set { m_ActiveThumb = value; }
+	}
+
 	public void SetCapActive( bool _arg ) {
 		m_Capsule.SetActive( _arg );
 	}
+
+#endregion
+
+#region Monobehaviour Overrides
 
 	void Start() 
 	{
@@ -64,18 +80,22 @@ public class PanoramaViewer : MonoBehaviour {
 			else {
 				m_PanoButtons.SetActive( true );
 			}
+
+			if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Positive || Input.GetKey( KeyCode.RightArrow ) ) {
+				m_ActiveThumb.MeshTransform.Rotate( new Vector3( 0.0f, Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
+			}
+			else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative || Input.GetKey( KeyCode.RightArrow ) ) {
+				m_ActiveThumb.MeshTransform.Rotate( new Vector3( 0.0f, -Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
+			}
 		}
 		else {
 			m_PanoButtons.SetActive( false );
 		}
 
-		if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Positive ) {
-			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, Mathf.Min(m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f), 0.0f ) );
-		}
-		else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
-			m_MeshAnchor.transform.Rotate( new Vector3( 0.0f, -Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
-		}
+		
 	}
+
+#endregion
 
 	public void SwapMesh() 
 	{

@@ -26,21 +26,16 @@ public class MeshAnimator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		m_Renderer.material.SetFloat("_BorderAlpha", 1.0f - (curve - 1.0f));
-
-		if ( Input.GetKeyDown( KeyCode.Space ) ) {
-			StartCoroutine(MoveAndScale(new Vector3(0.0f, 0.0f, -2.0f), new Vector3( 3.0f, 3.0f, 3.0f )));
-			StartCoroutine(PlaneToCircle());
-		}
 	}
 
 	public void ToCylinder( Vector3 _targetPos ) {
+		StartCoroutine( MoveAndScale( _targetPos, new Vector3( 4.0f, 4.0f, 4.0f ), new Vector3( 0.0f, 45.0f, 0.0f ) ) );
 		StartCoroutine( PlaneToCircle() );
-		StartCoroutine( MoveAndScale( _targetPos, new Vector3( 4.0f, 4.0f, 4.0f ) ) );
 	}
 
 	public void ToPlane( ) {
 		StartCoroutine( CircleToPlane() );
-		StartCoroutine( MoveAndScale( Vector3.zero, new Vector3( 2.0f, 2.0f, 1.0f ) ) );
+		StartCoroutine( MoveAndScale( Vector3.zero, new Vector3( 2.0f, 2.0f, 1.0f ), Vector3.zero ) );
 	}
 
 	private IEnumerator LerpMesh() {
@@ -183,20 +178,31 @@ public class MeshAnimator : MonoBehaviour {
 		//m_Mesh.RecalculateBounds();
 	}
 
-	private IEnumerator MoveAndScale( Vector3 _targetPos, Vector3 _targetScale ) {
+	private IEnumerator MoveAndScale( Vector3 _targetPos, Vector3 _targetScale, Vector3 _targetRot ) {
 		float distance = 1.0f;
 		float scale = 1.0f;
-		while ( distance > 0.01f || scale > 0.01f ) {
+		float time = 0.0f;
+		float rotation = 1.0f;
+
+		Vector3 startPos = gameObject.transform.localPosition;
+		Vector3 startScale = gameObject.transform.localScale;
+		Vector3 startRot = gameObject.transform.localRotation.eulerAngles;
+
+		while ( distance > 0.01f || scale > 0.01f || rotation > 0.01f ) {
+			time += Time.deltaTime * 0.5f;
 			distance = Vector3.Distance( gameObject.transform.localPosition, _targetPos );
 			scale = Vector3.Distance( gameObject.transform.localScale, _targetScale );
+			rotation = Vector3.Distance( gameObject.transform.localRotation.eulerAngles, _targetRot );
 
-			gameObject.transform.localPosition = Vector3.Lerp( gameObject.transform.localPosition, _targetPos, Time.deltaTime / distance );
-			gameObject.transform.localScale = Vector3.Lerp( gameObject.transform.localScale, _targetScale, Time.deltaTime / distance );
+			gameObject.transform.localPosition = Vector3.Lerp( startPos, _targetPos, time );
+			gameObject.transform.localScale = Vector3.Lerp( startScale, _targetScale, time );
+			gameObject.transform.localRotation = Quaternion.Euler( Vector3.Lerp( startRot, _targetRot, time ) );
 
 			yield return null;
 		}
 		gameObject.transform.localPosition = _targetPos;
 		gameObject.transform.localScale = _targetScale;
+		gameObject.transform.localRotation = Quaternion.Euler(_targetRot);
 	}
 
 }

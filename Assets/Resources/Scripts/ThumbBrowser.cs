@@ -8,7 +8,6 @@ using System.Collections.Generic;
  * - Sorting of thumbnails.
  * - Button-based methods (clicked/selected/deselected)
  * - Scrolling and switching between sorting methods.
- * - Placed in regions to reduce the clutter/madness
  */
 
 public class ThumbBrowser : MonoBehaviour {
@@ -59,6 +58,9 @@ public class ThumbBrowser : MonoBehaviour {
 	[SerializeField]
 	private ColumnAnchor m_ColumnAnchorPrefab;
 
+	[SerializeField]
+	private Pointer m_Pointer;
+
 	#endregion
 
 	#region Variables - Private
@@ -69,37 +71,37 @@ public class ThumbBrowser : MonoBehaviour {
 		Date = 2
 	};
 
-	private List<ThumbTile> m_Thumbs = new List<ThumbTile>();
-	private List<string> m_Countries = new List<string>();
-	private List<DateTime> m_Dates = new List<DateTime>();
-	private List<TextPanel> m_TextPanels = new List<TextPanel>();
-	private List<ColumnAnchor> m_ColumnAnchors = new List<ColumnAnchor>();
+	private bool				moveLeft					= false;
+	private bool				moveRight					= false;
+	private bool				moveUp						= false;
+	private bool				moveDown					= false;
+	private bool				imageMode					= true;
+	private bool				m_Ascending					= true;
+	private int					m_ActiveColumn;
+	private float				xSpacing					= 4.0f;
+	private float				ySpacing					= 1.0f;
+	private float				m_MaxVelocity				= 10.0f;
+	private float				m_MaxAcceleration			= 4.0f;
+	private float				m_xAcceleration				= 0.0f;
+	private float				m_AccInc					= 1.5f;
+	private float				m_xVelocity					= 0.0f;
+	private float				m_MinVelocity				= 0.1f;
+	private float				m_GlobeButtonPosx			= -1.8f;
+	private float				m_CalendarButtonPosx		= -3.34f;
+	private float				m_SortOrderPosx				= 4.9f;
+	private float				m_LeftScrollPosx			= -1.5f;
+	private float				m_RightScrollPosx			= 1.5f;
+	private Color				m_ScrollColor				= new Color( 0.34f, 0.48f, 0.72f, 0.47f );
+	private Color				m_ScrollColorHover			= new Color( 0.34f, 0.48f, 0.72f, 0.74f );
+	private Color				m_ActiveButtonColor			= new Color( 0.32f, 0.7f, 0.4f, 0.47f );
+	private Color				m_ActiveButtonColorHover	= new Color( 0.32f, 0.7f, 0.4f, 0.74f );
+	private List<ThumbTile>		m_Thumbs					= new List<ThumbTile>();
+	private List<string>		m_Countries					= new List<string>();
+	private List<DateTime>		m_Dates						= new List<DateTime>();
+	private List<TextPanel>		m_TextPanels				= new List<TextPanel>();
+	private List<ColumnAnchor>	m_ColumnAnchors				= new List<ColumnAnchor>();
+	private SortingType			m_Sorting					= SortingType.None;
 
-	private int m_ActiveColumn;
-	private float xSpacing = 4.0f;
-	private float ySpacing = 1.0f;
-	private SortingType m_Sorting = SortingType.None;
-	private bool moveLeft = false;
-	private bool moveRight = false;
-	private bool moveUp = false;
-	private bool moveDown = false;
-	private bool imageMode = true;
-	private bool m_Ascending = true;
-	private Color m_ScrollColor = new Color( 0.34f, 0.48f, 0.72f, 0.47f );
-	private Color m_ScrollColorHover = new Color( 0.34f, 0.48f, 0.72f, 0.74f );
-	private Color m_ActiveButtonColor = new Color( 0.32f, 0.7f, 0.4f, 0.47f );
-	private Color m_ActiveButtonColorHover = new Color( 0.32f, 0.7f, 0.4f, 0.74f );
-	private float m_MaxVelocity = 10.0f;
-	private float m_MaxAcceleration = 4.0f;
-	private float m_xAcceleration = 0.0f;
-	private float m_AccInc = 1.5f;
-	private float m_xVelocity = 0.0f;
-	private float m_MinVelocity = 0.1f;
-	private float m_GlobeButtonPosx = -1.8f;
-	private float m_CalendarButtonPosx = -3.34f;
-	private float m_SortOrderPosx = 4.9f;
-	private float m_LeftScrollPosx = -1.5f;
-	private float m_RightScrollPosx = 1.5f;
 	private Texture2D m_PhotoTex, m_VideoTex, m_3DTex, m_2DTex;
 
 	#endregion
@@ -211,6 +213,17 @@ public class ThumbBrowser : MonoBehaviour {
 			StartCoroutine( MoveSortButtons( 2 ) );
 		}
 	}
+	public void HideCarousel( int _thumbNum ) {
+		foreach ( ThumbTile thumb in m_Thumbs ) {
+			if ( thumb.CarouselPos != _thumbNum )
+				thumb.gameObject.SetActive( false );
+		}
+	}
+	public void ShowCarousel() {
+		foreach ( ThumbTile thumb in m_Thumbs ) {
+			thumb.gameObject.SetActive( true );
+		}
+	}
 	private IEnumerator MoveSortButtons( int _position ) {
 		float target;
 		Vector3 globeTarget, calendarTarget, sortTarget, leftScrollTarget, rightScrollTarget;
@@ -309,21 +322,27 @@ public class ThumbBrowser : MonoBehaviour {
 
 	public void LeftTrigHover() {
 		m_LeftScroll.material.color = m_ScrollColorHover;
+		m_AppController.PointerColor = 2;
 	}
 	public void RightTrigHover() {
 		m_RightScroll.material.color = m_ScrollColorHover;
+		m_AppController.PointerColor = 2;
 	}
 	public void TopTrigHover() {
 		m_TopScroll.material.color = m_ScrollColorHover;
+		m_AppController.PointerColor = 2;
 	}
 	public void BotTrigHover() {
 		m_BotScroll.material.color = m_ScrollColorHover;
+		m_AppController.PointerColor = 2;
 	}
 	public void PVToggleHover() {
 		m_VideoToggle.material.color = m_ScrollColorHover;
+		m_AppController.PointerColor = 2;
 	}
 	public void SortButtonHover() {
 		m_SortButton.material.color = m_ScrollColorHover;
+		m_AppController.PointerColor = 2;
 	}
 	public void GlobeButtonHover() {
 		if ( m_Sorting == SortingType.Country ) {
@@ -332,6 +351,7 @@ public class ThumbBrowser : MonoBehaviour {
 		else {
 			m_GlobeIcon.material.color = m_ScrollColorHover;
 		}
+		m_AppController.PointerColor = 2;
 	}
 	public void CalendarButtonHover() {
 		if ( m_Sorting == SortingType.Date ) {
@@ -340,9 +360,11 @@ public class ThumbBrowser : MonoBehaviour {
 		else {
 			m_CalendarIcon.material.color = m_ScrollColorHover;
 		}
+		m_AppController.PointerColor = 2;
 	}
 	public void VRModeButtonHover() {
 		m_VRModeButton.material.color = m_ScrollColorHover;
+		m_AppController.PointerColor = 2;
 	}
 
 #endregion
@@ -352,24 +374,30 @@ public class ThumbBrowser : MonoBehaviour {
 	public void LeftTrigNoHover() {
 		m_LeftScroll.material.color = m_ScrollColor;
 		moveRight = false;
+		m_AppController.PointerColor = 0;
 	}
 	public void RightTrigNoHover() {
 		m_RightScroll.material.color = m_ScrollColor;
 		moveLeft = false;
+		m_AppController.PointerColor = 0;
 	}
 	public void TopTrigNoHover() {
 		m_TopScroll.material.color = m_ScrollColor;
 		moveUp = false;
+		m_AppController.PointerColor = 0;
 	}
 	public void BotTrigNoHover() {
 		m_BotScroll.material.color = m_ScrollColor;
 		moveDown = false;
+		m_AppController.PointerColor = 0;
 	}
 	public void PVToggleNoHover() {
 		m_VideoToggle.material.color = m_ScrollColor;
+		m_AppController.PointerColor = 0;
 	}
 	public void SortButtonNoHover() {
 		m_SortButton.material.color = m_ScrollColor;
+		m_AppController.PointerColor = 0;
 	}
 	public void GlobeButtonNoHover() {
 		if ( m_Sorting == SortingType.Country ) {
@@ -378,6 +406,7 @@ public class ThumbBrowser : MonoBehaviour {
 		else {
 			m_GlobeIcon.material.color = m_ScrollColor;
 		}
+		m_AppController.PointerColor = 0;
 	}
 	public void CalendarButtonNoHover() {
 		if ( m_Sorting == SortingType.Date ) {
@@ -386,9 +415,11 @@ public class ThumbBrowser : MonoBehaviour {
 		else {
 			m_CalendarIcon.material.color = m_ScrollColor;
 		}
+		m_AppController.PointerColor = 0;
 	}
 	public void VRModeButtonNoHover() {
 		m_VRModeButton.material.color = m_ScrollColor;
+		m_AppController.PointerColor = 0;
 	}
 
 #endregion
@@ -520,6 +551,7 @@ public class ThumbBrowser : MonoBehaviour {
 			AddCountry( thumbs[i].Country );
 			AddDate( thumbs[i].Date );
 			temp.SetThumb( thumbs[i] );
+			temp.CarouselPos = i;
 			temp.SetPos( tPos );
 			m_Thumbs.Add( temp );
 			if ( (i + 1) % 3 == 0 ) {
@@ -578,6 +610,7 @@ public class ThumbBrowser : MonoBehaviour {
 							Vector3 tPos = new Vector3( 0.0f, -( row * ySpacing ) - yPadding, 0.0f );
 
 							tempTile.SetPos( tPos );
+							tempTile.CarouselPos = i;
 							temp.Add( tempTile );
 
 							row++;
@@ -614,6 +647,7 @@ public class ThumbBrowser : MonoBehaviour {
 						Vector3 tPos = new Vector3( 0.0f, -( row * ySpacing ) - yPadding, 0.0f );
 
 						tempTile.SetPos( tPos );
+						tempTile.CarouselPos = i;
 						temp.Add( tempTile );
 
 						row++;

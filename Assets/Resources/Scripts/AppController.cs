@@ -8,6 +8,8 @@ using System.Globalization;
 
 public class AppController : MonoBehaviour {
 
+#region Variable Declarations
+
 	public enum AppState {
 		Browser = 0,
 		Viewer = 1
@@ -37,6 +39,18 @@ public class AppController : MonoBehaviour {
 	[SerializeField]
 	private ProximityDetector m_ProximityDetector;
 
+	[SerializeField]
+	private Pointer m_Pointer;
+
+	private AppState m_State = AppState.Browser;
+	private bool focusLost = false;
+	private float faceTime = 0.0f;
+	bool facePhone = false;
+
+#endregion
+
+#region Properties
+
 	public FileHandler FH {
 		get { return m_FileHandler; }
 	}
@@ -58,11 +72,13 @@ public class AppController : MonoBehaviour {
 	public AppState State {
 		get { return m_State; }
 	}
+	public int PointerColor {
+		set { m_Pointer.SetColor(value); }
+	}
 
-	private AppState m_State = AppState.Browser;
-	private bool focusLost = false;
-	private float faceTime = 0.0f;
-	bool facePhone = false;
+#endregion
+
+#region Monobehavior Overrides
 
 	void Start() {
 		MenuToBrowser();
@@ -104,7 +120,10 @@ public class AppController : MonoBehaviour {
 		}
 	}
 
-	//Camera Transitions
+#endregion
+
+#region Transition Methods
+
 	public void MenuToBrowser() {
 		m_State = AppState.Browser;
 
@@ -117,20 +136,22 @@ public class AppController : MonoBehaviour {
 	public void BrowserToPano( ThumbTile _tile ) {
 		m_State = AppState.Viewer;
 
+		m_ThumbBrowser.HideCarousel(_tile.CarouselPos);
+		_tile.SetComponentsActive( false );
 		m_ThumbBrowser.gameObject.SetActive( false );
-
+		m_PanoViewer.ActiveThumb = _tile;
 		Vector3 targetPos = _tile.MeshTransform.InverseTransformPoint( m_CameraController.gameObject.transform.position );
-
 		_tile.Animator.ToCylinder(targetPos);
-
 		m_CameraController.BrowserButtonActive( true );
 	}
 
 	public void PanoToBrowser() {
 		m_State = AppState.Browser;
 
-		m_PanoViewer.ExitPanorama();
+		m_PanoViewer.ActiveThumb.Animator.ToPlane();
 		m_ThumbBrowser.gameObject.SetActive( true );
+		m_ThumbBrowser.ShowCarousel();
+		m_PanoViewer.ActiveThumb.SetComponentsActive( true );
 		m_CameraController.BrowserButtonActive( false );
 	}
 
@@ -147,6 +168,8 @@ public class AppController : MonoBehaviour {
 		}
 		m_Cardboard.VRModeEnabled = !m_Cardboard.VRModeEnabled;
 	}
+
+#endregion
 
 	private void CheckIfViewer() {
 		if ( m_ProximityDetector.Distance < 1.0f ) {

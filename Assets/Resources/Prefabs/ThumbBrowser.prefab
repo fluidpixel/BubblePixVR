@@ -42,7 +42,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 415582}
   m_Layer: 0
-  m_Name: Tile Anchor
+  m_Name: Carousel Anchor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1250,10 +1250,11 @@ MonoBehaviour:
   m_CalendarIcon: {fileID: 2356512}
   m_GlobeIcon: {fileID: 2356508}
   m_VRModeButton: {fileID: 2317892}
-  m_ThumbAnchor: {fileID: 115582}
+  m_ThumbAnchor: {fileID: 0}
   m_TextPanelPrefab: {fileID: 11412110, guid: 031db915f4551fa46bdf74f7d62979c7, type: 2}
   m_ColumnAnchorPrefab: {fileID: 11445276, guid: 000b973ed3ebeb24296fe8319f0c617b,
     type: 2}
+  m_Pointer: {fileID: 0}
 --- !u!114 &11437174
 MonoBehaviour:
   m_ObjectHideFlags: 1

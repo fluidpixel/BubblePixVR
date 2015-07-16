@@ -19,7 +19,7 @@ public class ProceduralMesh : MonoBehaviour {
 	};
 
 	public static Mesh GenerateCurvedCylinder( int _height, int _sides ) {
-		float startTime = Time.realtimeSinceStartup;
+		//float startTime = Time.realtimeSinceStartup;
 
 		numVertices = _sides * _height;
 		numIndices = 6 * ( _sides - 1 ) * _height;
@@ -88,13 +88,13 @@ public class ProceduralMesh : MonoBehaviour {
 		ret.RecalculateNormals();
 
 
-		float diff = Time.realtimeSinceStartup - startTime;
+		//float diff = Time.realtimeSinceStartup - startTime;
 		//Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Verticies: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
 
 	public static Mesh GenerateCylinder( int _height, int _sides ) {
-		float startTime = Time.realtimeSinceStartup;
+		//float startTime = Time.realtimeSinceStartup;
 
 		numVertices = _sides * _height;
 		numIndices = 6 * ( _sides - 1 ) * _height;
@@ -154,13 +154,13 @@ public class ProceduralMesh : MonoBehaviour {
 		ret.RecalculateBounds();
 		ret.RecalculateNormals();
 
-		float diff = Time.realtimeSinceStartup - startTime;
-		Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
+		//float diff = Time.realtimeSinceStartup - startTime;
+		//Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
 
 	public static Mesh GenerateCup( int _height, int _sides ) {
-		float startTime = Time.realtimeSinceStartup;
+		//float startTime = Time.realtimeSinceStartup;
 
 		numVertices = _sides * _height;
 		numIndices = 6 * ( _sides - 1 ) * _height;
@@ -229,15 +229,14 @@ public class ProceduralMesh : MonoBehaviour {
 		ret.normals = normals;
 		ret.RecalculateBounds();
 
-		float diff = Time.realtimeSinceStartup - startTime;
-		Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
+		//float diff = Time.realtimeSinceStartup - startTime;
+		//Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
 
 	public static Mesh GeneratePlane( int _height, int _width ) {
-		float startTime = Time.realtimeSinceStartup;
+		//float startTime = Time.realtimeSinceStartup;
 		
-
 		numVertices = _width * _height;
 		numIndices = 6 * ( _width - 1 ) * _height;
 
@@ -291,13 +290,13 @@ public class ProceduralMesh : MonoBehaviour {
 		ret.RecalculateBounds();
 		ret.RecalculateNormals();
 
-		float diff = Time.realtimeSinceStartup - startTime;
+		//float diff = Time.realtimeSinceStartup - startTime;
 		//Debug.Log( "Plane mesh generated in " + diff.ToString() + " seconds. Vertex count: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
 
 	public static Mesh GenerateCurvedCylinderSegment( int _height, int _sides, float _deg, float _curve ) {
-		float startTime = Time.realtimeSinceStartup;
+		//float startTime = Time.realtimeSinceStartup;
 
 		float curveOffset = _deg > 2.0f ? 2.0f : _deg;
 		numVertices = _sides * _height;
@@ -369,7 +368,7 @@ public class ProceduralMesh : MonoBehaviour {
 		ret.RecalculateNormals();
 
 
-		float diff = Time.realtimeSinceStartup - startTime;
+		//float diff = Time.realtimeSinceStartup - startTime;
 		//Debug.Log( "Cylinder mesh generated in " + diff.ToString() + " seconds. Verticies: " + numVertices + ". Indicies: " + numIndices + "." );
 		return ret;
 	}
