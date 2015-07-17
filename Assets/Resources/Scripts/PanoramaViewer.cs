@@ -81,12 +81,19 @@ public class PanoramaViewer : MonoBehaviour {
 				m_PanoButtons.SetActive( true );
 			}
 
-			if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Positive || Input.GetKey( KeyCode.RightArrow ) ) {
+			if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Positive  ) {
 				m_ActiveThumb.MeshTransform.Rotate( new Vector3( 0.0f, Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
 			}
-			else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative || Input.GetKey( KeyCode.RightArrow ) ) {
+			else if ( m_Controller.TC.SwipeDirection[0] == TouchController.Swipe.Negative ) {
 				m_ActiveThumb.MeshTransform.Rotate( new Vector3( 0.0f, -Mathf.Min( m_Controller.TC.SwipeSpeed.x * 0.04f, 4.0f ), 0.0f ) );
 			}
+			else if ( Input.GetKey( KeyCode.RightArrow ) ) {
+				m_ActiveThumb.MeshTransform.Rotate( new Vector3( 0.0f, 1.0f, 0.0f ) );
+			}
+			else if ( Input.GetKey( KeyCode.LeftArrow ) ) {
+				m_ActiveThumb.MeshTransform.Rotate( new Vector3( 0.0f, -1.0f, 0.0f ) );
+			}
+
 		}
 		else {
 			m_PanoButtons.SetActive( false );

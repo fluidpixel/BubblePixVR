@@ -171,6 +171,15 @@ public class AppController : MonoBehaviour {
 
 #endregion
 
+	public void SetPointerText( string _arg ) {
+		if ( _arg == null ) {
+			m_Pointer.UnsetText();
+		}
+		else {
+			m_Pointer.SetText( _arg );
+		}
+	}
+
 	private void CheckIfViewer() {
 		if ( m_ProximityDetector.Distance < 1.0f ) {
 			facePhone = true;
@@ -191,4 +200,6 @@ public class AppController : MonoBehaviour {
 			faceTime = 0.0f;
 		}
 	}
+
+
 }

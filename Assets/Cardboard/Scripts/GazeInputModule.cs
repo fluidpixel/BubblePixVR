@@ -110,8 +110,8 @@ public class GazeInputModule : BaseInputModule {
   private void PlaceCursor() {
     if (cursor == null)
       return;
-    //var go = pointerData.pointerCurrentRaycast.gameObject;
-    //cursor.SetActive(go != null);
+    var go = pointerData.pointerCurrentRaycast.gameObject;
+    cursor.SetActive(go != null);
     if (cursor.activeInHierarchy) {
       Camera cam = pointerData.enterEventCamera;
       // Note: rays through screen start at near clipping plane.

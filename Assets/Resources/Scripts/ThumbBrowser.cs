@@ -61,6 +61,9 @@ public class ThumbBrowser : MonoBehaviour {
 	[SerializeField]
 	private Pointer m_Pointer;
 
+	[SerializeField]
+	private MeshRenderer m_RecenterButton;
+
 	#endregion
 
 	#region Variables - Private
@@ -323,18 +326,22 @@ public class ThumbBrowser : MonoBehaviour {
 	public void LeftTrigHover() {
 		m_LeftScroll.material.color = m_ScrollColorHover;
 		m_AppController.PointerColor = 2;
+		m_AppController.SetPointerText( "Scroll Left" );
 	}
 	public void RightTrigHover() {
 		m_RightScroll.material.color = m_ScrollColorHover;
 		m_AppController.PointerColor = 2;
+		m_AppController.SetPointerText( "Scroll Right" );
 	}
 	public void TopTrigHover() {
 		m_TopScroll.material.color = m_ScrollColorHover;
 		m_AppController.PointerColor = 2;
+		m_AppController.SetPointerText( "Scroll Up" );
 	}
 	public void BotTrigHover() {
 		m_BotScroll.material.color = m_ScrollColorHover;
 		m_AppController.PointerColor = 2;
+		m_AppController.SetPointerText( "Scroll Down" );
 	}
 	public void PVToggleHover() {
 		m_VideoToggle.material.color = m_ScrollColorHover;
@@ -343,6 +350,7 @@ public class ThumbBrowser : MonoBehaviour {
 	public void SortButtonHover() {
 		m_SortButton.material.color = m_ScrollColorHover;
 		m_AppController.PointerColor = 2;
+		m_AppController.SetPointerText( "Reverse Sort Order" );
 	}
 	public void GlobeButtonHover() {
 		if ( m_Sorting == SortingType.Country ) {
@@ -352,6 +360,7 @@ public class ThumbBrowser : MonoBehaviour {
 			m_GlobeIcon.material.color = m_ScrollColorHover;
 		}
 		m_AppController.PointerColor = 2;
+		m_AppController.SetPointerText( "Sort By Location" );
 	}
 	public void CalendarButtonHover() {
 		if ( m_Sorting == SortingType.Date ) {
@@ -361,10 +370,14 @@ public class ThumbBrowser : MonoBehaviour {
 			m_CalendarIcon.material.color = m_ScrollColorHover;
 		}
 		m_AppController.PointerColor = 2;
+		m_AppController.SetPointerText( "Sort By Date Taken" );
 	}
 	public void VRModeButtonHover() {
 		m_VRModeButton.material.color = m_ScrollColorHover;
 		m_AppController.PointerColor = 2;
+	}
+	public void RecenterButtonHover() {
+		
 	}
 
 #endregion

@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class MeshAnimator : MonoBehaviour {
-	
+
 	[SerializeField]
 	private MeshFilter m_Filter;
 
@@ -18,14 +18,14 @@ public class MeshAnimator : MonoBehaviour {
 	private bool paused = false;
 
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		m_Mesh = ProceduralMesh.GeneratePlane( height, width );
 		m_Filter.mesh = m_Mesh;
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-		m_Renderer.material.SetFloat("_BorderAlpha", 1.0f - (curve - 1.0f));
+	void Update() {
+		m_Renderer.material.SetFloat( "_BorderAlpha", 1.0f - ( curve - 1.0f ) );
 	}
 
 	public void ToCylinder( Vector3 _targetPos ) {
@@ -33,9 +33,8 @@ public class MeshAnimator : MonoBehaviour {
 		StartCoroutine( PlaneToCircle() );
 	}
 
-	public void ToPlane( ) {
-		StartCoroutine( CircleToPlane() );
-		StartCoroutine( MoveAndScale( Vector3.zero, new Vector3( 2.0f, 2.0f, 1.0f ), Vector3.zero ) );
+	public void ToPlane() {
+		StartCoroutine( FixRotation() );
 	}
 
 	private IEnumerator LerpMesh() {
@@ -43,16 +42,16 @@ public class MeshAnimator : MonoBehaviour {
 
 		if ( toPlane ) {
 			target = ProceduralMesh.GeneratePlane( height, width );
-			Debug.Log("To Plane");
+			Debug.Log( "To Plane" );
 		}
 		else {
 			target = ProceduralMesh.GenerateCurvedCylinder( height, width );
 			Debug.Log( "To Curve" );
 		}
-		
-		Vector3[] vertices	= new Vector3[width * height];
+
+		Vector3[] vertices = new Vector3[width * height];
 		Vector2[] texCoords = new Vector2[width * height];
-		Vector3[] normals	= new Vector3[width * height];
+		Vector3[] normals = new Vector3[width * height];
 
 		m_Mesh.triangles = target.triangles;
 
@@ -60,7 +59,7 @@ public class MeshAnimator : MonoBehaviour {
 		while ( Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) > 0.01f ) {
 			if ( !paused ) {
 				for ( int i = 0; i < m_Mesh.vertexCount; i++ ) {
-					vertices[i]		= Vector3.Slerp(m_Mesh.vertices[i], target.vertices[i], 0.5f * Time.deltaTime);
+					vertices[i] = Vector3.Slerp( m_Mesh.vertices[i], target.vertices[i], 0.5f * Time.deltaTime );
 					texCoords[i] = Vector2.Lerp( m_Mesh.uv[i], target.uv[i], 0.5f * Time.deltaTime );
 					normals[i] = Vector3.Slerp( m_Mesh.normals[i], target.normals[i], 0.5f * Time.deltaTime );
 
@@ -69,18 +68,18 @@ public class MeshAnimator : MonoBehaviour {
 					}
 				}
 				m_Mesh.vertices = vertices;
-				m_Mesh.uv		= texCoords;
-				m_Mesh.normals	= normals;
+				m_Mesh.uv = texCoords;
+				m_Mesh.normals = normals;
 				m_Mesh.RecalculateBounds();
 			}
 			yield return null;
 			//Debug.Log(Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ).ToString());
 		}
-		m_Mesh.vertices	= target.vertices;
-		m_Mesh.uv		= target.uv;
-		m_Mesh.normals	= target.normals;
+		m_Mesh.vertices = target.vertices;
+		m_Mesh.uv = target.uv;
+		m_Mesh.normals = target.normals;
 		m_Mesh.RecalculateBounds();
-		Debug.Log("Complete");
+		Debug.Log( "Complete" );
 	}
 
 	private IEnumerator CircleToPlane() {
@@ -90,13 +89,13 @@ public class MeshAnimator : MonoBehaviour {
 		curve = 1.0f;
 		bulge = 0.75f;
 		end = ProceduralMesh.GeneratePlane( height, width );
-		target = ProceduralMesh.GenerateCurvedCylinderSegment(height, width, curve, bulge);
+		target = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, curve, bulge );
 		float time;
 
 		while ( Vector3.Distance( m_Mesh.vertices[0], end.vertices[0] ) > 0.01f ) {
 			if ( !paused ) {
-				
-				if (curve != 2.0f )
+
+				if ( curve != 2.0f )
 					target = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, curve, bulge );
 				else if ( bulge != 1.0f )
 					target = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, curve, bulge );
@@ -134,7 +133,7 @@ public class MeshAnimator : MonoBehaviour {
 	}
 
 	private IEnumerator PlaneToCircle() {
-		
+
 		Mesh target, end;
 		Vector3[] vertices = new Vector3[width * height];
 		curve = 2.0f;
@@ -143,20 +142,20 @@ public class MeshAnimator : MonoBehaviour {
 		m_Mesh.bounds = end.bounds;
 		m_Mesh.triangles = target.triangles;
 		float time;
-	
+
 		while ( Vector3.Distance( m_Mesh.vertices[0], end.vertices[0] ) > 0.01f ) {
-			time = (Time.deltaTime / Vector3.Distance(m_Mesh.vertices[0], end.vertices[0]));
-			
+			time = ( Time.deltaTime / Vector3.Distance( m_Mesh.vertices[0], end.vertices[0] ) );
+
 			if ( !paused ) {
 
 				target = ProceduralMesh.GenerateCurvedCylinderSegment( height, width, curve, bulge );
 
 				if ( curve > 1.0f )
 					curve -= 0.04f;
-				else 
+				else
 					curve = 1.0f;
 
-				if ( bulge > 0.75f)
+				if ( bulge > 0.75f )
 					bulge -= 0.015f;
 				else
 					bulge = 0.75f;
@@ -164,10 +163,10 @@ public class MeshAnimator : MonoBehaviour {
 				yield return null;
 
 				for ( int i = 0; i < m_Mesh.vertexCount; i++ ) {
-					vertices[i] = Vector3.Lerp( m_Mesh.vertices[i], target.vertices[i], time);
+					vertices[i] = Vector3.Lerp( m_Mesh.vertices[i], target.vertices[i], time );
 				}
 				m_Mesh.vertices = vertices;
-			
+
 			}
 			yield return null;
 		}
@@ -176,6 +175,22 @@ public class MeshAnimator : MonoBehaviour {
 		m_Mesh.uv = end.uv;
 		m_Mesh.normals = end.normals;
 		//m_Mesh.RecalculateBounds();
+	}
+
+	private IEnumerator FixRotation() {
+		Vector3 target = new Vector3( 0.0f, 90.0f, 0.0f );//This should just be zero, but the mesh needs fixing.
+		Vector3 current = gameObject.transform.localRotation.eulerAngles;
+
+		float time = 0.0f;
+
+		while ( gameObject.transform.localRotation.eulerAngles != target ) {
+			time += Time.deltaTime * 3.0f;
+			gameObject.transform.localRotation = Quaternion.Euler( Vector3.Lerp( current, target, time ) );
+			
+			yield return null;
+		}
+		StartCoroutine( CircleToPlane() );
+		StartCoroutine( MoveAndScale( Vector3.zero, new Vector3( 2.0f, 2.0f, 1.0f ), Vector3.zero ) );
 	}
 
 	private IEnumerator MoveAndScale( Vector3 _targetPos, Vector3 _targetScale, Vector3 _targetRot ) {
@@ -202,7 +217,7 @@ public class MeshAnimator : MonoBehaviour {
 		}
 		gameObject.transform.localPosition = _targetPos;
 		gameObject.transform.localScale = _targetScale;
-		gameObject.transform.localRotation = Quaternion.Euler(_targetRot);
+		gameObject.transform.localRotation = Quaternion.Euler( _targetRot );
 	}
 
 }
