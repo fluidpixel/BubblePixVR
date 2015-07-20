@@ -17,14 +17,14 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: 916d917fe6f740d4c9aa84ed64013c4b, type: 3}
+          m_Texture: {fileID: 2800000, guid: 29e4ad1cf42e8034f91f71a476b5fbef, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BorderTex
         second:
-          m_Texture: {fileID: 2800000, guid: 29e4ad1cf42e8034f91f71a476b5fbef, type: 3}
+          m_Texture: {fileID: 2800000, guid: 916d917fe6f740d4c9aa84ed64013c4b, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:

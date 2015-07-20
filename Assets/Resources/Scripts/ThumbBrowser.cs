@@ -35,19 +35,16 @@ public class ThumbBrowser : MonoBehaviour {
 	private MeshRenderer m_BotScroll;
 
 	[SerializeField]
-	private MeshRenderer m_VideoToggle;
-
-	[SerializeField]
 	private MeshRenderer m_SortButton;
 
 	[SerializeField]
-	private MeshRenderer m_CalendarIcon;
+	private MeshRenderer m_VRModeButton;
 
 	[SerializeField]
 	private MeshRenderer m_GlobeIcon;
 
 	[SerializeField]
-	private MeshRenderer m_VRModeButton;
+	private MeshRenderer m_CalendarIcon;
 
 	[SerializeField]
 	private Carousel m_ThumbAnchor;
@@ -57,12 +54,6 @@ public class ThumbBrowser : MonoBehaviour {
 
 	[SerializeField]
 	private ColumnAnchor m_ColumnAnchorPrefab;
-
-	[SerializeField]
-	private Pointer m_Pointer;
-
-	[SerializeField]
-	private MeshRenderer m_RecenterButton;
 
 	#endregion
 
@@ -118,18 +109,7 @@ public class ThumbBrowser : MonoBehaviour {
 		m_VideoTex = Resources.Load( "Textures/Video" ) as Texture2D;
 		m_3DTex = Resources.Load( "Textures/3dmodeButton" ) as Texture2D;
 		m_2DTex = Resources.Load( "Textures/2dmodeButton" ) as Texture2D;
-		m_VideoToggle.material.SetTexture( "_BorderTex", m_PhotoTex );
 		m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
-		//Set all the things to a color.
-		m_LeftScroll.material.color = 
-		m_RightScroll.material.color = 
-		m_TopScroll.material.color = 
-		m_BotScroll.material.color = 
-		m_SortButton.material.color = 
-		m_GlobeIcon.material.color = 
-		m_CalendarIcon.material.color =
-		m_VideoToggle.material.color = 
-		m_VRModeButton.material.color = m_ScrollColor;
 	}
 
 	void Update() {
@@ -321,131 +301,9 @@ public class ThumbBrowser : MonoBehaviour {
 
 #endregion
 
-#region Hover Methods
-
-	public void LeftTrigHover() {
-		m_LeftScroll.material.color = m_ScrollColorHover;
-		m_AppController.PointerColor = 2;
-		m_AppController.SetPointerText( "Scroll Left" );
-	}
-	public void RightTrigHover() {
-		m_RightScroll.material.color = m_ScrollColorHover;
-		m_AppController.PointerColor = 2;
-		m_AppController.SetPointerText( "Scroll Right" );
-	}
-	public void TopTrigHover() {
-		m_TopScroll.material.color = m_ScrollColorHover;
-		m_AppController.PointerColor = 2;
-		m_AppController.SetPointerText( "Scroll Up" );
-	}
-	public void BotTrigHover() {
-		m_BotScroll.material.color = m_ScrollColorHover;
-		m_AppController.PointerColor = 2;
-		m_AppController.SetPointerText( "Scroll Down" );
-	}
-	public void PVToggleHover() {
-		m_VideoToggle.material.color = m_ScrollColorHover;
-		m_AppController.PointerColor = 2;
-	}
-	public void SortButtonHover() {
-		m_SortButton.material.color = m_ScrollColorHover;
-		m_AppController.PointerColor = 2;
-		m_AppController.SetPointerText( "Reverse Sort Order" );
-	}
-	public void GlobeButtonHover() {
-		if ( m_Sorting == SortingType.Country ) {
-			m_GlobeIcon.material.color = m_ActiveButtonColorHover;
-		}
-		else {
-			m_GlobeIcon.material.color = m_ScrollColorHover;
-		}
-		m_AppController.PointerColor = 2;
-		m_AppController.SetPointerText( "Sort By Location" );
-	}
-	public void CalendarButtonHover() {
-		if ( m_Sorting == SortingType.Date ) {
-			m_CalendarIcon.material.color = m_ActiveButtonColorHover;
-		}
-		else {
-			m_CalendarIcon.material.color = m_ScrollColorHover;
-		}
-		m_AppController.PointerColor = 2;
-		m_AppController.SetPointerText( "Sort By Date Taken" );
-	}
-	public void VRModeButtonHover() {
-		m_VRModeButton.material.color = m_ScrollColorHover;
-		m_AppController.PointerColor = 2;
-	}
-	public void RecenterButtonHover() {
-		
-	}
-
-#endregion
-
-#region No-Hover Methods
-
-	public void LeftTrigNoHover() {
-		m_LeftScroll.material.color = m_ScrollColor;
-		moveRight = false;
-		m_AppController.PointerColor = 0;
-	}
-	public void RightTrigNoHover() {
-		m_RightScroll.material.color = m_ScrollColor;
-		moveLeft = false;
-		m_AppController.PointerColor = 0;
-	}
-	public void TopTrigNoHover() {
-		m_TopScroll.material.color = m_ScrollColor;
-		moveUp = false;
-		m_AppController.PointerColor = 0;
-	}
-	public void BotTrigNoHover() {
-		m_BotScroll.material.color = m_ScrollColor;
-		moveDown = false;
-		m_AppController.PointerColor = 0;
-	}
-	public void PVToggleNoHover() {
-		m_VideoToggle.material.color = m_ScrollColor;
-		m_AppController.PointerColor = 0;
-	}
-	public void SortButtonNoHover() {
-		m_SortButton.material.color = m_ScrollColor;
-		m_AppController.PointerColor = 0;
-	}
-	public void GlobeButtonNoHover() {
-		if ( m_Sorting == SortingType.Country ) {
-			m_GlobeIcon.material.color = m_ActiveButtonColor;
-		}
-		else {
-			m_GlobeIcon.material.color = m_ScrollColor;
-		}
-		m_AppController.PointerColor = 0;
-	}
-	public void CalendarButtonNoHover() {
-		if ( m_Sorting == SortingType.Date ) {
-			m_CalendarIcon.material.color = m_ActiveButtonColor;
-		}
-		else {
-			m_CalendarIcon.material.color = m_ScrollColor;
-		}
-		m_AppController.PointerColor = 0;
-	}
-	public void VRModeButtonNoHover() {
-		m_VRModeButton.material.color = m_ScrollColor;
-		m_AppController.PointerColor = 0;
-	}
-
-#endregion
-
 #region Clicked Methods
 
 	public void PVToggleClicked() {
-		if ( imageMode ) {
-			m_VideoToggle.material.SetTexture( "_BorderTex", m_VideoTex );
-		}
-		else {
-			m_VideoToggle.material.SetTexture( "_BorderTex", m_PhotoTex );
-		}
 		imageMode = !imageMode;
 	}
 	public void SortButtonClicked() {
@@ -457,6 +315,7 @@ public class ThumbBrowser : MonoBehaviour {
 		else {
 			m_SortButton.material.SetTextureScale( "_BorderTex", new Vector2( 1, -1 ) );
 		}
+
 		if ( m_Sorting == SortingType.Date ) {
 			SortColumns( false );
 		}
@@ -487,40 +346,18 @@ public class ThumbBrowser : MonoBehaviour {
 	public void VRModeButtonClicked() {
 		m_AppController.VrMode();
 
-		if ( m_AppController.VRMode ) {
-			m_VRModeButton.material.SetTexture( "_BorderTex", m_2DTex );
-		}
-		else {
-			m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
-		}
 	}
 	public void LeftTrigClicked() {
 		moveRight = !moveRight;
-		if (moveRight)
-			m_LeftScroll.material.color = m_ActiveButtonColorHover;
-		else
-			m_LeftScroll.material.color = m_ScrollColorHover;
 	}
 	public void RightTrigClicked() {
 		moveLeft = !moveLeft;
-		if ( moveLeft )
-			m_RightScroll.material.color = m_ActiveButtonColorHover;
-		else
-			m_RightScroll.material.color = m_ScrollColorHover;
 	}
 	public void TopTrigClicked() {
 		moveUp = !moveUp;
-		if (moveUp)
-			m_TopScroll.material.color = m_ActiveButtonColorHover;
-		else
-			m_TopScroll.material.color = m_ScrollColorHover;
 	}
 	public void BotTrigClicked() {
 		moveDown = !moveDown;
-		if ( moveDown )
-			m_BotScroll.material.color = m_ActiveButtonColorHover;
-		else
-			m_BotScroll.material.color = m_ScrollColorHover;
 	}
 
 #endregion

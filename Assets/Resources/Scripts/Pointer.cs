@@ -11,6 +11,9 @@ public class Pointer : MonoBehaviour {
 	private MeshRenderer m_Pointer;
 
 	[SerializeField]
+	private MeshRenderer m_Background;
+
+	[SerializeField]
 	private TextMesh m_Text;
 
 	[SerializeField]
@@ -21,14 +24,19 @@ public class Pointer : MonoBehaviour {
 
 	private Color[] m_Colors = { Color.white, Color.green, Color.yellow };
 	private Vector3 m_InitScale;
-
+	private AppController m_AppController;
 
 	void Start() {
 		m_InitScale = m_Text.gameObject.transform.localScale;
+		m_AppController = GameObject.Find("SceneObjects").GetComponent<AppController>() as AppController;
 	}
 
 	void Update() {
 		ScaleToCamera();
+		if ( !m_AppController.VRMode || m_AppController.State == AppController.AppState.Viewer ) {
+			m_Text.gameObject.SetActive( false );
+			m_Background.gameObject.SetActive( false );
+		}
 	}
 
 	public void SetText( string _arg ) {

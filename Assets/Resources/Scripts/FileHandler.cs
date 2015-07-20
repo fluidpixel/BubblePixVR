@@ -83,9 +83,8 @@ public class FileHandler : MonoBehaviour {
 	[SerializeField]
 	private JavaUnityInterface m_JUInterface;
 
-#if UNITY_ANDROID
 	private string[] m_Textures;
-#endif
+
 	private List<Thumbnail> m_Thumbs;
 
 	public int NumThumbs {
@@ -119,7 +118,7 @@ public class FileHandler : MonoBehaviour {
 		m_Textures = m_JUInterface.GetImagePaths();
 
 		foreach ( string file in m_Textures ) {
-			if ( m_JUInterface.DecodeImage( file, true, false ) )
+			if ( m_JUInterface.DecodeImage( file, false, false ) )
 				m_Thumbs.Add( new Thumbnail( m_JUInterface.Image, file, m_JUInterface.Width, m_JUInterface.Height, m_JUInterface.StartWidth, m_JUInterface.StartHeight, m_JUInterface.Date, m_JUInterface.Country ) );
 		}
 #endif
@@ -132,7 +131,7 @@ public class FileHandler : MonoBehaviour {
 			m_Textures = tex;
 			m_Thumbs.Clear();
 			foreach ( string file in m_Textures ) {
-				if ( m_JUInterface.DecodeImage( file, true, true ) ) {
+				if ( m_JUInterface.DecodeImage( file, false, false ) ) {
 					m_Thumbs.Add( new Thumbnail( m_JUInterface.Image, file, m_JUInterface.Width, m_JUInterface.Height, m_JUInterface.StartWidth, m_JUInterface.StartHeight, m_JUInterface.Date, m_JUInterface.Country ) );
 				}
 			}

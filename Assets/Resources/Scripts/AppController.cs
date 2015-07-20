@@ -143,6 +143,7 @@ public class AppController : MonoBehaviour {
 		Vector3 targetPos = _tile.MeshTransform.InverseTransformPoint( m_CameraController.gameObject.transform.position );
 		_tile.Animator.ToCylinder(targetPos);
 		m_CameraController.BrowserButtonActive( true );
+		m_Pointer.UnsetText();
 	}
 
 	public void PanoToBrowser() {
@@ -160,11 +161,13 @@ public class AppController : MonoBehaviour {
 			m_Head.trackPosition = m_Head.trackRotation = false;
 			m_Head.transform.rotation = new Quaternion();
 			m_ThumbBrowser.To2DView();
+			m_Pointer.UnsetText();
 		}
 		else {
 			m_Head.trackPosition = m_Head.trackRotation = true;
 			m_Head.transform.rotation = new Quaternion();
 			m_ThumbBrowser.To3DView();
+			m_Pointer.UnsetText();
 		}
 		m_Cardboard.VRModeEnabled = !m_Cardboard.VRModeEnabled;
 	}
@@ -200,6 +203,5 @@ public class AppController : MonoBehaviour {
 			faceTime = 0.0f;
 		}
 	}
-
 
 }

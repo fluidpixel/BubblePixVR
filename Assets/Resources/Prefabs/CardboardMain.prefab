@@ -12,6 +12,7 @@ GameObject:
   - 64: {fileID: 6411302}
   - 23: {fileID: 2311302}
   - 114: {fileID: 11411304}
+  - 114: {fileID: 11415774}
   m_Layer: 0
   m_Name: Recenter Button
   m_TagString: Untagged
@@ -158,6 +159,7 @@ GameObject:
   - 64: {fileID: 6494578}
   - 23: {fileID: 2394578}
   - 114: {fileID: 11411302}
+  - 114: {fileID: 11491840}
   m_Layer: 0
   m_Name: BackButton
   m_TagString: Untagged
@@ -199,7 +201,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &411302
 Transform:
   m_ObjectHideFlags: 1
@@ -207,7 +209,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 111302}
   m_LocalRotation: {x: -.18547368, y: 0, z: 0, w: .982649267}
-  m_LocalPosition: {x: 0, y: .25999999, z: .0920000002}
+  m_LocalPosition: {x: 0, y: .658999979, z: .0920000002}
   m_LocalScale: {x: .25, y: .25, z: 1}
   m_Children: []
   m_Father: {fileID: 494580}
@@ -237,7 +239,7 @@ Transform:
   - {fileID: 471030}
   - {fileID: 471038}
   m_Father: {fileID: 471042}
-  m_RootOrder: 0
+  m_RootOrder: 1
 --- !u!4 &471034
 Transform:
   m_ObjectHideFlags: 1
@@ -247,10 +249,9 @@ Transform:
   m_LocalRotation: {x: .707106888, y: 0, z: 0, w: .707106769}
   m_LocalPosition: {x: 0, y: -.83099997, z: .760999978}
   m_LocalScale: {x: .0250000004, y: .0250000004, z: .0250000004}
-  m_Children:
-  - {fileID: 494584}
+  m_Children: []
   m_Father: {fileID: 471042}
-  m_RootOrder: 1
+  m_RootOrder: 2
 --- !u!4 &471038
 Transform:
   m_ObjectHideFlags: 1
@@ -287,6 +288,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 494584}
   - {fileID: 471032}
   - {fileID: 471034}
   m_Father: {fileID: 471040}
@@ -297,9 +299,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194578}
-  m_LocalRotation: {x: -.185474172, y: 0, z: 0, w: .982649207}
-  m_LocalPosition: {x: 0, y: .453999996, z: 0}
-  m_LocalScale: {x: .25, y: .125, z: 1}
+  m_LocalRotation: {x: -.313201696, y: 0, z: 0, w: .949686646}
+  m_LocalPosition: {x: 0, y: .879000008, z: -.0179999992}
+  m_LocalScale: {x: .378063828, y: .189031988, z: 1.51225591}
   m_Children: []
   m_Father: {fileID: 494580}
   m_RootOrder: 1
@@ -310,7 +312,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171062}
   m_LocalRotation: {x: .707106888, y: 0, z: 0, w: .707106769}
-  m_LocalPosition: {x: 0, y: -.989997864, z: .0500000007}
+  m_LocalPosition: {x: 0, y: -.99000001, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 411302}
@@ -324,7 +326,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194580}
   m_LocalRotation: {x: .00159943081, y: 1.39826692e-10, z: -8.74226771e-08, w: -.999998808}
-  m_LocalPosition: {x: 17.2000008, y: 3.69999313, z: .400001228}
+  m_LocalPosition: {x: .300000012, y: 0, z: .400000006}
   m_LocalScale: {x: 36.7225266, y: 7.18095636, z: 1}
   m_Children: []
   m_Father: {fileID: 494584}
@@ -335,12 +337,12 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194582}
-  m_LocalRotation: {x: .707106829, y: 6.18172464e-08, z: 6.18172464e-08, w: -.707106829}
-  m_LocalPosition: {x: 0, y: -1.70530257e-12, z: -4.76837204e-06}
-  m_LocalScale: {x: .5, y: .5, z: 1}
+  m_LocalRotation: {x: -8.42936956e-08, y: -7.36918918e-15, z: 8.74227837e-08, w: -1}
+  m_LocalPosition: {x: 0, y: -.397000015, z: 1.00199997}
+  m_LocalScale: {x: .0125000002, y: .0125000039, z: .0250000078}
   m_Children:
   - {fileID: 494582}
-  m_Father: {fileID: 471034}
+  m_Father: {fileID: 471042}
   m_RootOrder: 0
 --- !u!20 &2071030
 Camera:
@@ -644,8 +646,8 @@ TextMesh:
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 6
-  m_Alignment: 0
+  m_Anchor: 4
+  m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 60
   m_FontStyle: 0
@@ -672,6 +674,54 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 0}
           m_MethodName: PanoToBrowser
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+        - m_Target: {fileID: 11491840}
+          m_MethodName: OnClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11491840}
+          m_MethodName: OnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11491840}
+          m_MethodName: OnNoHover
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -712,8 +762,69 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+        - m_Target: {fileID: 11415774}
+          m_MethodName: OnClick
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11415774}
+          m_MethodName: OnHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11415774}
+          m_MethodName: OnNoHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+--- !u!114 &11415774
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 111302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aea692258612844e95b650275b0d0c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsToggle: 0
+  m_PointerString: Recenter
 --- !u!114 &11421194
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -876,6 +987,19 @@ MonoBehaviour:
   trackPosition: 1
   target: {fileID: 0}
   updateEarly: 1
+--- !u!114 &11491840
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 194578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4aea692258612844e95b650275b0d0c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsToggle: 0
+  m_PointerString: Back
 --- !u!114 &11494578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -888,6 +1012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Pointer: {fileID: 2371030}
+  m_Background: {fileID: 2394580}
   m_Text: {fileID: 10294578}
   m_Cam: {fileID: 2071032}
   m_ObjScale: 1

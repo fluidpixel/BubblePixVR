@@ -34,7 +34,7 @@ public class ProceduralMesh : MonoBehaviour {
 		float degInc = 360.0f / ( (float)_sides - 1 );
 		float bulgeInc = 90.0f / (float)_height - 1;
 		float bulge = 15 * bulgeInc;
-		float deg = 0.0f;
+		float deg = -90.0f;
 		float rad = 0.0f;
 
 		Vector3 centrePos;
@@ -56,7 +56,7 @@ public class ProceduralMesh : MonoBehaviour {
 				normals[i * _sides + j] = Vector3.Normalize( centrePos + unitPos * rad );
 				deg += degInc;
 			}
-			deg = 0.0f;
+			deg = -90.0f;
 		}
 
 		int offset = 0;
@@ -312,7 +312,7 @@ public class ProceduralMesh : MonoBehaviour {
 		float degInc = (360.0f / _deg) / ( (float)_sides - 1 );
 		float bulgeInc = 90.0f / (float)_height; //4.7
 		float bulge = (_height * 0.5f) * bulgeInc;
-		float deg = 0.0f;
+		float deg = -90.0f;
 		float rad = 0.0f;
 
 		Vector3 centrePos;
@@ -336,7 +336,7 @@ public class ProceduralMesh : MonoBehaviour {
 				normals[i * _sides + j] = Vector3.Normalize( centrePos + unitPos * rad );
 				deg += degInc;
 			}
-			deg = 0.0f;
+			deg = -90.0f;
 		}
 
 		int offset = 0;
