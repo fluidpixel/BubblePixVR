@@ -23,28 +23,28 @@ public class ThumbBrowser : MonoBehaviour {
 	private ThumbTile m_TilePrefab;
 
 	[SerializeField]
-	private MeshRenderer m_LeftScroll;
+	private UIButton m_LeftScroll;
 
 	[SerializeField]
-	private MeshRenderer m_RightScroll;
+	private UIButton m_RightScroll;
 
 	[SerializeField]
-	private MeshRenderer m_TopScroll;
+	private UIButton m_TopScroll;
 
 	[SerializeField]
-	private MeshRenderer m_BotScroll;
+	private UIButton m_BotScroll;
 
 	[SerializeField]
-	private MeshRenderer m_SortButton;
+	private UIButton m_SortButton;
 
 	[SerializeField]
-	private MeshRenderer m_VRModeButton;
+	private UIButton m_VRModeButton;
 
 	[SerializeField]
-	private MeshRenderer m_GlobeIcon;
+	private UIButton m_GlobeIcon;
 
 	[SerializeField]
-	private MeshRenderer m_CalendarIcon;
+	private UIButton m_CalendarIcon;
 
 	[SerializeField]
 	private Carousel m_ThumbAnchor;
@@ -71,6 +71,7 @@ public class ThumbBrowser : MonoBehaviour {
 	private bool				moveDown					= false;
 	private bool				imageMode					= true;
 	private bool				m_Ascending					= true;
+	private bool				m_Sweeping					= false;
 	private int					m_ActiveColumn;
 	private float				xSpacing					= 4.0f;
 	private float				ySpacing					= 1.0f;
@@ -85,10 +86,6 @@ public class ThumbBrowser : MonoBehaviour {
 	private float				m_SortOrderPosx				= 4.9f;
 	private float				m_LeftScrollPosx			= -1.5f;
 	private float				m_RightScrollPosx			= 1.5f;
-	private Color				m_ScrollColor				= new Color( 0.34f, 0.48f, 0.72f, 0.47f );
-	private Color				m_ScrollColorHover			= new Color( 0.34f, 0.48f, 0.72f, 0.74f );
-	private Color				m_ActiveButtonColor			= new Color( 0.32f, 0.7f, 0.4f, 0.47f );
-	private Color				m_ActiveButtonColorHover	= new Color( 0.32f, 0.7f, 0.4f, 0.74f );
 	private List<ThumbTile>		m_Thumbs					= new List<ThumbTile>();
 	private List<string>		m_Countries					= new List<string>();
 	private List<DateTime>		m_Dates						= new List<DateTime>();
@@ -98,18 +95,22 @@ public class ThumbBrowser : MonoBehaviour {
 
 	private Texture2D m_PhotoTex, m_VideoTex, m_3DTex, m_2DTex;
 
+	public bool Sweeping {
+		get { return m_Sweeping; }
+	}
+
 	#endregion
 
 #endregion
 
 #region MonoBehaviour Overrides
 
-	void Start() {
+	void Awake() {
 		m_PhotoTex = Resources.Load( "Textures/Picture" ) as Texture2D;
 		m_VideoTex = Resources.Load( "Textures/Video" ) as Texture2D;
 		m_3DTex = Resources.Load( "Textures/3dmodeButton" ) as Texture2D;
 		m_2DTex = Resources.Load( "Textures/2dmodeButton" ) as Texture2D;
-		m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
+		//m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
 	}
 
 	void Update() {
@@ -220,18 +221,18 @@ public class ThumbBrowser : MonoBehaviour {
 			rightScrollTarget	= new Vector3( m_RightScrollPosx - target, m_RightScroll.transform.localPosition.y, m_RightScroll.transform.localPosition.z );
 
 			if ( m_LeftScroll.gameObject.activeSelf ) {
-				SetAlpha( m_LeftScroll, 0.46875f );
-				SetAlpha( m_RightScroll, 0.46875f );
+				m_LeftScroll.SetAlpha( 0.46875f );
+				m_RightScroll.SetAlpha( 0.46875f );
 
-				StartCoroutine( AlphaFade( m_LeftScroll, 0.0f, 0.02f ) );
-				StartCoroutine( AlphaFade( m_RightScroll, 0.0f, 0.02f ) );
+				StartCoroutine( m_LeftScroll.AlphaFade( 0.0f, 0.02f ) );
+				StartCoroutine( m_RightScroll.AlphaFade( 0.0f, 0.02f ) );
 			}
 			if ( m_TopScroll.gameObject.activeSelf ) {
-				SetAlpha( m_TopScroll, 0.46875f );
-				SetAlpha( m_BotScroll, 0.46875f );
+				m_TopScroll.SetAlpha( 0.46875f );
+				m_BotScroll.SetAlpha( 0.46875f );
 
-				StartCoroutine( AlphaFade( m_TopScroll, 0.0f, 0.02f ) );
-				StartCoroutine( AlphaFade( m_BotScroll, 0.0f, 0.02f ) );
+				StartCoroutine( m_TopScroll.AlphaFade( 0.0f, 0.02f ) );
+				StartCoroutine( m_BotScroll.AlphaFade( 0.0f, 0.02f ) );
 			}
 		}
 		else if ( _position == 1 ){ //Move outwards
@@ -244,21 +245,21 @@ public class ThumbBrowser : MonoBehaviour {
 			if ( !m_LeftScroll.gameObject.activeSelf ) {
 				EnableHorizontalTriggers( true );
 
-				SetAlpha( m_LeftScroll, 0.0f );
-				SetAlpha( m_RightScroll, 0.0f );
+				m_LeftScroll.SetAlpha( 0.0f );
+				m_RightScroll.SetAlpha( 0.0f );
 
-				StartCoroutine( AlphaFade( m_LeftScroll, 0.46875f, 0.02f ) );
-				StartCoroutine( AlphaFade( m_RightScroll, 0.46875f, 0.02f ) );
+				StartCoroutine( m_LeftScroll.AlphaFade( 0.46875f, 0.02f ) );
+				StartCoroutine( m_RightScroll.AlphaFade( 0.46875f, 0.02f ) );
 			}
 
 			if ( !m_TopScroll.gameObject.activeSelf ) {
 				EnableVerticalTriggers( true );
 
-				SetAlpha( m_TopScroll, 0.0f );
-				SetAlpha( m_BotScroll, 0.0f );
+				m_TopScroll.SetAlpha( 0.0f );
+				m_BotScroll.SetAlpha( 0.0f );
 
-				StartCoroutine( AlphaFade( m_TopScroll, 0.46875f, 0.01f ) );
-				StartCoroutine( AlphaFade( m_BotScroll, 0.46875f, 0.01f ) );
+				StartCoroutine( m_TopScroll.AlphaFade( 0.46875f, 0.01f ) );
+				StartCoroutine( m_BotScroll.AlphaFade( 0.46875f, 0.01f ) );
 			}
 			
 		}
@@ -273,11 +274,11 @@ public class ThumbBrowser : MonoBehaviour {
 			if ( !m_LeftScroll.gameObject.activeSelf ) {
 				EnableHorizontalTriggers( true );
 
-				SetAlpha( m_LeftScroll, 0.0f );
-				SetAlpha( m_RightScroll, 0.0f );
+				m_LeftScroll.SetAlpha( 0.0f );
+				m_RightScroll.SetAlpha( 0.0f );
 
-				StartCoroutine( AlphaFade( m_LeftScroll, 0.46875f, 0.02f ) );
-				StartCoroutine( AlphaFade( m_RightScroll, 0.46875f, 0.02f ) );
+				StartCoroutine( m_LeftScroll.AlphaFade( 0.46875f, 0.02f ) );
+				StartCoroutine( m_RightScroll.AlphaFade( 0.46875f, 0.02f ) );
 			}
 		}
 
@@ -301,26 +302,52 @@ public class ThumbBrowser : MonoBehaviour {
 
 #endregion
 
+#region De-Selected Methods
+
+	public void LeftTrigNoHover() {
+		moveLeft = false;
+		m_LeftScroll.SetClicked( false );
+	}
+
+	public void RightTrigNoHover() {
+		moveRight = false;
+		m_RightScroll.SetClicked( false );
+	}
+
+	public void TopTrigNoHover() {
+		moveUp = false;
+		m_TopScroll.SetClicked( false );
+	}
+
+	public void BotTrigNoHover() {
+		moveDown = false;
+		m_BotScroll.SetClicked( false );
+	}
+
+#endregion
+
 #region Clicked Methods
 
 	public void PVToggleClicked() {
 		imageMode = !imageMode;
 	}
 	public void SortButtonClicked() {
-		m_Ascending = !m_Ascending;
+		if ( m_Sorting != SortingType.None ) {
+			m_Ascending = !m_Ascending;
 
-		if ( m_Ascending ) {
-			m_SortButton.material.SetTextureScale( "_BorderTex", new Vector2( 1, 1 ) );
-		}
-		else {
-			m_SortButton.material.SetTextureScale( "_BorderTex", new Vector2( 1, -1 ) );
-		}
+			if ( m_Ascending ) {
+				m_SortButton.Material.SetTextureScale( "_BorderTex", new Vector2( 1, 1 ) );
+			}
+			else {
+				m_SortButton.Material.SetTextureScale( "_BorderTex", new Vector2( 1, -1 ) );
+			}
 
-		if ( m_Sorting == SortingType.Date ) {
-			SortColumns( false );
-		}
-		else if ( m_Sorting == SortingType.Country ) {
-			SortColumns( true );
+			if ( m_Sorting == SortingType.Date ) {
+				SortColumns( false );
+			}
+			else if ( m_Sorting == SortingType.Country ) {
+				SortColumns( true );
+			}
 		}
 	}
 	public void GlobeButtonClicked() {
@@ -331,6 +358,7 @@ public class ThumbBrowser : MonoBehaviour {
 		else {
 			SortColumns( true );
 			ChangeSorting( SortingType.Country );
+			m_CalendarIcon.SetClicked( false );
 		}
 	}
 	public void CalendarButtonClicked() {
@@ -341,6 +369,7 @@ public class ThumbBrowser : MonoBehaviour {
 		else {
 			SortColumns( false );
 			ChangeSorting( SortingType.Date );
+			m_GlobeIcon.SetClicked( false );
 		}
 	}
 	public void VRModeButtonClicked() {
@@ -532,8 +561,7 @@ public class ThumbBrowser : MonoBehaviour {
 		StopAllCoroutines();
 		m_Sorting = _arg;
 		if ( m_Sorting == SortingType.None ) {
-			m_GlobeIcon.material.color = m_ScrollColor;
-			m_CalendarIcon.material.color = m_ScrollColor;
+			
 			EnableVerticalTriggers( false );
 			if ( m_AppController.VRMode ) { 
 				StartCoroutine( MoveSortButtons( 2 ) );
@@ -543,15 +571,11 @@ public class ThumbBrowser : MonoBehaviour {
 			}
 		}
 		else if ( m_Sorting == SortingType.Date ) {
-			m_GlobeIcon.material.color = m_ScrollColor;
-			m_CalendarIcon.material.color = m_ActiveButtonColor;
 			if ( m_AppController.VRMode ) {
 				StartCoroutine( MoveSortButtons( 1 ) );
 			}
 		}
 		else {
-			m_GlobeIcon.material.color = m_ActiveButtonColor;
-			m_CalendarIcon.material.color = m_ScrollColor;
 			if ( m_AppController.VRMode ) {
 				StartCoroutine( MoveSortButtons( 1 ) );
 			}
@@ -568,13 +592,15 @@ public class ThumbBrowser : MonoBehaviour {
 		StartCoroutine( SweepOverTime( _tileToMove, targetPos ) );
 	}
 	private IEnumerator SweepOverTime( GameObject _tileToMove, Vector3 _targetPos ) {
-		
+		m_Sweeping = true;
+		float time = 0.0f;
 		while ( Mathf.Abs( _tileToMove.transform.position.x ) > 0.1f ) { //Current position of tile is not 0
 			
-			m_ThumbAnchor.Transform.position = Vector3.Lerp( m_ThumbAnchor.Transform.position, _targetPos, Time.deltaTime);
-
+			m_ThumbAnchor.Transform.position = Vector3.Lerp( m_ThumbAnchor.Transform.position, _targetPos, time);
+			time += Time.deltaTime / Mathf.Abs(_tileToMove.transform.position.x);
 			yield return null;
 		}
+		m_Sweeping = false;
 	}
 	private void GetActiveColumn() {
 		m_ActiveColumn = -1;
@@ -811,30 +837,7 @@ public class ThumbBrowser : MonoBehaviour {
 		m_RightScroll.gameObject.SetActive( _arg );
 		m_LeftScroll.gameObject.SetActive( _arg );
 	}
-	private IEnumerator AlphaFade( MeshRenderer _argMesh, float _target, float _rate ) {
-		Color color = _argMesh.material.color;
-		bool subtract = _target < color.a ? true : false;
-
-		while ( Mathf.Abs(_target - color.a ) > 0.01f ) {
-			color = _argMesh.material.color;
-			
-			if ( subtract )
-				color.a -= _rate;
-			else
-				color.a += _rate;
-			
-			_argMesh.material.color = color;
-			
-			yield return null;
-		}
-		color.a = _target;
-		_argMesh.material.color = color;
-
-		if ( _target == 0.0f ) {
-			_argMesh.gameObject.SetActive( false );
-		}
-
-	}
+	
 	private void SetAlpha( MeshRenderer _argMesh, float _value ) {
 		Color color = _argMesh.material.color;
 		color.a = _value;

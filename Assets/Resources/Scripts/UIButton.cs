@@ -6,14 +6,12 @@ public class UIButton : MonoBehaviour {
 	[SerializeField]
 	private bool m_IsToggle;
 
+	
+	
+
 	[Tooltip( "String that is displayed on the pointer when hovered, leave blank if no text should show" )]
 	[SerializeField]
 	private string m_PointerString = null;
-
-	private Color m_Color = new Color( 0.34f, 0.48f, 0.72f, 0.47f );
-	private Color m_ColorHover = new Color( 0.34f, 0.48f, 0.72f, 0.74f );
-	private Color m_ActiveColor = new Color( 0.32f, 0.7f, 0.4f, 0.47f );
-	private Color m_ActiveColorHover = new Color( 0.32f, 0.7f, 0.4f, 0.74f );
 
 	private Color[] m_Colors = { new Color( 0.34f, 0.48f, 0.72f, 0.47f ),	//Color
 								 new Color( 0.34f, 0.48f, 0.72f, 0.74f ),	//Hover Color
@@ -21,26 +19,26 @@ public class UIButton : MonoBehaviour {
 								 new Color( 0.32f, 0.7f, 0.4f, 0.74f ) };	//Active Hover Color
 
 	private bool m_IsActive;
-	private MeshRenderer m_Mesh = null;
+	
 	private Pointer m_Pointer = null;
+	private MeshRenderer m_Mesh;
 
-	// Use this for initialization
-	void Start () {
+	public Material Material {
+		get { return m_Mesh.material; }
+		set { m_Mesh.material = value; }
+	}
+
+	void Awake() {
 		m_Mesh = GetComponent<MeshRenderer>() as MeshRenderer;
-		m_Pointer = GameObject.Find("GazePointer").GetComponent<Pointer>() as Pointer;
+		m_Pointer = GameObject.Find( "GazePointer" ).GetComponent<Pointer>() as Pointer;
 
-		if (m_Pointer == null)
-		Debug.Log("Could not find the pointer");
+		if ( m_Pointer == null )
+			Debug.Log( "Could not find the pointer" );
 
-		if (m_Mesh == null)
-		Debug.Log("Could not find the mesh");
+		if ( m_Mesh == null )
+			Debug.Log( "Could not find the mesh" );
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	public void OnHover() {
 		if ( m_IsActive )
 			m_Mesh.material.color = m_Colors[3];
@@ -81,6 +79,36 @@ public class UIButton : MonoBehaviour {
 		else {
 			m_Mesh.material.color = m_Colors[0];
 			m_IsActive = false;
+		}
+	}
+
+	public void SetAlpha( float _value ) {
+		Color color = m_Mesh.material.color;
+		color.a = _value;
+		m_Mesh.material.color = color;
+	}
+
+	public IEnumerator AlphaFade( float _target, float _rate ) {
+		Color color = m_Mesh.material.color;
+		bool subtract = _target < color.a ? true : false;
+
+		while ( Mathf.Abs( _target - color.a ) > 0.01f ) {
+			color = m_Mesh.material.color;
+
+			if ( subtract )
+				color.a -= _rate;
+			else
+				color.a += _rate;
+
+			m_Mesh.material.color = color;
+
+			yield return null;
+		}
+		color.a = _target;
+		m_Mesh.material.color = color;
+
+		if ( _target == 0.0f ) {
+			gameObject.SetActive( false );
 		}
 	}
 }

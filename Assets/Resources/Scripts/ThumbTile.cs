@@ -33,10 +33,8 @@ public class ThumbTile : MonoBehaviour {
 	private AppController m_AppController;
 	private FileHandler.Thumbnail m_Thumb;
 	private bool m_Selected = false;
-	private bool m_Selectable;
-	private bool m_Clicked;
+	private bool m_Focus = false;
 	private int m_CarouselPos;
-	private bool m_isViewing = false;
 	private Pointer m_Pointer;
 	private string m_PointerString = "View Panorama";
 
@@ -76,7 +74,6 @@ public class ThumbTile : MonoBehaviour {
 	void Update() {
 		if ( m_AppController.TC.Swiping ) {
 			m_Selected = false;
-			m_Clicked = false;
 		}
 
 		if ( m_AppController.VRMode ) {
@@ -102,7 +99,7 @@ public class ThumbTile : MonoBehaviour {
 
 		float fade = Mathf.Max(xdist, ydist);
 
-		if ( m_Selected || m_Clicked ) {
+		if ( m_Selected ) {
 			color.w = 1.0f;
 			textColor.w = 1.0f;
 			infoColor.w = 0.6f;
@@ -120,15 +117,12 @@ public class ThumbTile : MonoBehaviour {
 		m_LargeText.color = textColor;
 
 		if ( pos.x < 2.5f && pos.x > -2.5f && pos.y < 2.0f && pos.y > -0.3f ) {
-			m_Selectable = true;
 			m_PointerString = "View Panorama";
-
+			m_Focus = true;
 		}
 		else {
-			m_Selectable = false;
-			m_Clicked = false;
 			m_PointerString = "Scroll To";
-			//m_Selected = false;
+			m_Focus = false;
 		}
 	}
 
@@ -149,47 +143,47 @@ public class ThumbTile : MonoBehaviour {
 
 #endregion
 
+
 #region User-Interface Methods
 
 	public void Hover() {
-		if ( m_Selectable && m_AppController.VRMode && !m_isViewing )
+		if ( m_AppController.VRMode ) {
 			m_Selected = true;
 			m_Pointer.SetColor( 1 );
-			m_Pointer.SetText( "View Panorama" );
+			m_Pointer.SetText( m_PointerString );
+		}
 	}
 
 	public void NoHover() {
 		m_Selected = false;
 		m_Pointer.SetColor( 0 );
-		m_Pointer.SetText(null);
+		m_Pointer.UnsetText();
 	}
 
 	public void DeClicked() {
 		m_Selected = false;
-		m_Clicked = false;
 	}
 
 	public void Clicked() {
-		if ( !m_isViewing ) {
-			if ( !m_AppController.VRMode ) {
-				if ( m_Clicked ) {
-					m_Clicked = false;
-					NoHover();
-					m_isViewing = true;
-					m_AppController.BrowserToPano( this );
-				}
-				else {
-					( GetComponentInParent<AppController>() as AppController ).TB.DeselectThumbs();
-					m_Clicked = true;
-				}
-			}
-			else if ( m_Selected ) {
+		if ( m_AppController.VRMode ) {
+			if ( m_Focus && !m_AppController.TB.Sweeping ) {
 				NoHover();
-				m_isViewing = true;
 				m_AppController.BrowserToPano( this );
 			}
-			else if ( !m_Selectable ) {
-				m_AppController.TB.SweepToCentre(this.gameObject);
+			else {
+				m_AppController.TB.SweepToCentre( this.gameObject );
+				m_Selected = true;
+			}
+		} 
+		else {
+			if ( m_Selected && !m_AppController.TB.Sweeping ) {
+				m_Selected = false;
+				NoHover();
+				m_AppController.BrowserToPano( this );
+			}
+			else {
+				m_AppController.TB.DeselectThumbs();
+				m_Selected = true;
 			}
 		}
 	}
@@ -197,7 +191,6 @@ public class ThumbTile : MonoBehaviour {
 	public void SetComponentsActive( bool _arg ) {
 		m_LargeInfoPanel.gameObject.SetActive( _arg );
 		m_InfoPanel.gameObject.SetActive( _arg );
-		m_isViewing = !_arg;
 	}
 
 

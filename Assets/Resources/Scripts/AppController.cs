@@ -150,10 +150,8 @@ public class AppController : MonoBehaviour {
 		m_State = AppState.Browser;
 
 		m_PanoViewer.ActiveThumb.Animator.ToPlane();
-		m_ThumbBrowser.gameObject.SetActive( true );
-		m_ThumbBrowser.ShowCarousel();
-		m_PanoViewer.ActiveThumb.SetComponentsActive( true );
 		m_CameraController.BrowserButtonActive( false );
+		StartCoroutine( WaitForComplete( m_PanoViewer.ActiveThumb ) );
 	}
 
 	public void VrMode() {
@@ -173,15 +171,6 @@ public class AppController : MonoBehaviour {
 	}
 
 #endregion
-
-	public void SetPointerText( string _arg ) {
-		if ( _arg == null ) {
-			m_Pointer.UnsetText();
-		}
-		else {
-			m_Pointer.SetText( _arg );
-		}
-	}
 
 	private void CheckIfViewer() {
 		if ( m_ProximityDetector.Distance < 1.0f ) {
@@ -204,4 +193,12 @@ public class AppController : MonoBehaviour {
 		}
 	}
 
+	private IEnumerator WaitForComplete( ThumbTile _tile ) {
+		while ( !_tile.Animator.IsPlane ) {
+			yield return null;
+		}
+		m_ThumbBrowser.gameObject.SetActive( true );
+		m_ThumbBrowser.ShowCarousel();
+		m_PanoViewer.ActiveThumb.SetComponentsActive( true );
+	}
 }

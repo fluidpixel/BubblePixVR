@@ -12,9 +12,6 @@ public class PanoramaViewer : MonoBehaviour {
 #region Variable Declarations
 
 	[SerializeField]
-	private AppController m_Controller;
-
-	[SerializeField]
 	private GameObject m_Cylinder;
 
 	[SerializeField]
@@ -42,6 +39,7 @@ public class PanoramaViewer : MonoBehaviour {
 	private bool isMoving = false;
 	//private bool videoMode = false;
 	private MeshRenderer m_ActiveMesh;
+	private AppController m_Controller;
 	private Vector3 m_Target;
 	private ThumbTile m_ActiveThumb;
 	private int m_ImageCount;
@@ -66,6 +64,10 @@ public class PanoramaViewer : MonoBehaviour {
 #endregion
 
 #region Monobehaviour Overrides
+
+	void Awake() {
+		m_Controller = GameObject.Find( "SceneObjects" ).GetComponent<AppController>() as AppController;
+	}
 
 	void Start() 
 	{
