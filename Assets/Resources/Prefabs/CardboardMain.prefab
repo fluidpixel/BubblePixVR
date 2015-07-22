@@ -949,7 +949,7 @@ MonoBehaviour:
   vrModeEnabled: 1
   enableAlignmentMarker: 1
   enableSettingsButton: 1
-  TapIsTrigger: 1
+  TapIsTrigger: 0
   neckModelScale: 1
   autoDriftCorrection: 1
   autoUntiltHead: 1

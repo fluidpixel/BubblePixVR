@@ -141,7 +141,7 @@ public class AppController : MonoBehaviour {
 		m_ThumbBrowser.gameObject.SetActive( false );
 		m_PanoViewer.ActiveThumb = _tile;
 		Vector3 targetPos = _tile.MeshTransform.InverseTransformPoint( m_CameraController.gameObject.transform.position );
-		_tile.Animator.ToCylinder(targetPos);
+		_tile.Animator.ToCylinder( m_CameraController.gameObject.transform.position );
 		m_CameraController.BrowserButtonActive( true );
 		m_Pointer.UnsetText();
 	}

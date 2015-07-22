@@ -2,7 +2,6 @@
 	Properties {
 		_Color ("Main Color", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
-		_BorderTex("Border Texture", 2D) = "white" {}
 	}
 	SubShader {
 		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
@@ -16,7 +15,6 @@
 			#include "UnityCG.cginc"
 
 			uniform sampler2D _MainTex;
-			uniform sampler2D _BorderTex;
 			uniform fixed4 _Color;
 
 			struct v2f {
@@ -51,9 +49,7 @@
 				
 				float rgb = sin(v * 5 * pi);
 				
-				float4 wave = float4(rgb, rgb, rgb, 1.0f);
-				
-				float4 fragColor = tex2D(_MainTex, i.uv) * wave;
+				float4 fragColor = float4(rgb, rgb, rgb, 1.0f);
 
 				if (fragColor.r + fragColor.g + fragColor.b < _Color.r + _Color.g + _Color.b) {
 					fragColor = _Color;
@@ -61,16 +57,18 @@
 				else {
 					fragColor *= _Color;
 				}
+				
+				//fragColor -= _Color;
+
 				float4 image = tex2D (_MainTex, i.uv);
 				
 				if (image.r < 0.5f) {
 					fragColor = float4(0.0f, 0.0f, 0.0f, 1.0f);
 				}
 				
-				float4 border = tex2D(_BorderTex, i.uv);
-
-				if (border.r < 0.5f) {
+				if (image.a < 0.5f) {
 					fragColor.a = 0.0f;
+					//fragColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 				}
 
 				return fragColor ;

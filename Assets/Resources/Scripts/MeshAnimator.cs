@@ -30,17 +30,10 @@ public class MeshAnimator : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		m_Renderer.material.SetFloat( "_BorderAlpha", m_BorderAlpha );
-		//paused = !Input.GetKey( KeyCode.P );
-
-		//if (Input.GetKeyDown(KeyCode.RightArrow))
-		//	StartCoroutine( PlaneToCircle() );
-
-		//if (Input.GetKeyDown(KeyCode.LeftArrow))
-		//	StartCoroutine( CircleToPlane() );
 	}
 
 	public void ToCylinder( Vector3 _targetPos ) {
-		StartCoroutine( MoveAndScale( _targetPos, new Vector3( 4.0f, 4.0f, 4.0f ), new Vector3( 0.0f, 0.0f, 0.0f ) ) );
+		StartCoroutine( MoveAndScale( _targetPos, new Vector3( 4.0f, 4.0f, 4.0f ), Vector3.zero ) );
 		StartCoroutine( PlaneToCircle() );
 	}
 
@@ -118,17 +111,45 @@ public class MeshAnimator : MonoBehaviour {
 		float time = 0.0f;
 
 		while ( gameObject.transform.localRotation != target ) {
-			Debug.Log("Rotating");
 			gameObject.transform.localRotation = Quaternion.Lerp(current, target, time);
 			time += Time.deltaTime;
 			yield return null;
 		}
-		Debug.Log("No longer Rotating");
 		StartCoroutine( CircleToPlane() );
-		StartCoroutine( MoveAndScale( Vector3.zero, new Vector3( 2.0f, 2.0f, 1.0f ), Vector3.zero ) );
+		StartCoroutine( MoveAndScaleLocal( Vector3.zero, new Vector3( 2.0f, 2.0f, 1.0f ), Vector3.zero ) );
 	}
 
 	private IEnumerator MoveAndScale( Vector3 _targetPos, Vector3 _targetScale, Vector3 _targetRot ) {
+		float distance = 1.0f;
+		float scale = 1.0f;
+		float time = 0.0f;
+		float rotation = 1.0f;
+
+		Vector3 startPos = gameObject.transform.position;
+		Vector3 startScale = gameObject.transform.localScale;
+		Vector3 startRot = gameObject.transform.localRotation.eulerAngles;
+		yield return null;
+		while ( distance > 0.01f || scale > 0.01f || rotation > 0.01f ) {
+			if ( !m_Paused ) {
+				
+				time += Time.deltaTime * 0.5f;
+				distance = Vector3.Distance( gameObject.transform.position, _targetPos );
+				scale = Vector3.Distance( gameObject.transform.localScale, _targetScale );
+				rotation = Vector3.Distance( gameObject.transform.localRotation.eulerAngles, _targetRot );
+
+				gameObject.transform.position = Vector3.Lerp( startPos, _targetPos, time );
+				gameObject.transform.localScale = Vector3.Lerp( startScale, _targetScale, time );
+				gameObject.transform.localRotation = Quaternion.Euler( Vector3.Lerp( startRot, _targetRot, time ) );
+			}
+			yield return null;
+		}
+		gameObject.transform.position = _targetPos;
+		gameObject.transform.localScale = _targetScale;
+		gameObject.transform.localRotation = Quaternion.Euler( _targetRot );
+
+	}
+
+	private IEnumerator MoveAndScaleLocal( Vector3 _targetPos, Vector3 _targetScale, Vector3 _targetRot ) {
 		float distance = 1.0f;
 		float scale = 1.0f;
 		float time = 0.0f;
@@ -140,7 +161,7 @@ public class MeshAnimator : MonoBehaviour {
 		yield return null;
 		while ( distance > 0.01f || scale > 0.01f || rotation > 0.01f ) {
 			if ( !m_Paused ) {
-				
+
 				time += Time.deltaTime * 0.5f;
 				distance = Vector3.Distance( gameObject.transform.localPosition, _targetPos );
 				scale = Vector3.Distance( gameObject.transform.localScale, _targetScale );
@@ -157,5 +178,4 @@ public class MeshAnimator : MonoBehaviour {
 		gameObject.transform.localRotation = Quaternion.Euler( _targetRot );
 
 	}
-
 }

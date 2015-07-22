@@ -114,15 +114,15 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 
 	void Update() {
+
 #if UNITY_EDITOR
-
-		moveLeft = Input.GetKey( KeyCode.LeftArrow );
-		moveRight = Input.GetKey( KeyCode.RightArrow );
-		moveUp = Input.GetKey( KeyCode.UpArrow );
-		moveDown = Input.GetKey( KeyCode.DownArrow );
-
+		if ( !m_AppController.VRMode ) {
+			moveLeft = Input.GetKey( KeyCode.LeftArrow );
+			moveRight = Input.GetKey( KeyCode.RightArrow );
+			moveUp = Input.GetKey( KeyCode.UpArrow );
+			moveDown = Input.GetKey( KeyCode.DownArrow );
+		}
 #endif
-
 		if ( m_Thumbs.Count > 1 ) {
 
 			ApplyAcceleration();

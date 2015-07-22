@@ -17,21 +17,17 @@ Material:
         first:
           name: _MainTex
         second:
-          m_Texture: {fileID: 2800000, guid: a5bc7bac526c5494b8bd7ed7336b125e, type: 3}
+          m_Texture: {fileID: 2800000, guid: 8f7aaa5584f05b3458f6c00a5d5245f0, type: 3}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
       data:
         first:
           name: _BorderTex
         second:
-          m_Texture: {fileID: 2800000, guid: 916d917fe6f740d4c9aa84ed64013c4b, type: 3}
+          m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
     m_Floats:
-      data:
-        first:
-          name: _isActive
-        second: 0
       data:
         first:
           name: _TexHeight
@@ -40,6 +36,10 @@ Material:
         first:
           name: _TexWidth
         second: 512
+      data:
+        first:
+          name: _isActive
+        second: 0
     m_Colors:
       data:
         first:
