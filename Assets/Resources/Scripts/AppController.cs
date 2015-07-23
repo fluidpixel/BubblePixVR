@@ -129,8 +129,7 @@ public class AppController : MonoBehaviour {
 
 		m_PanoViewer.gameObject.SetActive( true );
 		m_ThumbBrowser.gameObject.SetActive( true );
-		m_ThumbBrowser.PopThumbs();
-		m_PanoViewer.SetCapActive( true );
+		m_ThumbBrowser.PopThumbs();		
 	}
 
 	public void BrowserToPano( ThumbTile _tile ) {
@@ -140,7 +139,7 @@ public class AppController : MonoBehaviour {
 		_tile.SetComponentsActive( false );
 		m_ThumbBrowser.gameObject.SetActive( false );
 		m_PanoViewer.ActiveThumb = _tile;
-		Vector3 targetPos = _tile.MeshTransform.InverseTransformPoint( m_CameraController.gameObject.transform.position );
+		//Vector3 targetPos = _tile.MeshTransform.InverseTransformPoint( m_CameraController.gameObject.transform.position );
 		_tile.Animator.ToCylinder( m_CameraController.gameObject.transform.position );
 		m_CameraController.BrowserButtonActive( true );
 		m_Pointer.UnsetText();
@@ -148,7 +147,7 @@ public class AppController : MonoBehaviour {
 
 	public void PanoToBrowser() {
 		m_State = AppState.Browser;
-
+		m_PanoViewer.ActiveThumb.StopViewing();
 		m_PanoViewer.ActiveThumb.Animator.ToPlane();
 		m_CameraController.BrowserButtonActive( false );
 		StartCoroutine( WaitForComplete( m_PanoViewer.ActiveThumb ) );

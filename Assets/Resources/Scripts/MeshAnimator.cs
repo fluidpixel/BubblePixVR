@@ -33,11 +33,13 @@ public class MeshAnimator : MonoBehaviour {
 	}
 
 	public void ToCylinder( Vector3 _targetPos ) {
+		StopAllCoroutines();
 		StartCoroutine( MoveAndScale( _targetPos, new Vector3( 4.0f, 4.0f, 4.0f ), Vector3.zero ) );
 		StartCoroutine( PlaneToCircle() );
 	}
 
 	public void ToPlane() {
+		StopAllCoroutines();
 		StartCoroutine( FixRotation() );
 	}
 
@@ -48,7 +50,6 @@ public class MeshAnimator : MonoBehaviour {
 		Vector2[] uvs = new Vector2[m_Width * m_Height];
 		target = ProceduralMesh.GeneratePlane( m_Height, m_Width );
 		float time = 0.0f;
-		
 
 		while ( Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) != 0.0f ) {
 			m_BorderAlpha = Mathf.Clamp( Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ), 0.0f, 1.0f );
@@ -106,15 +107,14 @@ public class MeshAnimator : MonoBehaviour {
 	private IEnumerator FixRotation() {
 		Quaternion target = Quaternion.identity;
 		Quaternion current = gameObject.transform.localRotation;
-		Debug.Log(current.x + " " + current.y + " " + current.z);
-		Debug.Log(target.x + " " + target.y + " " + target.z);
 		float time = 0.0f;
 
-		while ( gameObject.transform.localRotation != target ) {
+		while ( Vector3.Distance(gameObject.transform.localRotation.eulerAngles, Vector3.zero) > 0.001f && time < 1.0f ) {
 			gameObject.transform.localRotation = Quaternion.Lerp(current, target, time);
 			time += Time.deltaTime;
 			yield return null;
 		}
+		gameObject.transform.localRotation = Quaternion.identity;
 		StartCoroutine( CircleToPlane() );
 		StartCoroutine( MoveAndScaleLocal( Vector3.zero, new Vector3( 2.0f, 2.0f, 1.0f ), Vector3.zero ) );
 	}

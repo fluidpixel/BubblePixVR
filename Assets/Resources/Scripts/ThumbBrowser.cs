@@ -93,8 +93,6 @@ public class ThumbBrowser : MonoBehaviour {
 	private List<ColumnAnchor>	m_ColumnAnchors				= new List<ColumnAnchor>();
 	private SortingType			m_Sorting					= SortingType.None;
 
-	private Texture2D m_PhotoTex, m_VideoTex, m_3DTex, m_2DTex;
-
 	public bool Sweeping {
 		get { return m_Sweeping; }
 	}
@@ -106,10 +104,10 @@ public class ThumbBrowser : MonoBehaviour {
 #region MonoBehaviour Overrides
 
 	void Awake() {
-		m_PhotoTex = Resources.Load( "Textures/Picture" ) as Texture2D;
-		m_VideoTex = Resources.Load( "Textures/Video" ) as Texture2D;
-		m_3DTex = Resources.Load( "Textures/3dmodeButton" ) as Texture2D;
-		m_2DTex = Resources.Load( "Textures/2dmodeButton" ) as Texture2D;
+		//m_PhotoTex = Resources.Load( "Textures/Picture" ) as Texture2D;
+		//m_VideoTex = Resources.Load( "Textures/Video" ) as Texture2D;
+		//m_3DTex = Resources.Load( "Textures/3dmodeButton" ) as Texture2D;
+		//m_2DTex = Resources.Load( "Textures/2dmodeButton" ) as Texture2D;
 		//m_VRModeButton.material.SetTexture( "_BorderTex", m_3DTex );
 	}
 

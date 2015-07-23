@@ -12,53 +12,18 @@ public class PanoramaViewer : MonoBehaviour {
 #region Variable Declarations
 
 	[SerializeField]
-	private GameObject m_Cylinder;
-
-	[SerializeField]
-	private GameObject m_Sphere;
-
-	[SerializeField]
-	private Transform m_MeshAnchor;
-
-	[SerializeField]
-	private GameObject m_Capsule;
-
-	[SerializeField]
-	private MeshRenderer m_BackButton;
-
-	[SerializeField]
-	private MeshRenderer m_TestPanel;
-
-	[SerializeField]
 	private GameObject m_PanoButtons;
 
-	[SerializeField]
-	private VideoPlayer m_VideoPlayer;
-
-	private bool m_IsCylinder = true;
-	private bool isMoving = false;
-	//private bool videoMode = false;
-	private MeshRenderer m_ActiveMesh;
 	private AppController m_Controller;
-	private Vector3 m_Target;
 	private ThumbTile m_ActiveThumb;
-	private int m_ImageCount;
 
 #endregion
 
 #region Accessor/Mutator Methods
 
-	public MeshRenderer TestPanel {
-		get { return m_TestPanel; }
-	}
-
 	public ThumbTile ActiveThumb {
 		get { return m_ActiveThumb; }
 		set { m_ActiveThumb = value; }
-	}
-
-	public void SetCapActive( bool _arg ) {
-		m_Capsule.SetActive( _arg );
 	}
 
 #endregion
@@ -100,8 +65,6 @@ public class PanoramaViewer : MonoBehaviour {
 		else {
 			m_PanoButtons.SetActive( false );
 		}
-
-		
 	}
 
 #endregion

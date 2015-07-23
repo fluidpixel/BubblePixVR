@@ -177,6 +177,13 @@ public class StereoController : MonoBehaviour {
 
   void Awake() {
     AddStereoRig();
+
+	#if UNITY_EDITOR && !UNITY_ANDROID
+		directRender = false;
+	#else
+		directRender = true;
+	#endif
+
   }
 
   // Helper routine for creation of a stereo rig.  Used by the

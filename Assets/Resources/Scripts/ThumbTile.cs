@@ -10,7 +10,7 @@ using System.Collections;
 
 public class ThumbTile : MonoBehaviour {
 
-#region Variable Declarations
+	#region Variable Declarations
 
 	[SerializeField]
 	private MeshRenderer m_Mesh;
@@ -34,13 +34,14 @@ public class ThumbTile : MonoBehaviour {
 	private FileHandler.Thumbnail m_Thumb;
 	private bool m_Selected = false;
 	private bool m_Focus = false;
+	private bool m_Viewing = false;
 	private int m_CarouselPos;
-	private Pointer m_Pointer;
+	private Pointer m_Pointer = null;
 	private string m_PointerString = "View Panorama";
 
-#endregion
+	#endregion
 
-#region Properties
+	#region Properties
 	public FileHandler.Thumbnail Image {
 		get { return m_Thumb; }
 	}
@@ -62,13 +63,13 @@ public class ThumbTile : MonoBehaviour {
 		get { return m_Thumb.ImageLoc; }
 	}
 
-#endregion
+	#endregion
 
-#region MonoBehaviour Overrides
+	#region MonoBehaviour Overrides
 
-	void Start() {
-		m_AppController = GetComponentInParent<AppController>() as AppController;
-		m_Pointer = GameObject.Find( "GazePointer" ).GetComponent<Pointer>() as Pointer;
+	void Awake() {
+		m_AppController = GameObject.Find( "SceneObjects" ).GetComponent<AppController>() as AppController;
+		SetPointer();
 	}
 
 	void Update() {
@@ -94,10 +95,10 @@ public class ThumbTile : MonoBehaviour {
 		Vector4 infoColor = m_InfoPanel.material.color;
 		Vector4 textColor = m_Text.color;
 
-		xdist = Mathf.Clamp(xdist, 0.0f, 1.0f);
-		ydist = Mathf.Clamp(ydist, 0.0f, 1.0f);
+		xdist = Mathf.Clamp( xdist, 0.0f, 1.0f );
+		ydist = Mathf.Clamp( ydist, 0.0f, 1.0f );
 
-		float fade = Mathf.Max(xdist, ydist);
+		float fade = Mathf.Max( xdist, ydist );
 
 		if ( m_Selected ) {
 			color.w = 1.0f;
@@ -126,9 +127,9 @@ public class ThumbTile : MonoBehaviour {
 		}
 	}
 
-#endregion
+	#endregion
 
-#region Mutator Methods
+	#region Mutator Methods
 
 	public void SetThumb( FileHandler.Thumbnail _thumb ) {
 		m_Thumb = _thumb;
@@ -141,14 +142,15 @@ public class ThumbTile : MonoBehaviour {
 		this.gameObject.transform.localPosition = _pos;
 	}
 
-#endregion
+	#endregion
 
-
-#region User-Interface Methods
+	#region User-Interface Methods
 
 	public void Hover() {
-		if ( m_AppController.VRMode ) {
+		if ( m_AppController.VRMode && !m_Viewing ) {
 			m_Selected = true;
+			SetPointer();
+
 			m_Pointer.SetColor( 1 );
 			m_Pointer.SetText( m_PointerString );
 		}
@@ -156,8 +158,11 @@ public class ThumbTile : MonoBehaviour {
 
 	public void NoHover() {
 		m_Selected = false;
-		m_Pointer.SetColor( 0 );
-		m_Pointer.UnsetText();
+		if ( m_AppController.VRMode && !m_Viewing ) {
+			SetPointer();
+			m_Pointer.SetColor( 0 );
+			m_Pointer.UnsetText();
+		}
 	}
 
 	public void DeClicked() {
@@ -165,25 +170,29 @@ public class ThumbTile : MonoBehaviour {
 	}
 
 	public void Clicked() {
-		if ( m_AppController.VRMode ) {
-			if ( m_Focus && !m_AppController.TB.Sweeping ) {
-				NoHover();
-				m_AppController.BrowserToPano( this );
+		if ( !m_Viewing ) {
+			if ( m_AppController.VRMode ) {
+				if ( m_Focus && !m_AppController.TB.Sweeping ) {
+					NoHover();
+					m_AppController.BrowserToPano( this );
+					m_Viewing = true;
+				}
+				else {
+					m_AppController.TB.SweepToCentre( this.gameObject );
+					m_Selected = true;
+				}
 			}
 			else {
-				m_AppController.TB.SweepToCentre( this.gameObject );
-				m_Selected = true;
-			}
-		} 
-		else {
-			if ( m_Selected && !m_AppController.TB.Sweeping ) {
-				m_Selected = false;
-				NoHover();
-				m_AppController.BrowserToPano( this );
-			}
-			else {
-				m_AppController.TB.DeselectThumbs();
-				m_Selected = true;
+				if ( m_Selected && !m_AppController.TB.Sweeping ) {
+					m_Selected = false;
+					NoHover();
+					m_AppController.BrowserToPano( this );
+					m_Viewing = true;
+				}
+				else {
+					m_AppController.TB.DeselectThumbs();
+					m_Selected = true;
+				}
 			}
 		}
 	}
@@ -193,13 +202,22 @@ public class ThumbTile : MonoBehaviour {
 		m_InfoPanel.gameObject.SetActive( _arg );
 	}
 
+	public void StopViewing() {
+		m_Viewing = false;
+	}
 
-#endregion
+
+	#endregion
 
 	private string InfoString( FileHandler.Thumbnail _thumb ) {
-		return "<b>Name: </b>" + Path.GetFileNameWithoutExtension( _thumb.ImageLoc ) + 
-				" \n <b>Resolution: </b>" + _thumb.Width + "x" + _thumb.Height + 
+		return "<b>Name: </b>" + Path.GetFileNameWithoutExtension( _thumb.ImageLoc ) +
+				" \n <b>Resolution: </b>" + _thumb.Width + "x" + _thumb.Height +
 				" \n <b>Location: </b>" + _thumb.Country +
 				" \n <b>Date Taken: </b>" + _thumb.DateString;
+	}
+
+	private void SetPointer() {
+		if ( m_AppController.VRMode && m_Pointer == null )
+			m_Pointer = GameObject.Find( "GazePointer" ).GetComponent<Pointer>() as Pointer;
 	}
 }
