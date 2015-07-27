@@ -6,19 +6,16 @@ public class ProximityDetector : MonoBehaviour {
 	private AndroidJavaObject m_ProximityDetector = null;
 	private AndroidJavaObject m_ActivityContext = null;
 
-	private float m_Distance;
+	private float m_Distance = -1.0f;
 
-	public float Distance {
-		get { return m_Distance; }
+	public bool Near {
+		get { return m_Distance > 1.0f ? false : true; }
 	}
 
 	// Use this for initialization
 	void Start () {
-		m_Distance = -1.0f;
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-		m_Distance = 0.0f;
-		Debug.Log("ASDASDASDA");
 		m_ProximityDetector = new AndroidJavaObject("com.sherif.cardboard3d.bitmaphandler.ProximityChecker", GetActivityContext());
 #endif
 	}

@@ -43,9 +43,10 @@ public class AppController : MonoBehaviour {
 	private Pointer m_Pointer;
 
 	private AppState m_State = AppState.Browser;
-	private bool focusLost = false;
-	private float faceTime = 0.0f;
-	bool facePhone = false;
+	private bool m_FocusLost = false;
+	private bool m_AutoVRModeSwap = false;
+	private float m_FaceTime = 0.0f;
+	bool m_FacePhone = false;
 
 #endregion
 
@@ -75,6 +76,13 @@ public class AppController : MonoBehaviour {
 	public int PointerColor {
 		set { m_Pointer.SetColor(value); }
 	}
+	public bool AutoVRSwap {
+		get { return m_AutoVRModeSwap; }
+		set { m_AutoVRModeSwap = value; }
+	}
+	public Cardboard CB {
+		get { return m_Cardboard; }
+	}
 
 #endregion
 
@@ -100,13 +108,19 @@ public class AppController : MonoBehaviour {
 			VrMode();
 		}
 
-		if (m_ProximityDetector.Distance != -1.0f)
+		if ( m_AutoVRModeSwap )
 			CheckIfViewer();
+
+		if ( m_State == AppState.Viewer && VRMode ) {
+			Vector3 rotation = this.transform.rotation.eulerAngles;
+			rotation.y = m_CameraController.transform.localRotation.y;
+			this.transform.rotation = Quaternion.Euler(rotation);
+		}
 	}
 
 	void OnApplicationFocus( bool _focus ) {
 		if ( _focus ) {
-			if ( focusLost ) {
+			if ( m_FocusLost ) {
 				if ( m_State != AppState.Browser ) {
 					PanoToBrowser();
 				}
@@ -115,7 +129,7 @@ public class AppController : MonoBehaviour {
 				}
 			}
 			else {
-				focusLost = true;
+				m_FocusLost = true;
 			}
 		}
 	}
@@ -172,23 +186,23 @@ public class AppController : MonoBehaviour {
 #endregion
 
 	private void CheckIfViewer() {
-		if ( m_ProximityDetector.Distance < 1.0f ) {
-			facePhone = true;
+		if ( m_ProximityDetector.Near ) {
+			m_FacePhone = true;
 		}
 		else {
-			facePhone = false;
+			m_FacePhone = false;
 		}
 
-		if ( facePhone != VRMode ) {
-			faceTime += Time.deltaTime;
+		if ( m_FacePhone != VRMode ) {
+			m_FaceTime += Time.deltaTime;
 		}
 		else {
-			faceTime = 0.0f;
+			m_FaceTime = 0.0f;
 		}
 
-		if ( faceTime >= 2.0f ) {
+		if ( m_FaceTime >= 2.0f ) {
 			VrMode();
-			faceTime = 0.0f;
+			m_FaceTime = 0.0f;
 		}
 	}
 

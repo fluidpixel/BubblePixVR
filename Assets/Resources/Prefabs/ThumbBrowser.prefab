@@ -33,6 +33,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &113870
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 413870}
+  - 33: {fileID: 3313870}
+  - 64: {fileID: 6413870}
+  - 23: {fileID: 2313870}
+  - 114: {fileID: 11413870}
+  m_Layer: 0
+  m_Name: AutoSwapButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &115582
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,7 +363,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &174326
 GameObject:
   m_ObjectHideFlags: 1
@@ -356,10 +375,40 @@ GameObject:
   - 33: {fileID: 3374326}
   - 64: {fileID: 6474326}
   - 23: {fileID: 2374326}
-  - 114: {fileID: 11474326}
   - 114: {fileID: 11456648}
+  - 114: {fileID: 11474326}
   m_Layer: 0
   m_Name: VrModeButton
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &184204
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 484204}
+  m_Layer: 0
+  m_Name: RightButtons
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &184206
+GameObject:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 484206}
+  m_Layer: 0
+  m_Name: LeftButtons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -389,7 +438,19 @@ Transform:
   m_Children:
   - {fileID: 409246}
   m_Father: {fileID: 456506}
-  m_RootOrder: 3
+  m_RootOrder: 0
+--- !u!4 &413870
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113870}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 8.39150143, y: -.208000183, z: 0}
+  m_LocalScale: {x: .739952803, y: 1.47990537, z: .986603796}
+  m_Children: []
+  m_Father: {fileID: 484204}
+  m_RootOrder: 1
 --- !u!4 &415582
 Transform:
   m_ObjectHideFlags: 1
@@ -544,12 +605,10 @@ Transform:
   m_LocalPosition: {x: -1, y: -2.79000044, z: -.139999911}
   m_LocalScale: {x: .850000083, y: 1, z: .850000024}
   m_Children:
-  - {fileID: 456510}
-  - {fileID: 456508}
-  - {fileID: 456512}
   - {fileID: 409248}
   - {fileID: 456648}
-  - {fileID: 474326}
+  - {fileID: 484204}
+  - {fileID: 484206}
   m_Father: {fileID: 456500}
   m_RootOrder: 4
 --- !u!4 &456508
@@ -559,10 +618,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156508}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.79999983, y: -.220000029, z: 1.05184661e-07}
+  m_LocalPosition: {x: -1.79999983, y: -.219999552, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 456506}
+  m_Father: {fileID: 484206}
   m_RootOrder: 1
 --- !u!4 &456510
 Transform:
@@ -571,10 +630,10 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156510}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.9000001, y: -.219999999, z: 0}
+  m_LocalPosition: {x: 4.9000001, y: -.219999552, z: 0}
   m_LocalScale: {x: 3, y: 1.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 456506}
+  m_Father: {fileID: 484204}
   m_RootOrder: 0
 --- !u!4 &456512
 Transform:
@@ -583,11 +642,11 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 156512}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.33999991, y: -.219999999, z: 0}
+  m_LocalPosition: {x: -3.34000039, y: -.219999552, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
-  m_Father: {fileID: 456506}
-  m_RootOrder: 2
+  m_Father: {fileID: 484206}
+  m_RootOrder: 0
 --- !u!4 &456514
 Transform:
   m_ObjectHideFlags: 1
@@ -611,7 +670,7 @@ Transform:
   m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 456506}
-  m_RootOrder: 4
+  m_RootOrder: 1
 --- !u!4 &474326
 Transform:
   m_ObjectHideFlags: 1
@@ -619,11 +678,40 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 174326}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.88000011, y: -.219999999, z: 0}
-  m_LocalScale: {x: 1.5000006, y: 1.50000024, z: 1}
+  m_LocalPosition: {x: 7.19000053, y: -.219999552, z: 0}
+  m_LocalScale: {x: 1.5000006, y: 1.5, z: 1}
   m_Children: []
+  m_Father: {fileID: 484204}
+  m_RootOrder: 2
+--- !u!4 &484204
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184204}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 456510}
+  - {fileID: 413870}
+  - {fileID: 474326}
   m_Father: {fileID: 456506}
-  m_RootOrder: 5
+  m_RootOrder: 2
+--- !u!4 &484206
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 184206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 456512}
+  - {fileID: 456508}
+  m_Father: {fileID: 456506}
+  m_RootOrder: 3
 --- !u!23 &2309246
 Renderer:
   m_ObjectHideFlags: 1
@@ -637,6 +725,26 @@ Renderer:
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
   - {fileID: 10100, guid: 0000000000000000e000000000000000, type: 0}
+  m_SubsetIndices: 
+  m_StaticBatchRoot: {fileID: 0}
+  m_UseLightProbes: 0
+  m_LightProbeAnchor: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+--- !u!23 &2313870
+Renderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113870}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_LightmapIndex: 255
+  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
+  m_Materials:
+  - {fileID: 2100000, guid: cb5fac49b9bd0944db856d1b12ea4865, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -924,6 +1032,13 @@ Renderer:
   m_ScaleInLightmap: 1
   m_SortingLayerID: 0
   m_SortingOrder: 0
+--- !u!33 &3313870
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113870}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!33 &3345758
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -1021,6 +1136,19 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 174326}
+  m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!64 &6413870
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113870}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_SmoothSphereCollisions: 0
+  m_Convex: 0
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!64 &6445758
 MeshCollider:
@@ -1237,6 +1365,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Text: {fileID: 10209246}
+--- !u!114 &11413870
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 113870}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 11415590}
+          m_MethodName: AutoVRModeButtonClicked
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
 --- !u!114 &11415590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1259,10 +1417,13 @@ MonoBehaviour:
   m_GlobeButton: {fileID: 11424522}
   m_CalendarButton: {fileID: 11424524}
   m_SettingsButton: {fileID: 11456652}
+  m_AutoVRSwapButton: {fileID: 2313870}
   m_ThumbAnchor: {fileID: 0}
   m_TextPanelPrefab: {fileID: 11412110, guid: 031db915f4551fa46bdf74f7d62979c7, type: 2}
   m_ColumnAnchorPrefab: {fileID: 11445276, guid: 000b973ed3ebeb24296fe8319f0c617b,
     type: 2}
+  m_RightButtonAnchor: {fileID: 184204}
+  m_LeftButtonAnchor: {fileID: 184206}
 --- !u!114 &11424522
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2039,12 +2200,13 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-        - m_Target: {fileID: 0}
-          m_MethodName: 
+        - m_Target: {fileID: 11415590}
+          m_MethodName: VRModeButtonClicked
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: 
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine, Version=0.0.0.0,
+              Culture=neutral, PublicKeyToken=null
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 

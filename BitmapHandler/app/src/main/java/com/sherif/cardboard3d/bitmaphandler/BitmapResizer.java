@@ -25,8 +25,6 @@ public class BitmapResizer {
     private Context m_Context;
     private int m_height;
     private int m_width;
-    private int m_StartWidth;
-    private int m_StartHeight;
     private String m_Country;
     private String m_Date;
     private byte[] m_image;
@@ -39,14 +37,6 @@ public class BitmapResizer {
         return m_width;
     }
 
-    public int StartWidth() {
-        return m_StartWidth;
-    }
-
-    public int StartHeight() {
-        return m_StartHeight;
-    }
-
     public String Country() { return m_Country; }
 
     public String Date() { return m_Date; }
@@ -57,13 +47,13 @@ public class BitmapResizer {
 
     public BitmapResizer(Context _context) {
         m_Context = _context;
-        m_height = m_width = m_StartWidth = m_StartHeight;
+        m_height = m_width;
         m_image = null;
         m_Country = "";
         m_Date = "";
     }
 
-    public boolean DecodeSampledBitmapFromFile(String _fileName, boolean _toThumb, boolean _toSquare) {
+    public boolean DecodeSampledBitmapFromFile(String _fileName) {
         File inFile = new File(_fileName);
         Bitmap bm;
         int width, height;
@@ -91,24 +81,8 @@ public class BitmapResizer {
         options.inJustDecodeBounds = true;
         bm = BitmapFactory.decodeFile(inFile.getAbsolutePath(), options);
 
-        //Log.e(logTag,"1. File decoded. Name: " + inFile.getName() + "Width: " + options.outWidth +
-        //                         " Height: " + options.outHeight +
-        //                       " MimeType: " + options.outMimeType);
-
-        m_StartWidth = options.outWidth;
-        m_StartHeight = options.outHeight;
-
         if (options.outWidth > 4096 || options.outHeight > 4096) {
-            if (_toThumb) {
-                if (_toSquare) {
-                    options.inSampleSize = calculateInSampleSize(options, 4096, 512);
-                }
-                options.inSampleSize = calculateInSampleSize(options, 4096, 256);
-            }
-            else {
-                options.inSampleSize = calculateInSampleSize(options, 4096, 4096);
-            }
-
+	        options.inSampleSize = calculateInSampleSize(options, 4096, 4096);
         }
         else {
             width = options.outWidth;
@@ -117,18 +91,9 @@ public class BitmapResizer {
         }
         options.inJustDecodeBounds = false;
         bm = BitmapFactory.decodeFile(_fileName, options);
-        //Log.e(logTag, "2. Resize complete. Width: " + bm.getWidth() +
-        //                                " Height: " + bm.getHeight() +
-        //                            " SampleSize: " + options.inSampleSize);
 
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
-            if (_toSquare) {
-                Bitmap thumbMap;
-                int x = (bm.getWidth() - bm.getHeight()) / 2;
-                thumbMap = Bitmap.createBitmap(bm, x, 0, bm.getHeight() - 1, bm.getHeight() - 1);
-                bm = thumbMap;
-            }
 
             bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
             m_image = out.toByteArray();
@@ -138,8 +103,6 @@ public class BitmapResizer {
             out.close();
 
             Log.e(logTag,"1. File decoded. Name: " + inFile.getName() + " Exif: Date: " + m_Date + " Country: " + m_Country);
-
-            //Log.e(logTag, "3. Operation success. Final image width: " + m_width + " Height: " + m_height);
         }
         catch (Exception e) {
             m_image = null;
@@ -159,10 +122,6 @@ public class BitmapResizer {
         int inSampleSize = 1;
 
         if (height > reqHeight || width > reqWidth) {
-
-            //final int halfHeight = height / 2;
-            //final int halfWidth = width / 2;
-
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
             // height and width larger than the requested height and width.
             while (height / inSampleSize > reqHeight || width / inSampleSize > reqWidth) {

@@ -49,6 +49,10 @@ public class CameraController : MonoBehaviour {
 		set { this.transform.position = value; }
 	}
 
+	public Quaternion Rotation {
+		get { return m_MainCamera.transform.rotation; }
+	}
+
 	public void CameraReset() {
 		StartCoroutine( RotateHead() );
 	}

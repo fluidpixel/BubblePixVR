@@ -6,14 +6,14 @@ using System.Globalization;
 using System.Collections.Generic;
 
 //Handles the importing of files external to the application, by interacting with the
-//Java-Unity Interface class.
+//Java-Unity Interface class or the IOS-Unity interface class.
 
 public class FileHandler : MonoBehaviour {
 	public class Thumbnail {
 		private Texture2D m_Thumb;
 		private string m_ImageLoc;
-		private int m_StartWidth;
-		private int m_StartHeight;
+		private int m_Width;
+		private int m_Height;
 		private string m_Country;
 		private DateTime m_Date;
 
@@ -25,11 +25,11 @@ public class FileHandler : MonoBehaviour {
 		}
 
 		public int Width {
-			get { return m_StartWidth; }
+			get { return m_Width; }
 		}
 
 		public int Height {
-			get { return m_StartHeight; }
+			get { return m_Height; }
 		}
 
 		public string Country {
@@ -54,8 +54,8 @@ public class FileHandler : MonoBehaviour {
 		public Thumbnail( Texture2D _Thumb, string _ImageLoc, string _country, string _date ) {
 			m_Thumb = _Thumb;
 			m_ImageLoc = _ImageLoc;
-			m_StartWidth = _Thumb.width;
-			m_StartHeight = _Thumb.height;
+			m_Width = _Thumb.width;
+			m_Height = _Thumb.height;
 			m_Country = _country;
 			if ( _date == "" ) {
 				m_Date = new DateTime( 1970, 1, 1 );
@@ -64,12 +64,12 @@ public class FileHandler : MonoBehaviour {
 				m_Date = DateFormat.DateTime( _date );
 			}
 		}
-		public Thumbnail( byte[] _Thumb, string _ImageLoc, int _width, int _height, int _startWidth, int _startHeight, string _date, string _country ) {
+		public Thumbnail( byte[] _Thumb, string _ImageLoc, int _width, int _height, string _date, string _country ) {
 			m_Thumb = new Texture2D( _width, _height );
 			m_Thumb.LoadImage( _Thumb );
 			m_ImageLoc = _ImageLoc;
-			m_StartWidth = _startWidth;
-			m_StartHeight = _startHeight;
+			m_Width = _width;
+			m_Height = _height;
 			m_Country = _country;
 			if ( _date == "" ) {
 				m_Date = new DateTime(1970, 1, 1);
@@ -92,9 +92,7 @@ public class FileHandler : MonoBehaviour {
 	}
 
 	public Thumbnail[] GetThumbs() {
-#if UNITY_ANDROID && !UNITY_EDITOR
 		UpdateImages();
-#endif
 		return m_Thumbs.ToArray();
 	}
 
@@ -118,42 +116,32 @@ public class FileHandler : MonoBehaviour {
 		m_Textures = m_JUInterface.GetImagePaths();
 
 		foreach ( string file in m_Textures ) {
-			if ( m_JUInterface.DecodeImage( file, false, false ) )
-				m_Thumbs.Add( new Thumbnail( m_JUInterface.Image, file, m_JUInterface.Width, m_JUInterface.Height, m_JUInterface.StartWidth, m_JUInterface.StartHeight, m_JUInterface.Date, m_JUInterface.Country ) );
+			if ( m_JUInterface.DecodeImage( file ) )
+				m_Thumbs.Add( new Thumbnail( m_JUInterface.Image, file, m_JUInterface.Width, m_JUInterface.Height, m_JUInterface.Date, m_JUInterface.Country ) );
 		}
+#elif UNITY_IOS
+		
+		//Put some IOS-specific code here.
+
 #endif
 	}
 
 	private void UpdateImages() {
+
+#if UNITY_ANDROID && !UNITY_EDITOR
 		string[] tex = m_JUInterface.GetImagePaths();
 
 		if ( tex.Length != m_Textures.Length ) {
 			m_Textures = tex;
 			m_Thumbs.Clear();
 			foreach ( string file in m_Textures ) {
-				if ( m_JUInterface.DecodeImage( file, false, false ) ) {
-					m_Thumbs.Add( new Thumbnail( m_JUInterface.Image, file, m_JUInterface.Width, m_JUInterface.Height, m_JUInterface.StartWidth, m_JUInterface.StartHeight, m_JUInterface.Date, m_JUInterface.Country ) );
+				if ( m_JUInterface.DecodeImage( file ) ) {
+					m_Thumbs.Add( new Thumbnail( m_JUInterface.Image, file, m_JUInterface.Width, m_JUInterface.Height, m_JUInterface.Date, m_JUInterface.Country ) );
 				}
 			}
 		}
-	}
-
-	public Texture2D TexFromThumb( Thumbnail _thumb ) {
-#if UNITY_EDITOR
-
-		return Resources.Load( _thumb.ImageLoc ) as Texture2D;
-
-#elif UNITY_ANDROID
-
-		if ( m_JUInterface.DecodeImage( _thumb.ImageLoc, false, false ) ) { 
-			Texture2D tex = new Texture2D( m_JUInterface.Width, m_JUInterface.Height );
-			tex.LoadImage( m_JUInterface.Image );
-			return tex;
-		}
-		else {
-			return null;
-		}
-
+#elif UNITY_IOS && !UNITY_EDITOR
+		//IOS Specific code here.
 #endif
 	}
 

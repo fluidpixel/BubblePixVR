@@ -50,6 +50,9 @@ public class ThumbBrowser : MonoBehaviour {
 	private UIButton m_SettingsButton;
 
 	[SerializeField]
+	private MeshRenderer m_AutoVRSwapButton;
+
+	[SerializeField]
 	private Carousel m_ThumbAnchor;
 
 	[SerializeField]
@@ -57,6 +60,12 @@ public class ThumbBrowser : MonoBehaviour {
 
 	[SerializeField]
 	private ColumnAnchor m_ColumnAnchorPrefab;
+
+	[SerializeField]
+	private GameObject m_RightButtonAnchor;
+
+	[SerializeField]
+	private GameObject m_LeftButtonAnchor;
 
 	#endregion
 
@@ -75,6 +84,7 @@ public class ThumbBrowser : MonoBehaviour {
 	private bool				imageMode					= true;
 	private bool				m_Ascending					= true;
 	private bool				m_Sweeping					= false;
+	private bool				m_ButtonsMoving				= false;
 	private int					m_ActiveColumn;
 	private float				xSpacing					= 4.0f;
 	private float				ySpacing					= 1.0f;
@@ -84,13 +94,8 @@ public class ThumbBrowser : MonoBehaviour {
 	private float				m_AccInc					= 1.5f;
 	private float				m_xVelocity					= 0.0f;
 	private float				m_MinVelocity				= 0.1f;
-	private float				m_GlobeButtonPosx			= -1.8f;
-	private float				m_CalendarButtonPosx		= -3.34f;
-	private float				m_SortOrderPosx				= 4.9f;
 	private float				m_LeftScrollPosx			= -1.5f;
 	private float				m_RightScrollPosx			= 1.5f;
-	private float				m_SettingsPosx				= 7.19f;
-	private float				m_VRBtnPosx					= -4.88f;
 	private List<ThumbTile>		m_Thumbs					= new List<ThumbTile>();
 	private List<string>		m_Countries					= new List<string>();
 	private List<DateTime>		m_Dates						= new List<DateTime>();
@@ -157,7 +162,20 @@ public class ThumbBrowser : MonoBehaviour {
 			CalendarButtonClicked();
 		}
 
-		m_VRModeButton.SetClicked(m_AppController.VRMode);
+		AutoButtonColor();
+
+		//Needs fixing
+		if ( !m_ButtonsMoving ) {
+			if ( !m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != -2.21f ) {
+				StartCoroutine(MoveSortButtons(0));
+			}
+			else if ( m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != 0.0f && m_Sorting == SortingType.None ) {
+				StartCoroutine(MoveSortButtons(1));
+			}
+			else if ( m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != -1.2f && m_Sorting != SortingType.None ) {
+				StartCoroutine(MoveSortButtons(2));
+			}
+		}
 	}
 
 #endregion
@@ -188,13 +206,14 @@ public class ThumbBrowser : MonoBehaviour {
 	public void To2DView() {
 		StopAllCoroutines();
 		//move sorting buttons up/move thumb browser back
+		m_VRModeButton.SetClicked( !m_AppController.VRMode );
 		StartCoroutine( MoveBrowser( true ) );
 		StartCoroutine( MoveSortButtons( 0 ) );
 	}
 	public void To3DView() {
 		StopAllCoroutines();
 		StartCoroutine( MoveBrowser( false ) );
-
+		m_VRModeButton.SetClicked( !m_AppController.VRMode );
 		if ( m_Sorting != SortingType.None ) {
 			StartCoroutine( MoveSortButtons( 1 ) );
 		}
@@ -214,18 +233,16 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 	}
 	private IEnumerator MoveSortButtons( int _position ) {
+		m_ButtonsMoving = true;
 		float target;
-		Vector3 globeTarget, calendarTarget, sortTarget, leftScrollTarget, rightScrollTarget, settingsTarget, VRBtnTarget;
+		Vector3 leftScrollTarget, rightScrollTarget, rightAnchTarget, leftAnchTarget;
 
 		if ( _position == 0 ) { //Move inwards
 			target = 2.21f;
-			globeTarget			= new Vector3( m_GlobeButtonPosx + target, m_GlobeButton.transform.localPosition.y, m_GlobeButton.transform.localPosition.z );
-			calendarTarget		= new Vector3( m_CalendarButtonPosx + target, m_CalendarButton.transform.localPosition.y, m_CalendarButton.transform.localPosition.z );
-			sortTarget			= new Vector3( m_SortOrderPosx - target, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
 			leftScrollTarget	= new Vector3( m_LeftScrollPosx + target, m_LeftScroll.transform.localPosition.y, m_LeftScroll.transform.localPosition.z );
 			rightScrollTarget	= new Vector3( m_RightScrollPosx - target, m_RightScroll.transform.localPosition.y, m_RightScroll.transform.localPosition.z );
-			settingsTarget		= new Vector3( m_SettingsPosx - target, m_SettingsButton.transform.localPosition.y, m_SettingsButton.transform.localPosition.z );
-			VRBtnTarget			= new Vector3( m_VRBtnPosx + target, m_VRModeButton.transform.localPosition.y, m_VRModeButton.transform.localPosition.z );
+			rightAnchTarget		= new Vector3( 0.0f - target, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
+			leftAnchTarget		= new Vector3( 0.0f + target, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
 
 			if ( m_LeftScroll.gameObject.activeSelf ) {
 				m_LeftScroll.SetAlpha( 0.46875f );
@@ -243,13 +260,11 @@ public class ThumbBrowser : MonoBehaviour {
 			}
 		}
 		else if ( _position == 1 ){ //Move outwards
-			globeTarget			= new Vector3( m_GlobeButtonPosx, m_GlobeButton.transform.localPosition.y, m_GlobeButton.transform.localPosition.z );
-			calendarTarget		= new Vector3( m_CalendarButtonPosx, m_CalendarButton.transform.localPosition.y, m_CalendarButton.transform.localPosition.z );
-			sortTarget			= new Vector3( m_SortOrderPosx, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
 			leftScrollTarget	= new Vector3( m_LeftScrollPosx, m_LeftScroll.transform.localPosition.y, m_LeftScroll.transform.localPosition.z );
 			rightScrollTarget	= new Vector3( m_RightScrollPosx, m_RightScroll.transform.localPosition.y, m_RightScroll.transform.localPosition.z );
-			settingsTarget		= new Vector3( m_SettingsPosx, m_SettingsButton.transform.localPosition.y, m_SettingsButton.transform.localPosition.z );
-			VRBtnTarget			= new Vector3( m_VRBtnPosx, m_VRModeButton.transform.localPosition.y, m_VRModeButton.transform.localPosition.z );
+			rightAnchTarget		= new Vector3( 0.0f, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
+			leftAnchTarget		= new Vector3( 0.0f, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
+
 
 			if ( !m_LeftScroll.gameObject.activeSelf ) {
 				EnableHorizontalTriggers( true );
@@ -274,13 +289,10 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 		else { //Half move for when vertical scrolling is not needed.
 			target = 1.2f;
-			globeTarget			= new Vector3( m_GlobeButtonPosx + target, m_GlobeButton.transform.localPosition.y, m_GlobeButton.transform.localPosition.z );
-			calendarTarget		= new Vector3( m_CalendarButtonPosx + target, m_CalendarButton.transform.localPosition.y, m_CalendarButton.transform.localPosition.z );
-			sortTarget			= new Vector3( m_SortOrderPosx - target, m_SortButton.transform.localPosition.y, m_SortButton.transform.localPosition.z );
 			leftScrollTarget	= new Vector3( m_LeftScrollPosx + target - 0.13f, m_LeftScroll.transform.localPosition.y, m_LeftScroll.transform.localPosition.z );
 			rightScrollTarget	= new Vector3( m_RightScrollPosx - target + 0.13f, m_RightScroll.transform.localPosition.y, m_RightScroll.transform.localPosition.z );
-			settingsTarget		= new Vector3( m_SettingsPosx - target, m_SettingsButton.transform.localPosition.y, m_SettingsButton.transform.localPosition.z );
-			VRBtnTarget			= new Vector3( m_VRBtnPosx + target, m_VRModeButton.transform.localPosition.y, m_VRModeButton.transform.localPosition.z );
+			rightAnchTarget		= new Vector3( 0.0f - target, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
+			leftAnchTarget		= new Vector3( 0.0f + target, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
 
 			if ( !m_LeftScroll.gameObject.activeSelf ) {
 				EnableHorizontalTriggers( true );
@@ -295,23 +307,18 @@ public class ThumbBrowser : MonoBehaviour {
 
 		float time = 2.0f * Time.deltaTime;
 
-		while ( Vector3.Distance( m_SortButton.transform.localPosition, sortTarget ) > 0.05f ) {
-			m_GlobeButton.gameObject.transform.localPosition	= Vector3.Lerp( m_GlobeButton.transform.localPosition, globeTarget, time );
-			m_CalendarButton.transform.localPosition			= Vector3.Lerp( m_CalendarButton.transform.localPosition, calendarTarget, time );
-			m_SortButton.transform.localPosition				= Vector3.Lerp( m_SortButton.transform.localPosition, sortTarget, time );
+		while ( Vector3.Distance( m_RightButtonAnchor.transform.localPosition, rightAnchTarget ) > 0.05f ) {
 			m_RightScroll.transform.localPosition				= Vector3.Lerp( m_RightScroll.transform.localPosition, rightScrollTarget, time );
 			m_LeftScroll.transform.localPosition				= Vector3.Lerp( m_LeftScroll.transform.localPosition, leftScrollTarget, time );
-			m_SettingsButton.transform.localPosition			= Vector3.Lerp( m_SettingsButton.transform.localPosition, settingsTarget, time );
-			m_VRModeButton.transform.localPosition				= Vector3.Lerp( m_VRModeButton.transform.localPosition, VRBtnTarget, time );
+			m_RightButtonAnchor.transform.localPosition			= Vector3.Lerp( m_RightButtonAnchor.transform.localPosition, rightAnchTarget, time );
+			m_LeftButtonAnchor.transform.localPosition			= Vector3.Lerp( m_LeftButtonAnchor.transform.localPosition, leftAnchTarget, time );
 			yield return null;
 		}
-		m_GlobeButton.transform.localPosition		= globeTarget;
-		m_CalendarButton.transform.localPosition	= calendarTarget;
-		m_SortButton.transform.localPosition		= sortTarget;
 		m_LeftScroll.transform.localPosition		= leftScrollTarget;
 		m_RightScroll.transform.localPosition		= rightScrollTarget;
-		m_SettingsButton.transform.localPosition	= settingsTarget;
-		m_VRModeButton.transform.localPosition		= VRBtnTarget;
+		m_RightButtonAnchor.transform.localPosition	= rightAnchTarget;
+		m_LeftButtonAnchor.transform.localPosition	= leftAnchTarget;
+		m_ButtonsMoving = false;
 	}
 
 #endregion
@@ -403,6 +410,10 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 	public void SettingsButtonClicked() {
 
+	}
+	public void AutoVRModeButtonClicked() {
+		m_AppController.AutoVRSwap = !m_AppController.AutoVRSwap;
+		m_VRModeButton.OnNoHover();
 	}
 
 #endregion
@@ -577,24 +588,7 @@ public class ThumbBrowser : MonoBehaviour {
 		StopAllCoroutines();
 		m_Sorting = _arg;
 		if ( m_Sorting == SortingType.None ) {
-			
 			EnableVerticalTriggers( false );
-			if ( m_AppController.VRMode ) { 
-				StartCoroutine( MoveSortButtons( 2 ) );
-			}
-			else {
-				StartCoroutine( MoveSortButtons( 0 ) );
-			}
-		}
-		else if ( m_Sorting == SortingType.Date ) {
-			if ( m_AppController.VRMode ) {
-				StartCoroutine( MoveSortButtons( 1 ) );
-			}
-		}
-		else {
-			if ( m_AppController.VRMode ) {
-				StartCoroutine( MoveSortButtons( 1 ) );
-			}
 		}
 	}
 
@@ -853,11 +847,16 @@ public class ThumbBrowser : MonoBehaviour {
 		m_RightScroll.gameObject.SetActive( _arg );
 		m_LeftScroll.gameObject.SetActive( _arg );
 	}
-	
 	private void SetAlpha( MeshRenderer _argMesh, float _value ) {
 		Color color = _argMesh.material.color;
 		color.a = _value;
 		_argMesh.material.color = color;
+	}
+	private void AutoButtonColor() {
+		if ( m_AppController.AutoVRSwap )
+			m_AutoVRSwapButton.material.color = new Color( 0.10f, 0.8f, 0.2f, 0.80f );
+		else
+			m_AutoVRSwapButton.material.color = new Color( 0.8f, 0.10f, 0.2f, 0.80f );
 	}
 
 #endregion

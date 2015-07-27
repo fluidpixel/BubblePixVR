@@ -11,7 +11,7 @@ public class JavaUnityInterface : MonoBehaviour {
 	private AndroidJavaObject m_GalleryPathGrabber = null;
 	
 	private byte[] m_ImageBytes;
-	private int m_Width, m_Height, m_StartWidth, m_StartHeight;
+	private int m_Width, m_Height;
 	private string m_Country, m_Date;
 
 	public byte[] Image {
@@ -24,14 +24,6 @@ public class JavaUnityInterface : MonoBehaviour {
 
 	public int Height {
 		get { return m_Height; }
-	}
-
-	public int StartWidth {
-		get { return m_StartWidth; }
-	}
-
-	public int StartHeight {
-		get { return m_StartHeight; }
 	}
 
 	public string Country {
@@ -47,11 +39,11 @@ public class JavaUnityInterface : MonoBehaviour {
 		m_Width = m_Height = -1;
 	}
 
-	public bool DecodeImage( string _targetFile, bool _toThumb, bool _toSquare ) {
+	public bool DecodeImage( string _targetFile ) {
 		if ( m_ImageResizer == null ) 
 			m_ImageResizer = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.BitmapResizer", GetActivityContext() );
 
-		bool success = m_ImageResizer.Call<bool>( "DecodeSampledBitmapFromFile", _targetFile, _toThumb, _toSquare );
+		bool success = m_ImageResizer.Call<bool>( "DecodeSampledBitmapFromFile", _targetFile );
 		if (success)
 			LoadParams();
 		
@@ -72,8 +64,6 @@ public class JavaUnityInterface : MonoBehaviour {
 		m_ImageBytes	= m_ImageResizer.Call<byte[]>("GetImage");
 		m_Width			= m_ImageResizer.Call<int>("Width");
 		m_Height		= m_ImageResizer.Call<int>("Height");
-		m_StartWidth	= m_ImageResizer.Call<int>("StartWidth");
-		m_StartHeight	= m_ImageResizer.Call<int>("StartHeight");
 		m_Date			= m_ImageResizer.Call<string>("Date");
 		m_Country		= m_ImageResizer.Call<string>("Country");
 	}

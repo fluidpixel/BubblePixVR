@@ -2,7 +2,25 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="faf09fb5-bb3e-4943-93e1-887f7a4ca759" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Shaders/PlasmaEffect.shader" afterPath="$PROJECT_DIR$/../Assets/Resources/Shaders/PlasmaEffect.shader" />
+      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\release\libs\arm64-v8a\libNDKBridge.so" afterPath="" />
+      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\release\libs\armeabi-v7a\libNDKBridge.so" afterPath="" />
+      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\release\libs\armeabi\libNDKBridge.so" afterPath="" />
+      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\release\libs\mips64\libNDKBridge.so" afterPath="" />
+      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\release\libs\mips\libNDKBridge.so" afterPath="" />
+      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\release\libs\x86\libNDKBridge.so" afterPath="" />
+      <change type="DELETED" beforePath="C:\Dev\BubblePixVR\BitmapHandler\app\release\libs\x86_64\libNDKBridge.so" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/release/BitmapResizer.jar" afterPath="$PROJECT_DIR$/app/release/BitmapResizer.jar" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/cache.properties.lock" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileHashes.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/fileSnapshots.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.2.1/taskArtifacts/taskArtifacts.bin" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/FileHandler.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/FileHandler.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/JavaUnityInterface.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/JavaUnityInterface.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Scenes/MainScene.unity" afterPath="$PROJECT_DIR$/../Assets/Scenes/MainScene.unity" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Scripts/ThumbBrowser.cs" afterPath="$PROJECT_DIR$/../Assets/Resources/Scripts/ThumbBrowser.cs" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../Assets/Resources/Prefabs/ThumbBrowser.prefab" afterPath="$PROJECT_DIR$/../Assets/Resources/Prefabs/ThumbBrowser.prefab" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="BitmapHandler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -81,13 +99,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="BitmapResizer.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="BitmapResizer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.8679549">
+              <caret line="63" column="62" selection-start-line="63" selection-start-column="62" selection-end-line="63" selection-end-column="62" />
               <folding>
-                <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
                 <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
               </folding>
             </state>
@@ -101,18 +118,16 @@
               <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#567#568#0" expanded="true" />
-                <element signature="e#591#592#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="GalleryInterface.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="GalleryInterface.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.98550725">
-              <caret line="44" column="58" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -1160,7 +1175,7 @@
     </option>
     <option name="modificationStamps">
       <map>
-        <entry key="$PROJECT_DIR$" value="4300711688230" />
+        <entry key="$PROJECT_DIR$" value="4312695492359" />
       </map>
     </option>
     <option name="projectBuildClasspath">
@@ -1458,12 +1473,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/TextureSurfaceRenderer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoTextureRenderer.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoHandler.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoAssetActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java" />
         <option value="$PROJECT_DIR$/local.properties" />
         <option value="$PROJECT_DIR$/app/src/main/jni/test.cpp" />
         <option value="$PROJECT_DIR$/app/src/main/jni/test.h" />
@@ -1476,6 +1489,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/VideoPlayer.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/ProximityChecker.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java" />
       </list>
     </option>
   </component>
@@ -1511,8 +1526,113 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="AndroidView">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Gradle Scripts" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
+      <pane id="ProjectPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="BitmapHandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bitmaphandler" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="PackagesPane" />
-      <pane id="Scratches" />
       <pane id="Scope">
         <subPane subId="Changed Files">
           <PATH>
@@ -1629,112 +1749,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="AndroidView">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="ProjectPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="BitmapHandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="src" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="main" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="java" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="bitmaphandler" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -2072,6 +2087,34 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
+          <folding>
+            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/ProximityChecker.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -2085,7 +2128,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2112,7 +2154,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2131,7 +2172,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2158,7 +2198,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2205,7 +2244,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2223,7 +2261,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2241,7 +2278,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="137" column="24" selection-start-line="137" selection-start-column="24" selection-end-line="137" selection-end-column="24" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2259,7 +2295,6 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
           <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
             <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
           </folding>
         </state>
@@ -2301,14 +2336,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
-          <caret line="22" column="13" selection-start-line="22" selection-start-column="13" selection-end-line="22" selection-end-column="13" />
-          <folding>
-            <element signature="method#BitmapResizer#0;class#BitmapResizer#0" expanded="false" />
-            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
-          </folding>
+          <caret line="31" column="29" selection-start-line="31" selection-start-column="29" selection-end-line="31" selection-end-column="29" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -2318,17 +2350,17 @@
           <caret line="19" column="0" selection-start-line="19" selection-start-column="0" selection-end-line="19" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#567#568#0" expanded="true" />
-            <element signature="e#591#592#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/GalleryInterface.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/sherif/cardboard3d/bitmaphandler/BitmapResizer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.98550725">
-          <caret line="44" column="58" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
-          <folding />
+        <state vertical-scroll-proportion="0.8679549">
+          <caret line="63" column="62" selection-start-line="63" selection-start-column="62" selection-end-line="63" selection-end-column="62" />
+          <folding>
+            <element signature="method#CountryFromLatLong#0;class#BitmapResizer#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

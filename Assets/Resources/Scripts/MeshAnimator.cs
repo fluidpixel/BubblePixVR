@@ -11,6 +11,8 @@ public class MeshAnimator : MonoBehaviour {
 
 	private Mesh m_Mesh;
 	private float m_BorderAlpha = 0.0f;
+	private float m_TimeMultiUp = 1.5f;
+	private float m_TimeMultiDown = 0.75f;
 	private int m_Width = 29;
 	private int m_Height = 14;
 	private bool m_Paused = false;
@@ -23,7 +25,7 @@ public class MeshAnimator : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		m_Mesh = ProceduralMesh.GeneratePlane( m_Height, m_Width );
-		//m_Mesh = ProceduralMesh.GenerateCurvedCylinderSegment(height, width, 1, 0.75f);
+
 		m_Filter.mesh = m_Mesh;
 	}
 
@@ -44,7 +46,6 @@ public class MeshAnimator : MonoBehaviour {
 	}
 
 	private IEnumerator CircleToPlane() {
-
 		Mesh target;
 		Vector3[] vertices = new Vector3[m_Width * m_Height];
 		Vector2[] uvs = new Vector2[m_Width * m_Height];
@@ -60,7 +61,7 @@ public class MeshAnimator : MonoBehaviour {
 				}
 				m_Mesh.vertices = vertices;
 				m_Mesh.uv = uvs;
-				time = ( Time.deltaTime / Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) );
+				time = ( Time.deltaTime / Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) ) * m_TimeMultiUp;
 			}
 			yield return null;
 		}
@@ -92,7 +93,7 @@ public class MeshAnimator : MonoBehaviour {
 				}
 				m_Mesh.vertices = vertices;
 				m_Mesh.uv = uvs;
-				time = ( Time.deltaTime / Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) );
+				time = ( Time.deltaTime / Vector3.Distance( m_Mesh.vertices[0], target.vertices[0] ) ) * m_TimeMultiUp;
 			}
 			yield return null;
 		}
@@ -111,7 +112,7 @@ public class MeshAnimator : MonoBehaviour {
 
 		while ( Vector3.Distance(gameObject.transform.localRotation.eulerAngles, Vector3.zero) > 0.001f && time < 1.0f ) {
 			gameObject.transform.localRotation = Quaternion.Lerp(current, target, time);
-			time += Time.deltaTime;
+			time += Time.deltaTime * m_TimeMultiUp;
 			yield return null;
 		}
 		gameObject.transform.localRotation = Quaternion.identity;
@@ -131,8 +132,8 @@ public class MeshAnimator : MonoBehaviour {
 		yield return null;
 		while ( distance > 0.01f || scale > 0.01f || rotation > 0.01f ) {
 			if ( !m_Paused ) {
-				
-				time += Time.deltaTime * 0.5f;
+
+				time += Time.deltaTime * m_TimeMultiDown;
 				distance = Vector3.Distance( gameObject.transform.position, _targetPos );
 				scale = Vector3.Distance( gameObject.transform.localScale, _targetScale );
 				rotation = Vector3.Distance( gameObject.transform.localRotation.eulerAngles, _targetRot );
@@ -162,7 +163,7 @@ public class MeshAnimator : MonoBehaviour {
 		while ( distance > 0.01f || scale > 0.01f || rotation > 0.01f ) {
 			if ( !m_Paused ) {
 
-				time += Time.deltaTime * 0.5f;
+				time += Time.deltaTime * m_TimeMultiDown;
 				distance = Vector3.Distance( gameObject.transform.localPosition, _targetPos );
 				scale = Vector3.Distance( gameObject.transform.localScale, _targetScale );
 				rotation = Vector3.Distance( gameObject.transform.localRotation.eulerAngles, _targetRot );
