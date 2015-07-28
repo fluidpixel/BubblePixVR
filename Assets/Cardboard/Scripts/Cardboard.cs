@@ -60,6 +60,7 @@ public class Cardboard : MonoBehaviour {
     set {
       if (value != vrModeEnabled && device != null) {
         device.SetVRModeEnabled(value);
+		TapIsTrigger = value;
       }
       vrModeEnabled = value;
     }

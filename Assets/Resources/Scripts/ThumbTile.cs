@@ -10,7 +10,7 @@ using System.Collections;
 
 public class ThumbTile : MonoBehaviour {
 
-	#region Variable Declarations
+#region Variable Declarations
 
 	[SerializeField]
 	private MeshRenderer m_Mesh;
@@ -63,13 +63,16 @@ public class ThumbTile : MonoBehaviour {
 		get { return m_Thumb.ImageLoc; }
 	}
 
+	public Pointer Pointer {
+		set { m_Pointer = value; }
+	}
+
 	#endregion
 
 	#region MonoBehaviour Overrides
 
 	void Awake() {
 		m_AppController = GameObject.Find( "SceneObjects" ).GetComponent<AppController>() as AppController;
-		SetPointer();
 	}
 
 	void Update() {
@@ -116,7 +119,7 @@ public class ThumbTile : MonoBehaviour {
 		m_LargeInfoPanel.material.color = infoColor;
 		m_Text.color = textColor;
 		m_LargeText.color = textColor;
-
+	
 		if ( pos.x < 2.5f && pos.x > -2.5f && pos.y < 2.0f && pos.y > -0.3f ) {
 			m_PointerString = "View Panorama";
 			m_Focus = true;
@@ -149,19 +152,20 @@ public class ThumbTile : MonoBehaviour {
 	public void Hover() {
 		if ( m_AppController.VRMode && !m_Viewing ) {
 			m_Selected = true;
-			SetPointer();
-
-			m_Pointer.SetColor( 1 );
-			m_Pointer.SetText( m_PointerString );
+			if ( m_Pointer != null ) {
+				m_Pointer.SetColor( 1 );
+				m_Pointer.SetText( m_PointerString );
+			}
 		}
 	}
 
 	public void NoHover() {
-		m_Selected = false;
 		if ( m_AppController.VRMode && !m_Viewing ) {
-			SetPointer();
-			m_Pointer.SetColor( 0 );
-			m_Pointer.UnsetText();
+			m_Selected = false;
+			if ( m_Pointer != null ) {
+				m_Pointer.SetColor( 0 );
+				m_Pointer.UnsetText();
+			}
 		}
 	}
 
@@ -217,7 +221,7 @@ public class ThumbTile : MonoBehaviour {
 	}
 
 	private void SetPointer() {
-		if ( m_AppController.VRMode && m_Pointer == null )
+		if ( m_AppController.VRMode && m_Pointer != null )
 			m_Pointer = GameObject.Find( "GazePointer" ).GetComponent<Pointer>() as Pointer;
 	}
 }

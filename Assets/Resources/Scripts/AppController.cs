@@ -31,9 +31,6 @@ public class AppController : MonoBehaviour {
 	private TouchController m_TouchController;
 
 	[SerializeField]
-	private Cardboard m_Cardboard;
-
-	[SerializeField]
 	private CardboardHead m_Head;
 
 	[SerializeField]
@@ -42,6 +39,7 @@ public class AppController : MonoBehaviour {
 	[SerializeField]
 	private Pointer m_Pointer;
 
+	private Cardboard m_Cardboard;
 	private AppState m_State = AppState.Browser;
 	private bool m_FocusLost = false;
 	private bool m_AutoVRModeSwap = false;
@@ -80,16 +78,14 @@ public class AppController : MonoBehaviour {
 		get { return m_AutoVRModeSwap; }
 		set { m_AutoVRModeSwap = value; }
 	}
-	public Cardboard CB {
-		get { return m_Cardboard; }
-	}
 
 #endregion
 
 #region Monobehavior Overrides
 
 	void Start() {
-		MenuToBrowser();
+		m_Cardboard = Cardboard.SDK;
+		InitialState();
 		VrMode();
 	}
 
@@ -138,7 +134,7 @@ public class AppController : MonoBehaviour {
 
 #region Transition Methods
 
-	public void MenuToBrowser() {
+	public void InitialState() {
 		m_State = AppState.Browser;
 
 		m_PanoViewer.gameObject.SetActive( true );

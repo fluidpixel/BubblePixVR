@@ -6,10 +6,6 @@ public class UIButton : MonoBehaviour {
 	[SerializeField]
 	private bool m_IsToggle;
 
-	
-	
-
-	[Tooltip( "String that is displayed on the pointer when hovered, leave blank if no text should show" )]
 	[SerializeField]
 	private string m_PointerString = null;
 

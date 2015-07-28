@@ -67,6 +67,9 @@ public class ThumbBrowser : MonoBehaviour {
 	[SerializeField]
 	private GameObject m_LeftButtonAnchor;
 
+	[SerializeField]
+	private Pointer m_Pointer;
+
 	#endregion
 
 	#region Variables - Private
@@ -164,16 +167,16 @@ public class ThumbBrowser : MonoBehaviour {
 
 		AutoButtonColor();
 
-		//Needs fixing
+		//Makes sure the buttons are in the right place.
 		if ( !m_ButtonsMoving ) {
 			if ( !m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != -2.21f ) {
-				StartCoroutine(MoveSortButtons(0));
+				StartCoroutine( MoveSortButtons( 0 ) );
 			}
-			else if ( m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != 0.0f && m_Sorting == SortingType.None ) {
-				StartCoroutine(MoveSortButtons(1));
+			else if ( m_AppController.VRMode && m_Sorting != SortingType.None && m_RightButtonAnchor.transform.localPosition.x != 0.0f ) {
+				StartCoroutine( MoveSortButtons( 1 ) );
 			}
-			else if ( m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != -1.2f && m_Sorting != SortingType.None ) {
-				StartCoroutine(MoveSortButtons(2));
+			else if ( m_AppController.VRMode && m_Sorting == SortingType.None && m_RightButtonAnchor.transform.localPosition.x != -1.2f ) {
+				StartCoroutine( MoveSortButtons( 2 ) );
 			}
 		}
 	}
@@ -204,22 +207,17 @@ public class ThumbBrowser : MonoBehaviour {
 		PopThumbs();
 	}
 	public void To2DView() {
+		m_ButtonsMoving = false;
 		StopAllCoroutines();
 		//move sorting buttons up/move thumb browser back
 		m_VRModeButton.SetClicked( !m_AppController.VRMode );
 		StartCoroutine( MoveBrowser( true ) );
-		StartCoroutine( MoveSortButtons( 0 ) );
 	}
 	public void To3DView() {
+		m_ButtonsMoving = false;
 		StopAllCoroutines();
 		StartCoroutine( MoveBrowser( false ) );
 		m_VRModeButton.SetClicked( !m_AppController.VRMode );
-		if ( m_Sorting != SortingType.None ) {
-			StartCoroutine( MoveSortButtons( 1 ) );
-		}
-		else {
-			StartCoroutine( MoveSortButtons( 2 ) );
-		}
 	}
 	public void HideCarousel( int _thumbNum ) {
 		foreach ( ThumbTile thumb in m_Thumbs ) {
@@ -265,7 +263,6 @@ public class ThumbBrowser : MonoBehaviour {
 			rightAnchTarget		= new Vector3( 0.0f, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
 			leftAnchTarget		= new Vector3( 0.0f, m_RightButtonAnchor.transform.localPosition.y, m_RightButtonAnchor.transform.localPosition.z );
 
-
 			if ( !m_LeftScroll.gameObject.activeSelf ) {
 				EnableHorizontalTriggers( true );
 
@@ -285,7 +282,6 @@ public class ThumbBrowser : MonoBehaviour {
 				StartCoroutine( m_TopScroll.AlphaFade( 0.46875f, 0.01f ) );
 				StartCoroutine( m_BotScroll.AlphaFade( 0.46875f, 0.01f ) );
 			}
-			
 		}
 		else { //Half move for when vertical scrolling is not needed.
 			target = 1.2f;
@@ -323,29 +319,31 @@ public class ThumbBrowser : MonoBehaviour {
 
 #endregion
 
-#region De-Selected Methods
+#region Button Methods
 
 	public void LeftTrigNoHover() {
-		moveLeft = false;
+		moveRight = false;
 		m_LeftScroll.SetClicked( false );
 	}
-
 	public void RightTrigNoHover() {
-		moveRight = false;
+		moveLeft = false;
 		m_RightScroll.SetClicked( false );
 	}
-
 	public void TopTrigNoHover() {
 		moveUp = false;
 		m_TopScroll.SetClicked( false );
 	}
-
 	public void BotTrigNoHover() {
 		moveDown = false;
 		m_BotScroll.SetClicked( false );
 	}
+	public void AutoVRToggleHover() {
+		m_Pointer.SetText("Automatic VR Mode");
+	}
+	public void AutoVRToggleNoHover() {
+		m_Pointer.UnsetText();
+	}
 
-#endregion
 
 #region Clicked Methods
 
@@ -397,24 +395,23 @@ public class ThumbBrowser : MonoBehaviour {
 		m_AppController.VrMode();
 	}
 	public void LeftTrigClicked() {
-		moveRight = !moveRight;
+		moveRight = true;
 	}
 	public void RightTrigClicked() {
-		moveLeft = !moveLeft;
+		moveLeft = true;
 	}
 	public void TopTrigClicked() {
-		moveUp = !moveUp;
+		moveUp = true;
 	}
 	public void BotTrigClicked() {
-		moveDown = !moveDown;
-	}
-	public void SettingsButtonClicked() {
-
+		moveDown = true;
 	}
 	public void AutoVRModeButtonClicked() {
 		m_AppController.AutoVRSwap = !m_AppController.AutoVRSwap;
 		m_VRModeButton.OnNoHover();
 	}
+
+	#endregion
 
 #endregion
 
@@ -457,6 +454,7 @@ public class ThumbBrowser : MonoBehaviour {
 			AddCountry( thumbs[i].Country );
 			AddDate( thumbs[i].Date );
 			temp.SetThumb( thumbs[i] );
+			temp.Pointer = m_Pointer;
 			temp.CarouselPos = i;
 			temp.SetPos( tPos );
 			m_Thumbs.Add( temp );
@@ -500,7 +498,7 @@ public class ThumbBrowser : MonoBehaviour {
 
 				tempTx.transform.parent = m_ThumbAnchor.transform;
 				tempTx.SetPos( pos );
-
+				
 				tempTx.SetText( str == "" ? "Unknown" : str );
 				m_TextPanels.Add( tempTx );
 
@@ -514,7 +512,7 @@ public class ThumbBrowser : MonoBehaviour {
 							tempTile.transform.parent = anchor.transform;
 							tempTile.SetThumb( m_Thumbs[i].Image );
 							Vector3 tPos = new Vector3( 0.0f, -( row * ySpacing ) - yPadding, 0.0f );
-
+							tempTile.Pointer = m_Pointer;
 							tempTile.SetPos( tPos );
 							tempTile.CarouselPos = i;
 							temp.Add( tempTile );
@@ -551,7 +549,7 @@ public class ThumbBrowser : MonoBehaviour {
 						tempTile.transform.parent = anchor.transform;
 						tempTile.SetThumb( m_Thumbs[i].Image );
 						Vector3 tPos = new Vector3( 0.0f, -( row * ySpacing ) - yPadding, 0.0f );
-
+						tempTile.Pointer = m_Pointer;
 						tempTile.SetPos( tPos );
 						tempTile.CarouselPos = i;
 						temp.Add( tempTile );
@@ -579,12 +577,10 @@ public class ThumbBrowser : MonoBehaviour {
 			}
 		}
 		m_ColumnAnchors.Clear();
-		m_ColumnAnchors = tempAnchs;
-
-		//Call a corourtine to move some stuff
-		
+		m_ColumnAnchors = tempAnchs;		
 	}
 	private void ChangeSorting( SortingType _arg ) {
+		m_ButtonsMoving = false;
 		StopAllCoroutines();
 		m_Sorting = _arg;
 		if ( m_Sorting == SortingType.None ) {
@@ -597,6 +593,7 @@ public class ThumbBrowser : MonoBehaviour {
 #region Carousel Motion Methods
 
 	public void SweepToCentre( GameObject _tileToMove ) {
+		m_ButtonsMoving = false;
 		StopAllCoroutines();
 		Vector3 targetPos = m_ThumbAnchor.Transform.position - new Vector3( _tileToMove.transform.position.x, 0.0f, 0.0f );
 		StartCoroutine( SweepOverTime( _tileToMove, targetPos ) );
@@ -846,11 +843,6 @@ public class ThumbBrowser : MonoBehaviour {
 	private void EnableHorizontalTriggers( bool _arg ) {
 		m_RightScroll.gameObject.SetActive( _arg );
 		m_LeftScroll.gameObject.SetActive( _arg );
-	}
-	private void SetAlpha( MeshRenderer _argMesh, float _value ) {
-		Color color = _argMesh.material.color;
-		color.a = _value;
-		_argMesh.material.color = color;
 	}
 	private void AutoButtonColor() {
 		if ( m_AppController.AutoVRSwap )
