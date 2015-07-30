@@ -41,9 +41,6 @@ public class iOSUnityInterface : MonoBehaviour {
 	public string GetDate( string _id ) {
 		return _iOS_Gallery__GetPanoramaDateTaken( _id );
 	}
-	public void SetTex( int _texId, string _id ) {
-		_iOS_Gallery__PanoramaToTexture(_id, _texId, GetWidth(_id), GetHeight(_id));
-	}
 
 	public string[] GetImages() {
 		int images = _iOS_Gallery__GetPanoramaCount();
@@ -63,7 +60,7 @@ public class iOSUnityInterface : MonoBehaviour {
 			return 0;
 	}
 	
-	// Stops lookup current lookup
+	//Stops lookup current lookup
 	private static string GetLocalID(int index)
 	{
 		// Call plugin only when running on real device
@@ -74,7 +71,7 @@ public class iOSUnityInterface : MonoBehaviour {
 	}
 
 	// Returns list of looked up service hosts
-	private static Texture2D GetPanoramaData(string localID) {
+	public static Texture2D GetPanoramaData(string localID) {
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor) {
 			

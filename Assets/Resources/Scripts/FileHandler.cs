@@ -82,8 +82,8 @@ public class FileHandler : MonoBehaviour {
 				m_Date = DateFormat.DateTime( _date );
 			}
 		}
-		public Thumbnail( string _ImageLoc, int _width, int _height, string _date, string _country ) {
-			m_Thumb = new Texture2D( _width, _height );
+		public Thumbnail( Texture2D _tex, string _ImageLoc, int _width, int _height, string _date, string _country ) {
+			m_Thumb = _tex;
 			m_Width = _width;
 			m_Height = _height;
 			m_Country = _country;
@@ -144,9 +144,7 @@ public class FileHandler : MonoBehaviour {
 		
 		m_Textures = m_IUInterface.GetImages();
 		foreach (string file in m_Textures ) {
-			Thumbnail thumb = new Thumbnail( file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) );
-			m_IUInterface.SetTex(thumb.GetTexPtr, file);
-			m_Thumbs.Add(thumb);
+			m_Thumbs.Add( new Thumbnail( m_IUInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
 		}
 #endif
 	}
@@ -172,9 +170,7 @@ public class FileHandler : MonoBehaviour {
 			m_Textures = tex;
 			m_Thumbs.Clear();
 			foreach (string file in m_Textures ) {
-				Thumbnail thumb = new Thumbnail( file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) );
-				m_IUInterface.SetTex(thumb.GetTexPtr, file);
-				m_Thumbs.Add(thumb);
+				m_Thumbs.Add( new Thumbnail( m_IUInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
 			}
 		}
 #endif
