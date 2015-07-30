@@ -166,25 +166,25 @@ static PHAsset* getAsset(const char* localID) {
 
 #pragma mark - C Interface
 extern "C" {
-    int _GetPanoramaCount() {
+    int _iOS_Gallery__GetPanoramaCount() {
         return (int)[[Gallery sharedInstance] getAssetCount];
     }
-    const char* _GetLocalID(int index) {
+    const char* _iOS_Gallery__GetLocalID(int index) {
         return [[[Gallery sharedInstance] getLocalIdentifierForIndex:index] UTF8String];
     }
-    int _GetPanoramaWidth (const char* localID) {
+    int _iOS_Gallery__GetPanoramaWidth (const char* localID) {
         return (int)[getAsset(localID) pixelWidth];
     }
-    int _GetPanoramaHeight (const char* localID) {
+    int _iOS_Gallery__GetPanoramaHeight (const char* localID) {
         return (int)[getAsset(localID) pixelHeight];
     }
-    const char* _GetPanoramaDateTaken (const char* localID) {
+    const char* _iOS_Gallery__GetPanoramaDateTaken (const char* localID) {
         return [[[getAsset(localID) creationDate] description] UTF8String];
     }
-    const char* _GetPanoramaCountry (const char* localID) {
+    const char* _iOS_Gallery__GetPanoramaCountry (const char* localID) {
         return [[[Gallery sharedInstance] getCountryForAssetLocation:getAsset(localID)] UTF8String];
     }
-    void _PanoramaToTexture (const char* localID, int gl_tex_id, int texWidth, int texHeight) {
+    void _iOS_Gallery__PanoramaToTexture (const char* localID, int gl_tex_id, int texWidth, int texHeight) {
         //PHAsset * asset = getAsset(localID);
         
         CGRect targetRectangle = CGRectMake(0.0, 0.0, (CGFloat)texWidth, (CGFloat)texHeight);
@@ -222,9 +222,6 @@ extern "C" {
              }
          }];
         
-    }
-    void _GalleryRefresh() {
-        // Does nothing as gallery is refershed automatically
     }
 }
 

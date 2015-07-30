@@ -7,36 +7,33 @@ public class Gallery {
 	/* Interface to native implementation */
 	
 	[DllImport ("__Internal")]
-	private static extern int _GetPanoramaCount();
+	private static extern int _iOS_Gallery__GetPanoramaCount();
 	
 	[DllImport ("__Internal")]
-	private static extern string _GetLocalID(int index);
+	private static extern string _iOS_Gallery__GetLocalID(int index);
 	
 	[DllImport ("__Internal")]
-	private static extern int _GetPanoramaWidth (string localID);
+	private static extern int _iOS_Gallery__GetPanoramaWidth (string localID);
 	
 	[DllImport ("__Internal")]
-	private static extern int _GetPanoramaHeight (string localID);
+	private static extern int _iOS_Gallery__GetPanoramaHeight (string localID);
 	
 	[DllImport ("__Internal")]
-	private static extern string _GetPanoramaDateTaken (string localID);
+	private static extern string _iOS_Gallery__GetPanoramaDateTaken (string localID);
 	
 	[DllImport ("__Internal")]
-	private static extern string _GetPanoramaCountry (string localID);
+	private static extern string _iOS_Gallery__GetPanoramaCountry (string localID);
 	
 	[DllImport ("__Internal")]
-	private static extern void _PanoramaToTexture (string localID, int gl_tex_id, int texWidth, int texHeight);
-	
-	[DllImport ("__Internal")]
-	private static extern void _GalleryRefresh();
-	
+	private static extern void _iOS_Gallery__PanoramaToTexture (string localID, int gl_tex_id, int texWidth, int texHeight);
+
 	/* Public interface for use inside C# / JS code */
 	
 	// Starts lookup for some bonjour registered service inside specified domain
 	public static int PanoramaCount() {
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
-			return _GetPanoramaCount();
+			return _iOS_Gallery__GetPanoramaCount();
 		else
 			return 0;
 	}
@@ -46,28 +43,21 @@ public class Gallery {
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
-			return _GetLocalID (index);
+			return _iOS_Gallery__GetLocalID (index);
 		else
 			return "";
 	}
-	
-	// Returns current lookup status
-	public static void GalleryRefresh()
-	{
-		if (Application.platform != RuntimePlatform.OSXEditor)
-			_GalleryRefresh();
-	}
-	
+
 	// Returns list of looked up service hosts
 	public static Texture2D GetPanoramaData(string localID) {
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor) {
 			
-			int width = _GetPanoramaWidth (localID);
-			int height = _GetPanoramaHeight (localID);
+			int width = _iOS_Gallery__GetPanoramaWidth (localID);
+			int height = _iOS_Gallery__GetPanoramaHeight (localID);
 			Texture2D tex = new Texture2D (width, height);
 			
-			_PanoramaToTexture (localID, tex.GetNativeTextureID(), width, height );
+			_iOS_Gallery__PanoramaToTexture (localID, tex.GetNativeTextureID(), width, height );
 			
 			tex.Apply();
 			
