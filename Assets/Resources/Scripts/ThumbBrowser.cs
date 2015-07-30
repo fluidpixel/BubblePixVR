@@ -153,6 +153,9 @@ public class ThumbBrowser : MonoBehaviour {
 					ColumnToRest( ShouldMoveY() );
 				}
 			}
+
+			//CarouselToRest(ShouldMoveX());
+
 		}
 
 		if ( Input.GetKeyDown( KeyCode.Space ) ) {
@@ -343,7 +346,16 @@ public class ThumbBrowser : MonoBehaviour {
 	public void AutoVRToggleNoHover() {
 		m_Pointer.UnsetText();
 	}
-
+	public void VRModePointerUp() {
+		if ( m_VRModeButton.ClickTime > 0.5f ) {
+			//move the toggle switch out for X seconds.
+			AutoVRModeButtonClicked();
+		}
+		else {
+			m_VRModeButton.OnClick();
+			VRModeButtonClicked();
+		}
+	}
 
 #region Clicked Methods
 
@@ -772,6 +784,21 @@ public class ThumbBrowser : MonoBehaviour {
 							m_ColumnAnchors[i].gameObject.transform.localPosition = pos;
 					}
 				}
+			}
+		}
+	}
+	private void CarouselToRest( bool _moving ) {
+		//Only needs to apply at the opposite ends of the carousel.
+		Vector3 pos = m_ThumbAnchor.Transform.position;
+		if ( !_moving && ( pos.x < 0 || pos.x > xSpacing * m_ColumnAnchors.Count ) ) {
+			
+			float round = Mathf.Round( pos.x / xSpacing );
+
+			round *= xSpacing;
+
+			if ( pos.x != round ) {
+				pos.x = round;
+				m_ThumbAnchor.Transform.position = pos;
 			}
 		}
 	}

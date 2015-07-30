@@ -15,15 +15,24 @@ public class UIButton : MonoBehaviour {
 								 new Color( 0.32f, 0.7f, 0.4f, 0.74f ) };	//Active Hover Color
 
 	private bool m_IsActive;
-	
+	private bool m_IsHeld;
 	private Pointer m_Pointer = null;
 	private MeshRenderer m_Mesh;
+	float m_ClickDuration = 0.0f;
+
+	
+	delegate void OnCursorHoldDelegate();
+	OnCursorHoldDelegate m_Delegate;
 
 	public Material Material {
 		get { return m_Mesh.material; }
 		set { m_Mesh.material = value; }
 	}
 
+	public float ClickTime {
+		get { return m_ClickDuration; }
+	}
+	
 	void Awake() {
 		m_Mesh = GetComponent<MeshRenderer>() as MeshRenderer;
 		m_Pointer = GameObject.Find( "GazePointer" ).GetComponent<Pointer>() as Pointer;
@@ -67,6 +76,16 @@ public class UIButton : MonoBehaviour {
 		}
 	}
 
+	public void PointerDown() {
+		m_IsHeld = true;
+		StartCoroutine("TimeClick");
+	}
+
+	public void PointerUp() {
+		m_IsHeld = false;
+		StopCoroutine("TimeClick");
+	}
+
 	public void SetClicked( bool _arg ) {
 		if ( _arg ) {
 			m_Mesh.material.color = m_Colors[2];
@@ -105,6 +124,15 @@ public class UIButton : MonoBehaviour {
 
 		if ( _target == 0.0f ) {
 			gameObject.SetActive( false );
+		}
+	}
+
+	public IEnumerator TimeClick() {
+		m_ClickDuration = 0.0f;
+
+		while ( m_IsHeld ) {
+			m_ClickDuration += Time.deltaTime;
+			yield return null;
 		}
 	}
 }
