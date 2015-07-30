@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf2a73607cb69643a40382bc13f11a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JUInterface: {fileID: 11431070, guid: 93e46190144e31a4b8ffa50ba7af8767, type: 2}
+  m_JUInterface: {fileID: 11455454}
   m_IUInterface: {fileID: 11423448}
 --- !u!1001 &100100000
 Prefab:

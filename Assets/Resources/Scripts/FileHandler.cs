@@ -96,16 +96,16 @@ public class FileHandler : MonoBehaviour {
 		}
 	}
 
-	#if UNITY_ANDROID && !UNITY_EDITOR
+
 
 	[SerializeField]
 	private JavaUnityInterface m_JUInterface;
 
-	#elif UNITY_IOS && !UNITY_EDITOR
-
+//
+//
 	[SerializeField]
 	private iOSUnityInterface m_IUInterface;
-	#endif
+
 
 	private List<Thumbnail> m_Thumbs;
 
@@ -149,7 +149,7 @@ public class FileHandler : MonoBehaviour {
 		
 		m_Textures = m_IUInterface.GetImages();
 		foreach (string file in m_Textures ) {
-			m_Thumbs.Add( new Thumbnail( m_IUInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
+			m_Thumbs.Add( new Thumbnail( iOSUnityInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
 		}
 #endif
 	}
@@ -169,13 +169,13 @@ public class FileHandler : MonoBehaviour {
 			}
 		}
 #elif UNITY_IOS && !UNITY_EDITOR
-		string tex[] = m_IUInterface.GetImages();
+		string[] tex = m_IUInterface.GetImages();
 
 		if (tex.Length != m_Textures.Length ) {
 			m_Textures = tex;
 			m_Thumbs.Clear();
 			foreach (string file in m_Textures ) {
-				m_Thumbs.Add( new Thumbnail( m_IUInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
+				m_Thumbs.Add( new Thumbnail( iOSUnityInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
 			}
 		}
 #endif
