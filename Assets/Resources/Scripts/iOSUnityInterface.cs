@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Runtime.InteropServices;
 
-public class Gallery {
+public class iOSUnityInterface : MonoBehaviour {
 	
 	/* Interface to native implementation */
 	
@@ -28,9 +28,34 @@ public class Gallery {
 	private static extern void _iOS_Gallery__PanoramaToTexture (string localID, int gl_tex_id, int texWidth, int texHeight);
 
 	/* Public interface for use inside C# / JS code */
-	
+
+	public int GetWidth( string _id ) {
+		return _iOS_Gallery__GetPanoramaWidth( _id );
+	}
+	public int GetHeight( string _id ) {
+		return _iOS_Gallery__GetPanoramaHeight( _id );
+	}
+	public string GetCountry( string _id ) {
+		return _iOS_Gallery__GetPanoramaCountry( _id );
+	}
+	public string GetDate( string _id ) {
+		return _iOS_Gallery__GetPanoramaDateTaken( _id );
+	}
+	public void SetTex( int _texId, string _id ) {
+		_iOS_Gallery__PanoramaToTexture(_id, _texId, GetWidth(_id), GetHeight(_id));
+	}
+
+	public string[] GetImages() {
+		int images = _iOS_Gallery__GetPanoramaCount();
+		string[] ret = new string[images];
+		for ( int i = 0; i < images; i++ ) {
+			ret[i] = _iOS_Gallery__GetLocalID(i);
+		}
+		return ret;
+	}
+
 	// Starts lookup for some bonjour registered service inside specified domain
-	public static int PanoramaCount() {
+	private static int PanoramaCount() {
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
 			return _iOS_Gallery__GetPanoramaCount();
@@ -39,7 +64,7 @@ public class Gallery {
 	}
 	
 	// Stops lookup current lookup
-	public static string GetLocalID(int index)
+	private static string GetLocalID(int index)
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
@@ -49,7 +74,7 @@ public class Gallery {
 	}
 
 	// Returns list of looked up service hosts
-	public static Texture2D GetPanoramaData(string localID) {
+	private static Texture2D GetPanoramaData(string localID) {
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor) {
 			

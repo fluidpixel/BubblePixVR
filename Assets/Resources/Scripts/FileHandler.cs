@@ -17,6 +17,10 @@ public class FileHandler : MonoBehaviour {
 		private string m_Country;
 		private DateTime m_Date;
 
+		public int GetTexPtr {
+			get { return m_Thumb.GetNativeTextureID(); }
+		}
+
 		public Texture2D Thumb {
 			get { return m_Thumb; }
 		}
@@ -78,12 +82,25 @@ public class FileHandler : MonoBehaviour {
 				m_Date = DateFormat.DateTime( _date );
 			}
 		}
+		public Thumbnail( string _ImageLoc, int _width, int _height, string _date, string _country ) {
+			m_Thumb = new Texture2D( _width, _height );
+			m_Width = _width;
+			m_Height = _height;
+			m_Country = _country;
+			if ( _date == "" ) {
+				m_Date = new DateTime( 1970, 1, 1 );
+			}
+			else {
+				m_Date = DateFormat.DateTime( _date );
+			}
+		}
 	}
 
 	[SerializeField]
 	private JavaUnityInterface m_JUInterface;
 
-	private string[] m_Textures;
+	[SerializeField]
+	private iOSUnityInterface m_IUInterface;
 
 	private List<Thumbnail> m_Thumbs;
 
@@ -96,9 +113,13 @@ public class FileHandler : MonoBehaviour {
 		return m_Thumbs.ToArray();
 	}
 
+#if !UNITY_EDITOR
+	private string[] m_Textures;
+
 	public int TexCount {
 		get { return m_Textures.Length; }
 	}
+#endif
 
 	void Start() {
 		m_Thumbs = new List<Thumbnail>();
@@ -121,8 +142,12 @@ public class FileHandler : MonoBehaviour {
 		}
 #elif UNITY_IOS
 		
-		//Put some IOS-specific code here.
-
+		m_Textures = m_IUInterface.GetImages();
+		foreach (string file in m_Textures ) {
+			Thumbnail thumb = new Thumbnail( file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) );
+			m_IUInterface.SetTex(thumb.GetTexPtr, file);
+			m_Thumbs.Add(thumb);
+		}
 #endif
 	}
 
@@ -141,7 +166,17 @@ public class FileHandler : MonoBehaviour {
 			}
 		}
 #elif UNITY_IOS && !UNITY_EDITOR
-		//IOS Specific code here.
+		string tex[] = m_IUInterface.GetImages();
+
+		if (tex.Length != m_Textures.Length ) {
+			m_Textures = tex;
+			m_Thumbs.Clear();
+			foreach (string file in m_Textures ) {
+				Thumbnail thumb = new Thumbnail( file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) );
+				m_IUInterface.SetTex(thumb.GetTexPtr, file);
+				m_Thumbs.Add(thumb);
+			}
+		}
 #endif
 	}
 
