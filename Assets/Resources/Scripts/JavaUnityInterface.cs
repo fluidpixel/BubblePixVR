@@ -5,7 +5,7 @@ using System.Collections;
 //to allow unity access to them.
 
 public class JavaUnityInterface : MonoBehaviour {
-
+#if UNITY_ANDROID
 	private AndroidJavaObject m_ImageResizer = null;
 	private AndroidJavaObject m_ActivityContext = null;
 	private AndroidJavaObject m_GalleryPathGrabber = null;
@@ -75,4 +75,5 @@ public class JavaUnityInterface : MonoBehaviour {
 		}
 		return m_ActivityContext;
 	}
+#endif
 }

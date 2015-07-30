@@ -96,11 +96,16 @@ public class FileHandler : MonoBehaviour {
 		}
 	}
 
+	#if UNITY_ANDROID && !UNITY_EDITOR
+
 	[SerializeField]
 	private JavaUnityInterface m_JUInterface;
 
+	#elif UNITY_IOS && !UNITY_EDITOR
+
 	[SerializeField]
 	private iOSUnityInterface m_IUInterface;
+	#endif
 
 	private List<Thumbnail> m_Thumbs;
 
