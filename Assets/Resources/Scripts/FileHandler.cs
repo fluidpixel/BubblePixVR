@@ -96,11 +96,24 @@ public class FileHandler : MonoBehaviour {
 		}
 	}
 
+<<<<<<< HEAD
 	[SerializeField]
 	private JavaUnityInterface m_JUInterface;
 
 	[SerializeField]
 	private iOSUnityInterface m_IUInterface;
+=======
+
+
+	[SerializeField]
+	private JavaUnityInterface m_JUInterface;
+
+//
+//
+	[SerializeField]
+	private iOSUnityInterface m_IUInterface;
+
+>>>>>>> origin/master
 
 	private List<Thumbnail> m_Thumbs;
 
@@ -144,7 +157,7 @@ public class FileHandler : MonoBehaviour {
 		
 		m_Textures = m_IUInterface.GetImages();
 		foreach (string file in m_Textures ) {
-			m_Thumbs.Add( new Thumbnail( m_IUInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
+			m_Thumbs.Add( new Thumbnail( iOSUnityInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
 		}
 #endif
 	}
@@ -170,7 +183,7 @@ public class FileHandler : MonoBehaviour {
 			m_Textures = tex;
 			m_Thumbs.Clear();
 			foreach (string file in m_Textures ) {
-				m_Thumbs.Add( new Thumbnail( m_IUInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
+				m_Thumbs.Add( new Thumbnail( iOSUnityInterface.GetPanoramaData( file ), file, m_IUInterface.GetWidth( file ), m_IUInterface.GetHeight( file ), m_IUInterface.GetDate( file ), m_IUInterface.GetCountry( file ) ) );
 			}
 		}
 #endif
