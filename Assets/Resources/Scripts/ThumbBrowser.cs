@@ -153,9 +153,7 @@ public class ThumbBrowser : MonoBehaviour {
 					ColumnToRest( ShouldMoveY() );
 				}
 			}
-
 			CarouselToRest(ShouldMoveX());
-
 		}
 
 		if ( Input.GetKeyDown( KeyCode.Space ) ) {
@@ -686,7 +684,11 @@ public class ThumbBrowser : MonoBehaviour {
 
 		//Works out the velocity of the carousel from its acceleration and last frame's velocity (V = pV + a * t).
 		//This only applies a damping force when the user stops scrolling.
-		m_xVelocity = ( m_xVelocity + m_xAcceleration * Time.deltaTime ) * ( _moving ? 1.0f : 0.97f );
+		if ( !m_AppController.TC.Swiping ) { 
+			m_xVelocity = ( m_xVelocity + m_xAcceleration * Time.deltaTime );
+			if ( !_moving )
+				m_xVelocity *= 0.97f;
+		}
 
 		//Keep it from scrolling faster than a certain rate.
 		if ( m_xVelocity > m_MaxVelocity ) {
@@ -698,9 +700,13 @@ public class ThumbBrowser : MonoBehaviour {
 
 		//Handles reaching the end of the list, by inverting the velocity (and damping), making it appear to bounce.
 		if ( m_Thumbs[0] != null ) {
-			if ( ( m_Thumbs[0].transform.position.x > 0.0f && m_xVelocity > 0.0f ) ||
-			( m_Thumbs[m_Thumbs.Count - 1].transform.position.x < 0.0f && m_xVelocity < 0.0f ) ) {//Has it scrolled to the leftmost/rightmost thumb, and is it still trying to go further?
-				m_xVelocity = -m_xVelocity * 0.35f; //if so, bounce.
+			if ( ( m_ThumbAnchor.Transform.position.x > 0.0f && m_xVelocity > 0.0f ) ) {
+				m_xVelocity *= -0.4f;
+				moveLeft = moveRight = false;
+			}
+			else if  ( m_ThumbAnchor.Transform.position.x < ( -( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) ) - 0.5f  && m_xVelocity < 0.0f ) { //Has it scrolled to the leftmost/rightmost thumb, and is it still trying to go further?
+				m_xVelocity *= -0.4f; //if so, bounce.
+				moveLeft = moveRight = false;
 			}
 			else {
 				if ( m_AppController.TC.SwipeSpeed.x > m_AppController.TC.SwipeSpeed.y ) {
@@ -790,21 +796,21 @@ public class ThumbBrowser : MonoBehaviour {
 	private void CarouselToRest( bool _moving ) {
 		//Only needs to apply at the opposite ends of the carousel.
 		Vector3 pos = m_ThumbAnchor.Transform.position;
-		if ( !_moving ) {
-			if ( pos.x > -1.5f && pos.x < -0.01f) { 
-				pos.x += (0.0f - pos.x) * 0.01f;
-				m_ThumbAnchor.Transform.position = pos;
+		if ( !_moving && !m_AppController.TC.Swiping ) {
+			if ( pos.x > -1.0f && pos.x < -0.01f) { 
+				pos.x += (0.0f - pos.x) * 0.02f;
 			}
-			if ( pos.x < -( ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) ) + 1.5f && pos.x > -( (m_Thumbs.Count / 3.0f) * (xSpacing - 1) ) ) {
-				pos.x -= (pos.x + ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 )) * 0.02f;
-				
+			else if ( pos.x < -( ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) ) + 1.0f  && pos.x > -( (m_Thumbs.Count / 3.0f) * (xSpacing - 1) ) - 0.5f ) {
+				pos.x -= ( ( pos.x + ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) )  ) * 0.02f;
+			}
+
+			if ( Mathf.Abs( m_xVelocity ) < Mathf.Abs( pos.x ) ) {
 				m_ThumbAnchor.Transform.position = pos;
 			}
 		}
-		//Debug.Log((0.0f - pos.x) * 0.01f);
 	}
 
-	#endregion
+#endregion
 
 #region Misc Methods
 

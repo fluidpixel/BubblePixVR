@@ -96,24 +96,13 @@ public class FileHandler : MonoBehaviour {
 		}
 	}
 
-<<<<<<< HEAD
+
 	[SerializeField]
 	private JavaUnityInterface m_JUInterface;
 
 	[SerializeField]
 	private iOSUnityInterface m_IUInterface;
-=======
 
-
-	[SerializeField]
-	private JavaUnityInterface m_JUInterface;
-
-//
-//
-	[SerializeField]
-	private iOSUnityInterface m_IUInterface;
-
->>>>>>> origin/master
 
 	private List<Thumbnail> m_Thumbs;
 
