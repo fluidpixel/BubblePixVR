@@ -154,7 +154,7 @@ public class ThumbBrowser : MonoBehaviour {
 				}
 			}
 
-			//CarouselToRest(ShouldMoveX());
+			CarouselToRest(ShouldMoveX());
 
 		}
 
@@ -700,7 +700,7 @@ public class ThumbBrowser : MonoBehaviour {
 		if ( m_Thumbs[0] != null ) {
 			if ( ( m_Thumbs[0].transform.position.x > 0.0f && m_xVelocity > 0.0f ) ||
 			( m_Thumbs[m_Thumbs.Count - 1].transform.position.x < 0.0f && m_xVelocity < 0.0f ) ) {//Has it scrolled to the leftmost/rightmost thumb, and is it still trying to go further?
-				m_xVelocity = -m_xVelocity * 0.5f; //if so, bounce.
+				m_xVelocity = -m_xVelocity * 0.35f; //if so, bounce.
 			}
 			else {
 				if ( m_AppController.TC.SwipeSpeed.x > m_AppController.TC.SwipeSpeed.y ) {
@@ -790,17 +790,18 @@ public class ThumbBrowser : MonoBehaviour {
 	private void CarouselToRest( bool _moving ) {
 		//Only needs to apply at the opposite ends of the carousel.
 		Vector3 pos = m_ThumbAnchor.Transform.position;
-		if ( !_moving && ( pos.x < 0 || pos.x > xSpacing * m_ColumnAnchors.Count ) ) {
-			
-			float round = Mathf.Round( pos.x / xSpacing );
-
-			round *= xSpacing;
-
-			if ( pos.x != round ) {
-				pos.x = round;
+		if ( !_moving ) {
+			if ( pos.x > -1.5f && pos.x < -0.01f) { 
+				pos.x += (0.0f - pos.x) * 0.01f;
+				m_ThumbAnchor.Transform.position = pos;
+			}
+			if ( pos.x < -( ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) ) + 1.5f && pos.x > -( (m_Thumbs.Count / 3.0f) * (xSpacing - 1) ) ) {
+				pos.x -= (pos.x + ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 )) * 0.02f;
+				
 				m_ThumbAnchor.Transform.position = pos;
 			}
 		}
+		//Debug.Log((0.0f - pos.x) * 0.01f);
 	}
 
 	#endregion

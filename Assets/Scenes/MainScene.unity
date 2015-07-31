@@ -3537,6 +3537,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11498898, guid: c92a0db0065a2a045b23a5ce2a9f8ad1, type: 2}
+      propertyPath: m_JUInterface
+      value: 
+      objectReference: {fileID: 2139404428}
+    - target: {fileID: 11498898, guid: c92a0db0065a2a045b23a5ce2a9f8ad1, type: 2}
+      propertyPath: m_IUInterface
+      value: 
+      objectReference: {fileID: 1158678748}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: c92a0db0065a2a045b23a5ce2a9f8ad1, type: 2}
   m_RootGameObject: {fileID: 1538851073}
@@ -3570,7 +3578,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf2a73607cb69643a40382bc13f11a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JUInterface: {fileID: 11431070, guid: 93e46190144e31a4b8ffa50ba7af8767, type: 2}
+  m_JUInterface: {fileID: 2139404428}
   m_IUInterface: {fileID: 1158678748}
 --- !u!4 &1538851075
 Transform:
