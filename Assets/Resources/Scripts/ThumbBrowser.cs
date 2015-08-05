@@ -50,7 +50,7 @@ public class ThumbBrowser : MonoBehaviour {
 	private UIButton m_SettingsButton;
 
 	[SerializeField]
-	private MeshRenderer m_AutoVRSwapButton;
+	private UIButton m_AutoVRSwapButton;
 
 	[SerializeField]
 	private Carousel m_ThumbAnchor;
@@ -89,6 +89,7 @@ public class ThumbBrowser : MonoBehaviour {
 	private bool				m_Sweeping					= false;
 	private bool				m_ButtonsMoving				= false;
 	private int					m_ActiveColumn;
+	private int					m_NumColumns;
 	private float				xSpacing					= 4.0f;
 	private float				ySpacing					= 1.0f;
 	private float				m_MaxVelocity				= 10.0f;
@@ -166,8 +167,6 @@ public class ThumbBrowser : MonoBehaviour {
 			CalendarButtonClicked();
 		}
 
-		AutoButtonColor();
-
 		//Makes sure the buttons are in the right place.
 		if ( !m_ButtonsMoving ) {
 			if ( !m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != -2.21f ) {
@@ -183,6 +182,7 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 
 #endregion
+
 
 #region Transition Methods
 
@@ -338,22 +338,6 @@ public class ThumbBrowser : MonoBehaviour {
 		moveDown = false;
 		m_BotScroll.SetClicked( false );
 	}
-	public void AutoVRToggleHover() {
-		m_Pointer.SetText("Automatic VR Mode");
-	}
-	public void AutoVRToggleNoHover() {
-		m_Pointer.UnsetText();
-	}
-	public void VRModePointerUp() {
-		if ( m_VRModeButton.ClickTime > 0.5f ) {
-			//move the toggle switch out for X seconds.
-			AutoVRModeButtonClicked();
-		}
-		else {
-			m_VRModeButton.OnClick();
-			VRModeButtonClicked();
-		}
-	}
 
 #region Clicked Methods
 
@@ -405,20 +389,24 @@ public class ThumbBrowser : MonoBehaviour {
 		m_AppController.VrMode();
 	}
 	public void LeftTrigClicked() {
-		moveRight = true;
+		moveRight = !moveRight;
+		m_LeftScroll.SetClicked(moveRight);
 	}
 	public void RightTrigClicked() {
-		moveLeft = true;
+		moveLeft = !moveLeft;
+		m_RightScroll.SetClicked(moveLeft);
 	}
 	public void TopTrigClicked() {
-		moveUp = true;
+		moveUp = !moveUp;
+		m_TopScroll.SetClicked(moveUp);
 	}
 	public void BotTrigClicked() {
-		moveDown = true;
+		moveDown = !moveDown;
+		m_BotScroll.SetClicked(moveDown);
 	}
 	public void AutoVRModeButtonClicked() {
 		m_AppController.AutoVRSwap = !m_AppController.AutoVRSwap;
-		m_VRModeButton.OnNoHover();
+		m_AutoVRSwapButton.SetClicked( !m_AppController.AutoVRSwap );
 	}
 
 	#endregion
@@ -454,6 +442,7 @@ public class ThumbBrowser : MonoBehaviour {
 		FileHandler.Thumbnail[] thumbs = m_AppController.FH.GetThumbs();
 		float x = 0;
 		float y = ySpacing - 0.3f;
+		int columns = 0;
 		m_ThumbAnchor.LocalPos = new Vector3( 0.0f, -0.85f, -2.95f );
 		for ( int i = 0; i < thumbs.Length; ++i ) {
 			ThumbTile temp = Instantiate( m_TilePrefab ) as ThumbTile;
@@ -469,6 +458,7 @@ public class ThumbBrowser : MonoBehaviour {
 			temp.SetPos( tPos );
 			m_Thumbs.Add( temp );
 			if ( (i + 1) % 3 == 0 ) {
+				columns++;
 				x += xSpacing;
 				y = ySpacing - 0.3f;
 			}
@@ -476,6 +466,7 @@ public class ThumbBrowser : MonoBehaviour {
 				y -= ySpacing;
 			}
 		}
+		m_NumColumns = columns;
 	}
 	//Rearranges the columns with sorting rules applied.
 	private void SortColumns( bool _byCountry ) {
@@ -574,7 +565,7 @@ public class ThumbBrowser : MonoBehaviour {
 				row = 0;
 			}
 		}
-
+		m_NumColumns = column;
 		foreach ( ThumbTile thumb in m_Thumbs ) {
 			DestroyObject( thumb.gameObject );
 		}
@@ -704,7 +695,7 @@ public class ThumbBrowser : MonoBehaviour {
 				m_xVelocity *= -0.4f;
 				moveLeft = moveRight = false;
 			}
-			else if  ( m_ThumbAnchor.Transform.position.x < ( -( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) ) - 0.5f  && m_xVelocity < 0.0f ) { //Has it scrolled to the leftmost/rightmost thumb, and is it still trying to go further?
+			else if  ( m_ThumbAnchor.Transform.position.x < ( -( m_NumColumns - 1 ) * ( xSpacing ) )  && m_xVelocity < 0.0f ) { //Has it scrolled to the leftmost/rightmost thumb, and is it still trying to go further?
 				m_xVelocity *= -0.4f; //if so, bounce.
 				moveLeft = moveRight = false;
 			}
@@ -796,12 +787,13 @@ public class ThumbBrowser : MonoBehaviour {
 	private void CarouselToRest( bool _moving ) {
 		//Only needs to apply at the opposite ends of the carousel.
 		Vector3 pos = m_ThumbAnchor.Transform.position;
+
 		if ( !_moving && !m_AppController.TC.Swiping ) {
 			if ( pos.x > -1.0f && pos.x < -0.01f) { 
 				pos.x += (0.0f - pos.x) * 0.02f;
 			}
-			else if ( pos.x < -( ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) ) + 1.0f  && pos.x > -( (m_Thumbs.Count / 3.0f) * (xSpacing - 1) ) - 0.5f ) {
-				pos.x -= ( ( pos.x + ( m_Thumbs.Count / 3.0f ) * ( xSpacing - 1 ) )  ) * 0.02f;
+			else if ( pos.x < -( ( m_NumColumns - 1 ) * ( xSpacing ) ) + 1.0f && pos.x > -( ( m_NumColumns - 1 ) * ( xSpacing ) ) - 1.0f ) {
+				pos.x -= ( pos.x + ( ( m_NumColumns - 1 ) * ( xSpacing ) ) ) * 0.02f;
 			}
 
 			if ( Mathf.Abs( m_xVelocity ) < Mathf.Abs( pos.x ) ) {
@@ -877,12 +869,6 @@ public class ThumbBrowser : MonoBehaviour {
 	private void EnableHorizontalTriggers( bool _arg ) {
 		m_RightScroll.gameObject.SetActive( _arg );
 		m_LeftScroll.gameObject.SetActive( _arg );
-	}
-	private void AutoButtonColor() {
-		if ( m_AppController.AutoVRSwap )
-			m_AutoVRSwapButton.material.color = new Color( 0.10f, 0.8f, 0.2f, 0.80f );
-		else
-			m_AutoVRSwapButton.material.color = new Color( 0.8f, 0.10f, 0.2f, 0.80f );
 	}
 
 #endregion

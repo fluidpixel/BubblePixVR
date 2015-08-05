@@ -25,6 +25,9 @@ public class ThumbTile : MonoBehaviour {
 	private MeshAnimator m_Animator;
 
 	[SerializeField]
+	private MeshRenderer m_BorderMesh;
+
+	[SerializeField]
 	private Text m_Text;
 
 	[SerializeField]
@@ -97,6 +100,7 @@ public class ThumbTile : MonoBehaviour {
 		Vector4 color = m_Mesh.material.color;
 		Vector4 infoColor = m_InfoPanel.material.color;
 		Vector4 textColor = m_Text.color;
+		Color borderAlpha = m_BorderMesh.material.color;
 
 		xdist = Mathf.Clamp( xdist, 0.0f, 1.0f );
 		ydist = Mathf.Clamp( ydist, 0.0f, 1.0f );
@@ -107,11 +111,14 @@ public class ThumbTile : MonoBehaviour {
 			color.w = 1.0f;
 			textColor.w = 1.0f;
 			infoColor.w = 0.6f;
+			borderAlpha.a = 0.0f;
+
 		}
 		else {
 			color.w = 1.0f - fade;
 			textColor.w = 0.0f;
 			infoColor.w = 0.0f;
+			borderAlpha.a = fade;
 		}
 
 		m_Mesh.material.color = color;
@@ -119,6 +126,7 @@ public class ThumbTile : MonoBehaviour {
 		m_LargeInfoPanel.material.color = infoColor;
 		m_Text.color = textColor;
 		m_LargeText.color = textColor;
+		m_BorderMesh.material.color = borderAlpha;
 	
 		if ( pos.x < 2.5f && pos.x > -2.5f && pos.y < 2.0f && pos.y > -0.3f ) {
 			m_PointerString = "View Panorama";
@@ -204,6 +212,7 @@ public class ThumbTile : MonoBehaviour {
 	public void SetComponentsActive( bool _arg ) {
 		m_LargeInfoPanel.gameObject.SetActive( _arg );
 		m_InfoPanel.gameObject.SetActive( _arg );
+		m_BorderMesh.gameObject.SetActive( _arg );
 	}
 
 	public void StopViewing() {
