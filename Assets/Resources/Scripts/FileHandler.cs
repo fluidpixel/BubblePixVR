@@ -126,8 +126,8 @@ public class FileHandler : MonoBehaviour {
 	void Start() {
 		m_Thumbs = new List<Thumbnail>();
 #if UNITY_EDITOR
-		for (int o = 0; o < 3; o++ ) {
-			for ( int i = 0; i < 3; ++i ) {
+		for (int o = 0; o < 2; o++ ) {
+			for ( int i = 0; i < 6; ++i ) {
 				Thumbnail temp = new Thumbnail( Resources.Load( "Textures/Photosphere00" + i ) as Texture2D, "Textures/Photosphere00" + i, Country(), Date() );
 
 				m_Thumbs.Add( temp );
@@ -150,6 +150,13 @@ public class FileHandler : MonoBehaviour {
 		}
 #endif
 	}
+
+//#if UNITY_ANDROID && !UNITY_EDITOR
+	public void LoadLargeImage( string _texLoc, Texture2D _tex ) {
+		m_JUInterface.DecodeLargeImage(_texLoc);
+		_tex.LoadImage(m_JUInterface.Image);
+	}
+//#endif
 
 	private void UpdateImages() {
 

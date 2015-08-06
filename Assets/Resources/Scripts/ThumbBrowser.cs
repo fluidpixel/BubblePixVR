@@ -6,7 +6,7 @@ using System.Collections.Generic;
 /* Controls the browser component of the application.
  * Specifically, handles:
  * - Sorting of thumbnails.
- * - Button-based methods (clicked/selected/deselected)
+ * - Button-based methods (clicked/deselected etc.)
  * - Scrolling and switching between sorting methods.
  */
 
@@ -80,6 +80,8 @@ public class ThumbBrowser : MonoBehaviour {
 		Date = 2
 	};
 
+	private int					m_ActiveColumn;
+	private int					m_NumColumns;
 	private bool				moveLeft					= false;
 	private bool				moveRight					= false;
 	private bool				moveUp						= false;
@@ -88,11 +90,9 @@ public class ThumbBrowser : MonoBehaviour {
 	private bool				m_Ascending					= true;
 	private bool				m_Sweeping					= false;
 	private bool				m_ButtonsMoving				= false;
-	private int					m_ActiveColumn;
-	private int					m_NumColumns;
 	private float				xSpacing					= 4.0f;
 	private float				ySpacing					= 1.0f;
-	private float				m_MaxVelocity				= 10.0f;
+	private float				m_MaxVelocity				= 15.0f;
 	private float				m_MaxAcceleration			= 4.0f;
 	private float				m_xAcceleration				= 0.0f;
 	private float				m_AccInc					= 1.5f;
@@ -167,6 +167,10 @@ public class ThumbBrowser : MonoBehaviour {
 			CalendarButtonClicked();
 		}
 
+		if ( m_AppController.AutoVRSwap != m_AutoVRSwapButton.IsGreen ) {
+			m_AutoVRSwapButton.SetClicked(m_AppController.AutoVRSwap);
+		}
+
 		//Makes sure the buttons are in the right place.
 		if ( !m_ButtonsMoving ) {
 			if ( !m_AppController.VRMode && m_RightButtonAnchor.transform.localPosition.x != -2.21f ) {
@@ -181,8 +185,23 @@ public class ThumbBrowser : MonoBehaviour {
 		}
 	}
 
-#endregion
+	void OnGUI() {
+		int w = Screen.width, h = Screen.height;
 
+		GUIStyle style = new GUIStyle();
+
+		Rect rect = new Rect( 10, 25, w, h * 2 / 100 );
+		style.alignment = TextAnchor.UpperLeft;
+		style.fontSize = h * 2 / 100;
+		style.normal.textColor = new Color( 1.0f, 1.0f, 1.0f, 1.0f );
+		string text = string.Format( "x = {0:0.0} Current column: {2:0}/{1:0} \nImages Loaded: {3:0}", 
+									m_ThumbAnchor.transform.position.x,
+									m_NumColumns,
+									Mathf.Round(Mathf.Abs(m_ThumbAnchor.transform.position.x) / 4) + 1, m_Thumbs.Count );
+		GUI.Label( rect, text, style );
+	}
+
+#endregion
 
 #region Transition Methods
 
@@ -339,7 +358,7 @@ public class ThumbBrowser : MonoBehaviour {
 		m_BotScroll.SetClicked( false );
 	}
 
-#region Clicked Methods
+	#region Clicked Methods
 
 	public void PVToggleClicked() {
 		imageMode = !imageMode;
@@ -390,23 +409,18 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 	public void LeftTrigClicked() {
 		moveRight = !moveRight;
-		m_LeftScroll.SetClicked(moveRight);
 	}
 	public void RightTrigClicked() {
 		moveLeft = !moveLeft;
-		m_RightScroll.SetClicked(moveLeft);
 	}
 	public void TopTrigClicked() {
 		moveUp = !moveUp;
-		m_TopScroll.SetClicked(moveUp);
 	}
 	public void BotTrigClicked() {
 		moveDown = !moveDown;
-		m_BotScroll.SetClicked(moveDown);
 	}
 	public void AutoVRModeButtonClicked() {
 		m_AppController.AutoVRSwap = !m_AppController.AutoVRSwap;
-		m_AutoVRSwapButton.SetClicked( !m_AppController.AutoVRSwap );
 	}
 
 	#endregion
@@ -457,16 +471,18 @@ public class ThumbBrowser : MonoBehaviour {
 			temp.CarouselPos = i;
 			temp.SetPos( tPos );
 			m_Thumbs.Add( temp );
-			if ( (i + 1) % 3 == 0 ) {
-				columns++;
-				x += xSpacing;
-				y = ySpacing - 0.3f;
-			}
-			else {
-				y -= ySpacing;
+			if ( i != thumbs.Length - 1 ) { 
+				if ( (i + 1) % 3 == 0 ) {
+					columns++;
+					x += xSpacing;
+					y = ySpacing - 0.3f;
+				}
+				else {
+					y -= ySpacing;
+				}
 			}
 		}
-		m_NumColumns = columns;
+		m_NumColumns = columns + 1;
 	}
 	//Rearranges the columns with sorting rules applied.
 	private void SortColumns( bool _byCountry ) {
@@ -494,6 +510,7 @@ public class ThumbBrowser : MonoBehaviour {
 
 		if ( _byCountry ) {
 			foreach ( string str in m_Countries ) {
+			
 				TextPanel tempTx = Instantiate( m_TextPanelPrefab ) as TextPanel; //First a title panel is made to denote the country
 				Vector3 pos = new Vector3( x * column, y, -0.1f );
 
@@ -565,7 +582,7 @@ public class ThumbBrowser : MonoBehaviour {
 				row = 0;
 			}
 		}
-		m_NumColumns = column;
+		m_NumColumns = column + 1;
 		foreach ( ThumbTile thumb in m_Thumbs ) {
 			DestroyObject( thumb.gameObject );
 		}

@@ -43,7 +43,7 @@ SubShader {
 			
 			float4 frag (v2f i) : SV_Target
 			{
-				float4 col = tex2D(_MainTex, i.uv);
+				float4 col = tex2D(_MainTex, float2(1 - i.uv.x, i.uv.y));
 				float4 border = tex2D(_BorderTex, i.uv);
 
 				if (border.r < 0.5f) {

@@ -67,6 +67,21 @@ public class PanoramaViewer : MonoBehaviour {
 		}
 	}
 
+	void OnGUI() {
+		if ( m_ActiveThumb != null ) { 
+			int w = Screen.width, h = Screen.height;
+
+			GUIStyle style = new GUIStyle();
+
+			Rect rect = new Rect( 10, 65, w, h * 2 / 100 );
+			style.alignment = TextAnchor.UpperLeft;
+			style.fontSize = h * 2 / 100;
+			style.normal.textColor = new Color( 1.0f, 1.0f, 1.0f, 1.0f );
+			string text = string.Format("{0:0} : {1:0}", m_ActiveThumb.ThumbTex.width, m_ActiveThumb.ThumbTex.height);
+			GUI.Label( rect, text, style );
+		}
+	}
+
 #endregion
 
 }

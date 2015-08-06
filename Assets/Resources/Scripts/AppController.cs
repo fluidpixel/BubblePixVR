@@ -42,7 +42,11 @@ public class AppController : MonoBehaviour {
 	private Cardboard m_Cardboard;
 	private AppState m_State = AppState.Browser;
 	private bool m_FocusLost = false;
+	#if UNITY_ANDROID && !UNITY_EDITOR
+	private bool m_AutoVRModeSwap = true;
+	#elif UNITY_EDITOR
 	private bool m_AutoVRModeSwap = false;
+	#endif
 	private float m_FaceTime = 0.0f;
 	bool m_FacePhone = false;
 
@@ -149,7 +153,9 @@ public class AppController : MonoBehaviour {
 		_tile.SetComponentsActive( false );
 		m_ThumbBrowser.gameObject.SetActive( false );
 		m_PanoViewer.ActiveThumb = _tile;
-		//Vector3 targetPos = _tile.MeshTransform.InverseTransformPoint( m_CameraController.gameObject.transform.position );
+		#if UNITY_ANDROID && !UNITY_EDITOR
+		m_FileHandler.LoadLargeImage(_tile.ImageString, (Texture2D)_tile.ThumbTex );
+		#endif
 		_tile.Animator.ToCylinder( m_CameraController.gameObject.transform.position );
 		m_CameraController.BrowserButtonActive( true );
 		m_Pointer.UnsetText();

@@ -43,11 +43,22 @@ public class JavaUnityInterface : MonoBehaviour {
 		if ( m_ImageResizer == null ) 
 			m_ImageResizer = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.BitmapResizer", GetActivityContext() );
 
-		bool success = m_ImageResizer.Call<bool>( "DecodeSampledBitmapFromFile", _targetFile );
+		bool success = m_ImageResizer.Call<bool>( "DecodeSampledBitmapFromFile", _targetFile, true );
 		if (success)
 			LoadParams();
 		
 		m_ImageResizer = null;
+		return success;
+	}
+
+	public bool DecodeLargeImage( string _targetFile ) {
+		if ( m_ImageResizer == null ) 
+			m_ImageResizer = new AndroidJavaObject( "com.sherif.cardboard3d.bitmaphandler.BitmapResizer", GetActivityContext() );
+
+		bool success = m_ImageResizer.Call<bool>( "DecodeSampledBitmapFromFile", _targetFile, false );
+		if (success)
+			m_ImageBytes = m_ImageResizer.Call<byte[]>( "GetImage" );
+
 		return success;
 	}
 

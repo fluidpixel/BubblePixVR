@@ -73,8 +73,6 @@ GameObject:
   - 81: {fileID: 8171030}
   - 114: {fileID: 11471044}
   - 114: {fileID: 11471042}
-  - 114: {fileID: 11421194}
-  - 114: {fileID: 11465024}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -186,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &194580
 GameObject:
   m_ObjectHideFlags: 1
@@ -229,7 +227,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 111302}
   m_LocalRotation: {x: -.185474172, y: 0, z: 0, w: .982649207}
-  m_LocalPosition: {x: 0, y: .899999976, z: -.00400000019}
+  m_LocalPosition: {x: 0, y: .746999979, z: -.00400000019}
   m_LocalScale: {x: .25, y: .249999985, z: 1}
   m_Children: []
   m_Father: {fileID: 494580}
@@ -241,7 +239,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 136878}
   m_LocalRotation: {x: -.18547368, y: 0, z: 0, w: .982649267}
-  m_LocalPosition: {x: 0, y: .658999979, z: .0920000002}
+  m_LocalPosition: {x: 0, y: .505999982, z: .0920000002}
   m_LocalScale: {x: .25, y: .25, z: 1}
   m_Children: []
   m_Father: {fileID: 494580}
@@ -332,7 +330,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 194578}
   m_LocalRotation: {x: -.313201696, y: 0, z: 0, w: .949686646}
-  m_LocalPosition: {x: 0, y: 1.05900002, z: -.111000001}
+  m_LocalPosition: {x: 0, y: .906000018, z: -.111000001}
   m_LocalScale: {x: .249034464, y: .124517284, z: .996138275}
   m_Children: []
   m_Father: {fileID: 494580}
@@ -344,7 +342,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171062}
   m_LocalRotation: {x: .707106888, y: 0, z: 0, w: .707106769}
-  m_LocalPosition: {x: 0, y: -.99000001, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 436878}
@@ -934,24 +932,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsToggle: 1
   m_PointerString: Auto VR Mode Swap
---- !u!114 &11421194
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 171038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97b4768c3683045e4bfdb2e78272970c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  threshhold: .129999995
-  intensity: .300000012
-  blurSize: 3
-  resolution: 0
-  blurIterations: 3
-  blurType: 1
-  fastBloomShader: {fileID: 4800000, guid: 68a00c837b82e4c6d92e7da765dc5f1d, type: 3}
 --- !u!114 &11436878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1043,32 +1023,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_IsToggle: 0
   m_PointerString: Recenter
---- !u!114 &11465024
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 171038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9aaa3f5f2d574f228e4a21aa38b61e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 1
-  showGeneratedNormals: 0
-  offsetScale: .200000003
-  blurRadius: 18
-  edgeThresholdMin: .0500000007
-  edgeThreshold: .400000006
-  edgeSharpness: 4
-  dlaaSharp: 0
-  ssaaShader: {fileID: 4800000, guid: b3728d1488b02490cbd196c7941bf1f8, type: 3}
-  dlaaShader: {fileID: 4800000, guid: 017ca72b9e8a749058d13ebd527e98fa, type: 3}
-  nfaaShader: {fileID: 4800000, guid: ce0cb2621f6d84e21a87414e471a3cce, type: 3}
-  shaderFXAAPreset2: {fileID: 4800000, guid: 6f1418cffd12146f2a83be795f6fa5a7, type: 3}
-  shaderFXAAPreset3: {fileID: 4800000, guid: c182fa94a5a0a4c02870641efcd38cd5, type: 3}
-  shaderFXAAII: {fileID: 4800000, guid: cd5b323dcc592457790ff18b528f5e67, type: 3}
-  shaderFXAAIII: {fileID: 4800000, guid: c547503fff0e8482ea5793727057041c, type: 3}
 --- !u!114 &11471034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1109,7 +1063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6788e8e1b3f7447db6657ef0959d3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  directRender: 0
+  directRender: 1
   stereoMultiplier: 1
   matchMonoFOV: .5
   matchByZoom: 0

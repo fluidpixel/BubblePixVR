@@ -70,6 +70,11 @@ public class ThumbTile : MonoBehaviour {
 		set { m_Pointer = value; }
 	}
 
+	public Texture ThumbTex {
+		get { return m_Mesh.material.mainTexture; }
+
+	}
+
 	#endregion
 
 	#region MonoBehaviour Overrides
@@ -216,9 +221,9 @@ public class ThumbTile : MonoBehaviour {
 	}
 
 	public void StopViewing() {
+		m_Mesh.material.mainTexture = m_Thumb.Thumb;
 		m_Viewing = false;
 	}
-
 
 	#endregion
 

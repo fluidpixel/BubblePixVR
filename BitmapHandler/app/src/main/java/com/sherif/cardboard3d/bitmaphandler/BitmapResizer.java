@@ -53,36 +53,37 @@ public class BitmapResizer {
         m_Date = "";
     }
 
-    public boolean DecodeSampledBitmapFromFile(String _fileName) {
+    public boolean DecodeSampledBitmapFromFile(String _fileName, boolean _lowRes) {
         File inFile = new File(_fileName);
         Bitmap bm;
         int width, height;
         height = width = 4096;
         String logTag = "BitmapHandler";
+		if (_lowRes) {
+			try {
+				ExifInterface exif = new ExifInterface(_fileName);
+				if (exif.getAttribute(ExifInterface.TAG_DATETIME) != null) {
+					m_Date = exif.getAttribute(ExifInterface.TAG_DATETIME);
+				}
 
-        try {
-            ExifInterface exif = new ExifInterface(_fileName);
-            if (exif.getAttribute(ExifInterface.TAG_DATETIME) != null) {
-                m_Date = exif.getAttribute(ExifInterface.TAG_DATETIME);
-            }
+				float loc[] = {0.0f, 0.0f};
+				exif.getLatLong(loc);
+				if (loc[0] != 0.0f && loc[1] != 0.0f) {
+					m_Country = CountryFromLatLong(loc[0], loc[1]);
+				}
 
-            float loc[] = {0.0f, 0.0f};
-            exif.getLatLong(loc);
-            if (loc[0] != 0.0f && loc[1] != 0.0f) {
-                m_Country = CountryFromLatLong(loc[0], loc[1]);
-            }
-
-        }
-        catch (IOException e) {
-            Log.e(logTag, e.getMessage());
-        }
-
+			} catch (IOException e) {
+				Log.e(logTag, e.getMessage());
+			}
+		}
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inJustDecodeBounds = true;
         bm = BitmapFactory.decodeFile(inFile.getAbsolutePath(), options);
 
-        if (options.outWidth > 4096 || options.outHeight > 4096) {
-	        options.inSampleSize = calculateInSampleSize(options, 4096, 4096);
+	    int maxLength = _lowRes ? 1024 : 4096;
+
+        if (options.outWidth > maxLength || options.outHeight > maxLength) {
+	        options.inSampleSize = calculateInSampleSize(options, maxLength, maxLength);
         }
         else {
             width = options.outWidth;
@@ -95,7 +96,7 @@ public class BitmapResizer {
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-            bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            bm.compress(Bitmap.CompressFormat.JPEG, _lowRes ? 75 : 100, out);
             m_image = out.toByteArray();
             m_width = bm.getWidth();
             m_height = bm.getHeight();
@@ -123,7 +124,7 @@ public class BitmapResizer {
 
         if (height > reqHeight || width > reqWidth) {
             // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-            // height and width larger than the requested height and width.
+            // height and width smaller than the requested height and width.
             while (height / inSampleSize > reqHeight || width / inSampleSize > reqWidth) {
                 inSampleSize *=2;
             }

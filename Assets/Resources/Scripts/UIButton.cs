@@ -32,7 +32,11 @@ public class UIButton : MonoBehaviour {
 	public float ClickTime {
 		get { return m_ClickDuration; }
 	}
-	
+
+	public bool IsGreen {
+		get { return m_IsActive; }
+	}
+
 	void Awake() {
 		m_Mesh = GetComponent<MeshRenderer>() as MeshRenderer;
 		m_Pointer = GameObject.Find( "GazePointer" ).GetComponent<Pointer>() as Pointer;
