@@ -186,19 +186,19 @@ public class ThumbBrowser : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		int w = Screen.width, h = Screen.height;
-
-		GUIStyle style = new GUIStyle();
-
-		Rect rect = new Rect( 10, 25, w, h * 2 / 100 );
-		style.alignment = TextAnchor.UpperLeft;
-		style.fontSize = h * 2 / 100;
-		style.normal.textColor = new Color( 1.0f, 1.0f, 1.0f, 1.0f );
-		string text = string.Format( "x = {0:0.0} Current column: {2:0}/{1:0} \nImages Loaded: {3:0}", 
-									m_ThumbAnchor.transform.position.x,
-									m_NumColumns,
-									Mathf.Round(Mathf.Abs(m_ThumbAnchor.transform.position.x) / 4) + 1, m_Thumbs.Count );
-		GUI.Label( rect, text, style );
+		//int w = Screen.width, h = Screen.height;
+		//
+		//GUIStyle style = new GUIStyle();
+		//
+		//Rect rect = new Rect( 10, 25, w, h * 2 / 100 );
+		//style.alignment = TextAnchor.UpperLeft;
+		//style.fontSize = h * 2 / 100;
+		//style.normal.textColor = new Color( 1.0f, 1.0f, 1.0f, 1.0f );
+		//string text = string.Format( "x = {0:0.0} Current column: {2:0}/{1:0} \nImages Loaded: {3:0}", 
+		//							m_ThumbAnchor.transform.position.x,
+		//							m_NumColumns,
+		//							Mathf.Round(Mathf.Abs(m_ThumbAnchor.transform.position.x) / 4) + 1, m_Thumbs.Count );
+		//GUI.Label( rect, text, style );
 	}
 
 #endregion
