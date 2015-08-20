@@ -6,6 +6,12 @@
 //  Copyright (c) 2015 Fluid Pixel. All rights reserved.
 //
 
+#if ! __has_feature(objc_arc)
+#error This file must be compiled with ARC. Use the -fobjc-arc compiler option
+#endif
+
+// Need to add the Photos framework, the CoreText framework and libc++ to the Xcode project
+
 #import "Gallery.h"
 
 #import <Photos/Photos.h>
@@ -21,8 +27,8 @@ static dispatch_once_t s_token;
     PHFetchResult * __nullable m_panoramas;
     CLGeocoder * __nonnull m_sharedGeocoder;
     NSDictionary * __nonnull m_locations;
+    NSDateFormatter * __nonnull m_dateFormatter;
 }
-
 
 #pragma mark - Singleton Shared Instance
 + (Gallery* __nonnull) sharedInstance;
@@ -43,12 +49,20 @@ static dispatch_once_t s_token;
         m_sharedGeocoder = [[CLGeocoder alloc] init];
         m_locations = [NSDictionary dictionary];
         
+        m_dateFormatter = [[NSDateFormatter alloc] init];
+        [m_dateFormatter setDateFormat:@"dd/MM/YY HH:mm:ss"];
+        
+        dispatch_group_t group = dispatch_group_create();
+        dispatch_group_enter(group);
+        
         [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
             if (status == PHAuthorizationStatusAuthorized) {
                 PHFetchResult * panos = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
                                                                                  subtype:PHAssetCollectionSubtypeSmartAlbumPanoramas
                                                                                  options:nil];
-                m_panoramas = [panos firstObject];
+                
+                m_panoramas = [PHAsset fetchAssetsInAssetCollection:[panos firstObject] options:nil];
+                
                 if (m_panoramas) {
                     // TODO: Fill dictionary
                 }
@@ -57,8 +71,12 @@ static dispatch_once_t s_token;
                 m_panoramas = NULL;
             }
             
+            dispatch_group_leave(group);
+
         }];
         
+        // messy but enures object is fully initialised on init
+        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
         
         [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
         
@@ -116,6 +134,10 @@ static dispatch_once_t s_token;
     return rv;
 }
 
+- (NSString * __nonnull) getFormattedDate: (PHAsset* __nonnull) asset;
+{
+    return [m_dateFormatter stringFromDate:[asset creationDate]];
+}
 
 - (NSString * __nonnull) getCountryForAssetLocation: (PHAsset* __nonnull) asset;
 {
@@ -179,7 +201,7 @@ extern "C" {
         return (int)[getAsset(localID) pixelHeight];
     }
     const char* _iOS_Gallery__GetPanoramaDateTaken (const char* localID) {
-        return [[[getAsset(localID) creationDate] description] UTF8String];
+        return [[[Gallery sharedInstance] getFormattedDate:getAsset(localID)] UTF8String];
     }
     const char* _iOS_Gallery__GetPanoramaCountry (const char* localID) {
         return [[[Gallery sharedInstance] getCountryForAssetLocation:getAsset(localID)] UTF8String];
@@ -205,7 +227,7 @@ extern "C" {
              if (result) {
                  
                  CGColorSpaceRef cs = CGColorSpaceCreateDeviceRGB();
-                 CGContextRef context = CGBitmapContextCreate(NULL, texWidth, texHeight, 8, 0, cs, kCGImageAlphaLast);
+                 CGContextRef context = CGBitmapContextCreate(NULL, texWidth, texHeight, 8, 0, cs, kCGImageAlphaPremultipliedLast);
                  CGColorSpaceRelease(cs);
                  
                  CGContextDrawImage(context, targetRectangle, result.CGImage);

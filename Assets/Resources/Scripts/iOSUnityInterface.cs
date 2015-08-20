@@ -10,7 +10,7 @@ public class iOSUnityInterface : MonoBehaviour {
 	private static extern int _iOS_Gallery__GetPanoramaCount();
 	
 	[DllImport ("__Internal")]
-	private static extern string _iOS_Gallery__GetLocalID(int index);
+	private static extern System.IntPtr _iOS_Gallery__GetLocalID(int index);
 	
 	[DllImport ("__Internal")]
 	private static extern int _iOS_Gallery__GetPanoramaWidth (string localID);
@@ -19,10 +19,10 @@ public class iOSUnityInterface : MonoBehaviour {
 	private static extern int _iOS_Gallery__GetPanoramaHeight (string localID);
 	
 	[DllImport ("__Internal")]
-	private static extern string _iOS_Gallery__GetPanoramaDateTaken (string localID);
+	private static extern System.IntPtr _iOS_Gallery__GetPanoramaDateTaken (string localID);
 	
 	[DllImport ("__Internal")]
-	private static extern string _iOS_Gallery__GetPanoramaCountry (string localID);
+	private static extern System.IntPtr _iOS_Gallery__GetPanoramaCountry (string localID);
 	
 	[DllImport ("__Internal")]
 	private static extern void _iOS_Gallery__PanoramaToTexture (string localID, int gl_tex_id, int texWidth, int texHeight);
@@ -36,17 +36,17 @@ public class iOSUnityInterface : MonoBehaviour {
 		return _iOS_Gallery__GetPanoramaHeight( _id );
 	}
 	public string GetCountry( string _id ) {
-		return _iOS_Gallery__GetPanoramaCountry( _id );
+		return  Marshal.PtrToStringAuto(_iOS_Gallery__GetPanoramaCountry( _id ));
 	}
 	public string GetDate( string _id ) {
-		return _iOS_Gallery__GetPanoramaDateTaken( _id );
+		return Marshal.PtrToStringAuto(_iOS_Gallery__GetPanoramaDateTaken( _id ));
 	}
 
 	public string[] GetImages() {
 		int images = _iOS_Gallery__GetPanoramaCount();
 		string[] ret = new string[images];
 		for ( int i = 0; i < images; i++ ) {
-			ret[i] = _iOS_Gallery__GetLocalID(i);
+			ret[i] = Marshal.PtrToStringAuto(_iOS_Gallery__GetLocalID(i));
 		}
 		return ret;
 	}
@@ -65,7 +65,7 @@ public class iOSUnityInterface : MonoBehaviour {
 	{
 		// Call plugin only when running on real device
 		if (Application.platform != RuntimePlatform.OSXEditor)
-			return _iOS_Gallery__GetLocalID (index);
+			return Marshal.PtrToStringAuto(_iOS_Gallery__GetLocalID (index));
 		else
 			return "";
 	}
@@ -77,6 +77,12 @@ public class iOSUnityInterface : MonoBehaviour {
 			
 			int width = _iOS_Gallery__GetPanoramaWidth (localID);
 			int height = _iOS_Gallery__GetPanoramaHeight (localID);
+
+			if (width > 4096) {
+				height = (height * 4096) / width;
+				width = 4096;
+			}
+
 			Texture2D tex = new Texture2D (width, height);
 			
 			_iOS_Gallery__PanoramaToTexture (localID, tex.GetNativeTextureID(), width, height );
