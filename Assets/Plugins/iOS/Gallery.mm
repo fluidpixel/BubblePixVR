@@ -50,7 +50,7 @@ static dispatch_once_t s_token;
         m_locations = [NSDictionary dictionary];
         
         m_dateFormatter = [[NSDateFormatter alloc] init];
-        [m_dateFormatter setDateFormat:@"dd/MM/YY HH:mm:ss"];
+        [m_dateFormatter setDateFormat:@"YYYY:MM:dd HHmmss"];
         
         dispatch_group_t group = dispatch_group_create();
         dispatch_group_enter(group);
@@ -72,7 +72,7 @@ static dispatch_once_t s_token;
             }
             
             dispatch_group_leave(group);
-
+            
         }];
         
         // messy but enures object is fully initialised on init
@@ -107,7 +107,7 @@ static dispatch_once_t s_token;
 #pragma mark - Photo Library Interaction
 - (NSUInteger) getAssetCount;
 {
-    return [m_panoramas count];
+    return fmin([m_panoramas count], 10);
 }
 
 
@@ -186,6 +186,38 @@ static PHAsset* getAsset(const char* localID) {
     return [[Gallery sharedInstance] getAssetForLocalIdentifier:convLocalID];
 }
 
+static NSString * cachePhotoPath(const char* localID, NSString * extension, BOOL remove) {
+    NSString * cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    NSString * fileName = [[NSString stringWithUTF8String:localID] stringByReplacingOccurrencesOfString:@"/"
+                                                                                             withString:@"-"];
+    
+    NSString * fullPath = [[cachePath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:extension];
+    
+    if (remove && [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:false]) {
+        NSError * error;
+        if (![[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error]) {
+            NSLog(@"An Error occurred cleaning up the cache : %@", error);
+        }
+    }
+    return fullPath;
+}
+static NSString * cacheThumbnailPath(const char* localID, NSString * extension, BOOL remove) {
+    NSString * cachePath = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject];
+    NSString * fileName = [[[NSString stringWithUTF8String:localID] stringByReplacingOccurrencesOfString:@"/"
+                                                                                              withString:@"-"] stringByAppendingString:@"_thumb"];
+    
+    NSString * fullPath = [[cachePath stringByAppendingPathComponent:fileName] stringByAppendingPathExtension:extension];
+    
+    if (remove && [[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:false]) {
+        NSError * error;
+        if (![[NSFileManager defaultManager] removeItemAtPath:fullPath error:&error]) {
+            NSLog(@"An Error occurred cleaning up the cache : %@", error);
+        }
+    }
+    return fullPath;
+}
+
+
 #pragma mark - C Interface
 extern "C" {
     int _iOS_Gallery__GetPanoramaCount() {
@@ -206,10 +238,9 @@ extern "C" {
     const char* _iOS_Gallery__GetPanoramaCountry (const char* localID) {
         return [[[Gallery sharedInstance] getCountryForAssetLocation:getAsset(localID)] UTF8String];
     }
-    void _iOS_Gallery__PanoramaToTexture (const char* localID, int gl_tex_id, int texWidth, int texHeight) {
-        //PHAsset * asset = getAsset(localID);
-        
-        CGRect targetRectangle = CGRectMake(0.0, 0.0, (CGFloat)texWidth, (CGFloat)texHeight);
+    
+    const char * _iOS_Gallery__CreateTempPanoFile (const char* localID) {
+        NSString * fullPath = cachePhotoPath(localID, @"jpg", YES);
         
         PHImageRequestOptions * options = [PHImageRequestOptions new];
         [options setSynchronous:YES];
@@ -219,32 +250,21 @@ extern "C" {
         [options setNetworkAccessAllowed:NO];
         
         [[PHImageManager defaultManager] requestImageForAsset: getAsset(localID)
-                                                   targetSize: targetRectangle.size
-                                                  contentMode: PHImageContentModeDefault
+                                                   targetSize: CGSizeMake(4096.0, 4096.0)
+                                                  contentMode: PHImageContentModeAspectFit
                                                       options: options
                                                 resultHandler: ^(UIImage *result, NSDictionary *info)
          {
              if (result) {
-                 
-                 CGColorSpaceRef cs = CGColorSpaceCreateDeviceRGB();
-                 CGContextRef context = CGBitmapContextCreate(NULL, texWidth, texHeight, 8, 0, cs, kCGImageAlphaPremultipliedLast);
-                 CGColorSpaceRelease(cs);
-                 
-                 CGContextDrawImage(context, targetRectangle, result.CGImage);
-                 
-                 glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-                 
-                 glBindTexture(GL_TEXTURE_2D, (GLuint)gl_tex_id);
-                 
-                 glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei)texWidth, (GLsizei)texHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, CGBitmapContextGetData(context));
-                 
-                 glBindTexture(GL_TEXTURE_2D, 0);
-                 
-                 CGContextRelease(context);
+                 [UIImageJPEGRepresentation(result, 1.0) writeToFile:fullPath atomically:YES];
              }
          }];
         
+        return [fullPath UTF8String];
     }
+    
+    void _iOS_Gallery__ReleaseTempPanoFile (const char* localID) {
+        cachePhotoPath(localID, @"jpg", YES);
+    }
+    
 }
-
-

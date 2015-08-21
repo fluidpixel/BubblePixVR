@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Runtime.InteropServices;
+using System.IO;
+
+#if UNITY_IOS && !UNITY_EDITOR
+
 
 public class iOSUnityInterface : MonoBehaviour {
+	// Class compiler for iOS attaches to iOS plugin
 	
 	/* Interface to native implementation */
 	
@@ -25,23 +30,30 @@ public class iOSUnityInterface : MonoBehaviour {
 	private static extern System.IntPtr _iOS_Gallery__GetPanoramaCountry (string localID);
 	
 	[DllImport ("__Internal")]
-	private static extern void _iOS_Gallery__PanoramaToTexture (string localID, int gl_tex_id, int texWidth, int texHeight);
-
+	private static extern System.IntPtr _iOS_Gallery__CreateTempPanoFile (string localID);
+	
+	[DllImport ("__Internal")]
+	private static extern void _iOS_Gallery__ReleaseTempPanoFile (string localID);
+	
 	/* Public interface for use inside C# / JS code */
-
+	
 	public int GetWidth( string _id ) {
+		
 		return _iOS_Gallery__GetPanoramaWidth( _id );
+		
 	}
 	public int GetHeight( string _id ) {
 		return _iOS_Gallery__GetPanoramaHeight( _id );
+		
 	}
 	public string GetCountry( string _id ) {
-		return  Marshal.PtrToStringAuto(_iOS_Gallery__GetPanoramaCountry( _id ));
+		return  Marshal.PtrToStringAuto (_iOS_Gallery__GetPanoramaCountry (_id));
+		
 	}
 	public string GetDate( string _id ) {
-		return Marshal.PtrToStringAuto(_iOS_Gallery__GetPanoramaDateTaken( _id ));
+		return Marshal.PtrToStringAuto (_iOS_Gallery__GetPanoramaDateTaken (_id));
 	}
-
+	
 	public string[] GetImages() {
 		int images = _iOS_Gallery__GetPanoramaCount();
 		string[] ret = new string[images];
@@ -50,49 +62,61 @@ public class iOSUnityInterface : MonoBehaviour {
 		}
 		return ret;
 	}
-
+	
 	// Starts lookup for some bonjour registered service inside specified domain
 	private static int PanoramaCount() {
-		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
-			return _iOS_Gallery__GetPanoramaCount();
-		else
-			return 0;
+		return _iOS_Gallery__GetPanoramaCount();
+		
 	}
 	
 	//Stops lookup current lookup
 	private static string GetLocalID(int index)
 	{
-		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor)
-			return Marshal.PtrToStringAuto(_iOS_Gallery__GetLocalID (index));
-		else
-			return "";
+		return Marshal.PtrToStringAuto(_iOS_Gallery__GetLocalID (index));
 	}
-
+	
 	// Returns list of looked up service hosts
 	public static Texture2D GetPanoramaData(string localID) {
-		// Call plugin only when running on real device
-		if (Application.platform != RuntimePlatform.OSXEditor) {
-			
-			int width = _iOS_Gallery__GetPanoramaWidth (localID);
-			int height = _iOS_Gallery__GetPanoramaHeight (localID);
+		
+		Texture2D rv = new Texture2D(2, 2);
+		
+		string path = Marshal.PtrToStringAuto( _iOS_Gallery__CreateTempPanoFile ( localID ) );
+		
+		byte[] fileData = File.ReadAllBytes(path);
+		
+		rv.LoadImage(fileData);
+		
+		_iOS_Gallery__ReleaseTempPanoFile ( localID );
+		
+		return rv;
+	}
+	
+}
 
-			if (width > 4096) {
-				height = (height * 4096) / width;
-				width = 4096;
-			}
+#else
 
-			Texture2D tex = new Texture2D (width, height);
-			
-			_iOS_Gallery__PanoramaToTexture (localID, tex.GetNativeTextureID(), width, height );
-			
-			tex.Apply();
-			
-			return tex;
-		}
-		else {
-			return Texture2D.blackTexture;
-		}
+// if not iOS, dummy values are returned
+public class iOSUnityInterface : MonoBehaviour {
+	public int GetWidth( string _id ) {
+		return 0;
+	}
+	public int GetHeight( string _id ) {
+		return 0;
+	}
+	public string GetCountry( string _id ) {
+		return "Unknown";
+	}
+	public string GetDate( string _id ) {
+		return "1970:1:1 0";
+	}
+	public string[] GetImages() {
+		string[] ret = new string[1];
+		ret[0] = "Test";
+		return ret;
+	}
+	public static Texture2D GetPanoramaData(string localID) {
+		return Texture2D.whiteTexture;
 	}
 }
+
+#endif

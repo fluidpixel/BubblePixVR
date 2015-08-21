@@ -46,6 +46,8 @@ public class AppController : MonoBehaviour {
 	private bool m_AutoVRModeSwap = true;
 	#elif UNITY_EDITOR
 	private bool m_AutoVRModeSwap = false;
+	#else
+	private bool m_AutoVRModeSwap = false;
 	#endif
 	private float m_FaceTime = 0.0f;
 	bool m_FacePhone = false;

@@ -151,12 +151,17 @@ public class FileHandler : MonoBehaviour {
 #endif
 	}
 
-//#if UNITY_ANDROID && !UNITY_EDITOR
+#if UNITY_ANDROID && !UNITY_EDITOR
 	public void LoadLargeImage( string _texLoc, Texture2D _tex ) {
 		m_JUInterface.DecodeLargeImage(_texLoc);
 		_tex.LoadImage(m_JUInterface.Image);
 	}
-//#endif
+#elif UNITY_IOS && !UNITY_EDITOR
+	//todo
+	public void LoadLargeImage( string _texLoc, Texture2D _tex ) {
+		_tex = iOSUnityInterface.GetPanoramaData( _texLoc );
+	}
+#endif
 
 	private void UpdateImages() {
 
