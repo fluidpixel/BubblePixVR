@@ -141,6 +141,8 @@ static dispatch_once_t s_token;
 
 - (NSString * __nonnull) getCountryForAssetLocation: (PHAsset* __nonnull) asset;
 {
+    return @"Unknown";
+    
     CLLocation * location = [asset location];
     NSString * key = [location description];
     
